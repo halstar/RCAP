@@ -875,13 +875,13 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='link_0'>
-          <pose>0.974009 -0.590737 0.5 0 -0 0</pose>
+          <pose>0.974009 -0.590737 0.256106 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='link_1'>
-          <pose>-5.54396 -0.404263 0.5 0 -0 0</pose>
+          <pose>-5.54396 -0.404263 0.256106 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
@@ -1002,7 +1002,7 @@
           </inertia>
           <pose>0 0 0 0 -0 0</pose>
         </inertial>
-        <pose>1.87133 -0.183001 -0 0 -0 0</pose>
+        <pose>1.87133 -0.183001 -0.243894 0 -0 0</pose>
         <visual name='visual'>
           <pose>0 0 0 0 -0 0</pose>
           <geometry>
@@ -1093,7 +1093,7 @@
           </inertia>
           <pose>0 0 0 0 -0 0</pose>
         </inertial>
-        <pose>-4.64664 0.003473 0 0 -0 0</pose>
+        <pose>-4.64664 0.003473 -0.243894 0 -0 0</pose>
         <visual name='visual'>
           <pose>0 0 0 0 -0 0</pose>
           <geometry>
