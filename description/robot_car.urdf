@@ -180,7 +180,7 @@
         <box size="${antenna_length} ${antenna_width} ${antenna_height}"/>
       </geometry>
       <material name="Dark Grey">
-        <color rgba="0.3 0.3 0.3 1.0"/>
+        <color rgba="0.4 0.4 0.4 1.0"/>
       </material>
     </visual>
     
@@ -196,7 +196,7 @@
   <joint name="antenna_joint" type="fixed">
     <parent link="base_link"/>
     <child  link="antenna_link"/>
-    <origin xyz="-0.07 -${base_width/2 - antenna_width/2} ${base_height/2 + board_1_height + antenna_height/2}"/>
+    <origin xyz="-0.06 -${base_width/2 - antenna_width/2} ${base_height/2 + board_1_height + antenna_height/2}"/>
   </joint>
 
   <link name="tower_link">
@@ -204,8 +204,8 @@
       <geometry>
         <box size="${tower_length} ${tower_width} ${tower_height}"/>
       </geometry>
-      <material name="Light Grey">
-        <color rgba="0.7 0.7 0.7 1.0"/>
+      <material name="Dark Grey">
+        <color rgba="0.4 0.4 0.4 1.0"/>
       </material>
     </visual>
     

@@ -126,6 +126,7 @@ This repository gathers the Raspberry Pi files, a.k.a. the ROS car application (
 
 - ros2 run tf2_tools view_frames
 - xdg-open frames.pdf 
+- 
 
 - ros2 launch robot_car display.launch.py
 - rviz2 -d rviz/urdf_config.rviz
@@ -138,3 +139,6 @@ This repository gathers the Raspberry Pi files, a.k.a. the ROS car application (
 - rqt_robot_steering --force-discover
 - ros2 topic echo /goal_pose
 
+## Commands found usefull while learning/testing
+
+- ros2 run joint_state_publisher_gui joint_state_publisher_gui description/robot_car.urdf
