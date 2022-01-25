@@ -59,7 +59,7 @@ def generate_launch_description():
         robot_state_publisher_node,
         spawn_gazebo_entity,
         robot_localization_node,
-        slam_toolbox_node,
+        # slam_toolbox_node,
         steering_node,
-        rviz_node,
+        # rviz_node,
     ])
