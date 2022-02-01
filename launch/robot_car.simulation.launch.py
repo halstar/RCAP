@@ -37,12 +37,6 @@ def generate_launch_description():
         parameters = [os.path.join(slam_toolbox_pkg_share, 'config', 'mapper_params_online_async.yaml'), {'use_sim_time': LaunchConfiguration('use_sim_time')}
         ],
     )
-    steering_node = launch_ros.actions.Node(
-        package    = 'rqt_robot_steering',
-        executable = 'rqt_robot_steering',
-        name       = 'rqt_robot_steering',
-        output     = 'screen'
-    )
     rviz_node = launch_ros.actions.Node(
         package    = 'rviz2',
         executable = 'rviz2',
@@ -61,6 +55,5 @@ def generate_launch_description():
         spawn_gazebo_entity,
         robot_localization_node,
         slam_toolbox_node,
-        TimerAction(period = 3.0, actions = [steering_node]),
         TimerAction(period = 7.0, actions = [rviz_node])
     ])

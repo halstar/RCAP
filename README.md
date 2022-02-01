@@ -135,8 +135,8 @@ This repository gathers the Raspberry Pi files, a.k.a. the ROS car application (
 - ros2 launch nav2_bringup navigation_launch.py params_file:=/home/stef/RCAP/config/nav2_params.yaml
 - ros2 run nav2_costmap_2d nav2_costmap_2d_markers voxel_grid:=/local_costmap/voxel_grid visualization_marker:=/my_marker
 
-- ros2 run teleop_twist_keyboard teleop_twist_keyboard
-- rqt_robot_steering --force-discover
+- rqt_robot_steering --force-discoverThanks - ros2 run teleop_twist_keyboard teleop_twist_keyboard
+- ros2 topic pub /goal_pose geometry_msgs/PoseStamped '{header: {stamp: {sec: 0, nanosec: 0}, frame_id: "map"}, pose: {position: {x: 1.0, y: 0.0, z: 0.0}, orientation: {w: 1.0}}}' -1
 - ros2 topic echo /goal_pose
 
 ## Commands found usefull while learning/testing

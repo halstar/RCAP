@@ -117,6 +117,7 @@
       <origin xyz="${x_reflect*wheel_xoff} ${y_reflect*(base_width/2+wheel_ygap)} ${-wheel_zoff}" rpy="0 0 0"/>
       <axis xyz="0 1 0"/>
     </joint>
+
   </xacro:macro>
 
   <xacro:wheel prefix="wheel_front_left"  x_reflect="1"  y_reflect="1"  />
@@ -334,7 +335,10 @@
       <right_joint>wheel_back_right_joint</right_joint>
 
       <!-- kinematics -->
-      <wheel_separation>0.019</wheel_separation>
+      <wheel_separation>0.20</wheel_separation>
+      <wheel_diameter>${2*wheel_radius}</wheel_diameter>
+
+      <wheel_separation>0.20</wheel_separation>
       <wheel_diameter>${2*wheel_radius}</wheel_diameter>
 
       <!-- limits --> 
