@@ -30,9 +30,11 @@ This repository gathers the Raspberry Pi files, a.k.a. the ROS car application (
 
 - sudo apt-get install tightvncserver
 
+
 - tightvncserver
 > Enter and confirm  password
 > Enter no view-only password
+
 
 - sudo vim /etc/systemd/system/tightvncserver.service
 >  [Unit]
@@ -48,6 +50,7 @@ This repository gathers the Raspberry Pi files, a.k.a. the ROS car application (
 >  [Install]
 >  WantedBy=multi-user.target
 
+
 - sudo chown root:root /etc/systemd/system/tightvncserver.service
 - sudo chmod 755 /etc/systemd/system/tightvncserver.service
 - sudo systemctl start  tightvncserver.service
@@ -60,16 +63,20 @@ This repository gathers the Raspberry Pi files, a.k.a. the ROS car application (
 - sudo systemctl disable hciuart.service
 - sudo systemctl disable bluetooth.service
 
+
 - sudo systemctl stop    serial-getty@ttyS0.service
 - sudo systemctl disable serial-getty@ttyS0.service
 - sudo systemctl mask    serial-getty@ttyS0.service
 
+
 - sudo usermod -a -G dialout pi
 - sudo usermod -a -G tty pi
+
 
 - sudo vim /boot/firmware/usercfg.txt
 >  enable_uart=1
 >  dtoverlay=disable-bt
+
 
 - sudo vim /boot/firmware/cmdline.txt
 >  Remove any "console=ttyAMA0,115200", if found
@@ -82,12 +89,15 @@ This repository gathers the Raspberry Pi files, a.k.a. the ROS car application (
 - export LANG=en_US.UTF-8
 - locale
 
+
 - sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key  -o /usr/share/keyrings/ros-archive-keyring.gpg
 - echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+
 
 - sudo apt-get update
 - sudo apt-get install python3-rospkg
 - sudo apt-get install ros-galactic-desktop
+
 
 - echo "source /opt/ros/galactic/setup.bash" >> ~/.bashrc
 - source ~/.bashrc
@@ -119,14 +129,17 @@ This repository gathers the Raspberry Pi files, a.k.a. the ROS car application (
 - sudo apt-get install ros-galactic-navigation2
 - sudo apt-get install ros-galactic-nav2-bringup
 - sudo apt-get install ros-galactic-slam-toolbox
+- sudo apt-get install ros-galactic-robot-localization
+
 
 - sudo apt-get install ros-galactic-joint-state-publisher-gui
 - sudo apt-get install ros-galactic-rqt-robot-steering
 - sudo apt-get install ros-galactic-xacro
 
+
 - ros2 run tf2_tools view_frames
 - xdg-open frames.pdf 
-- 
+
 
 - ros2 launch robot_car display.launch.py
 - rviz2 -d rviz/urdf_config.rviz
@@ -134,6 +147,7 @@ This repository gathers the Raspberry Pi files, a.k.a. the ROS car application (
 - ros2 launch nav2_bringup navigation_launch.py
 - ros2 launch nav2_bringup navigation_launch.py params_file:=/home/stef/RCAP/config/nav2_params.yaml
 - ros2 run nav2_costmap_2d nav2_costmap_2d_markers voxel_grid:=/local_costmap/voxel_grid visualization_marker:=/my_marker
+
 
 - rqt_robot_steering --force-discoverThanks - ros2 run teleop_twist_keyboard teleop_twist_keyboard
 - ros2 topic pub /goal_pose geometry_msgs/PoseStamped '{header: {stamp: {sec: 0, nanosec: 0}, frame_id: "map"}, pose: {position: {x: 1.0, y: 0.0, z: 0.0}, orientation: {w: 1.0}}}' -1

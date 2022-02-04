@@ -6,9 +6,8 @@ import os
 def generate_launch_description():
     robot_car_pkg_share      = launch_ros.substitutions.FindPackageShare(package = 'robot_car').find('robot_car')
     slam_toolbox_pkg_share   = launch_ros.substitutions.FindPackageShare(package = 'slam_toolbox').find('slam_toolbox')
-    model_path               = os.path.join(robot_car_pkg_share, 'description/robot_car.urdf')
+    model_path               = os.path.join(robot_car_pkg_share, 'description/robot_car.simulation.urdf')
     world_path               = os.path.join(robot_car_pkg_share, 'world/my_world.sdf'),
-    rviz_config_path         = os.path.join(robot_car_pkg_share, 'rviz/urdf_config.simulation.rviz')
 
     robot_state_publisher_node = launch_ros.actions.Node(
         package    = 'robot_state_publisher',
@@ -36,30 +35,14 @@ def generate_launch_description():
         parameters = [os.path.join(slam_toolbox_pkg_share, 'config', 'mapper_params_online_async.yaml'), {'use_sim_time': LaunchConfiguration('use_sim_time')}
         ],
     )
-    steering_node = launch_ros.actions.Node(
-        package    = 'rqt_robot_steering',
-        executable = 'rqt_robot_steering',
-        name       = 'rqt_robot_steering',
-        output     = 'screen'
-    )
-    rviz_node = launch_ros.actions.Node(
-        package    = 'rviz2',
-        executable = 'rviz2',
-        name       = 'rviz2',
-        output     = 'screen',
-        arguments  = ['-d', LaunchConfiguration('rvizconfig')],
-    )
 
     return launch.LaunchDescription([
-        launch.actions.DeclareLaunchArgument(name = 'model'       , default_value = model_path      , description = 'Absolute path to robot urdf file'),
-        launch.actions.DeclareLaunchArgument(name = 'rvizconfig'  , default_value = rviz_config_path, description = 'Absolute path to rviz config file'),
-        launch.actions.DeclareLaunchArgument(name = 'use_sim_time', default_value = 'True'          , description = 'Flag to enable use_sim_time'),
-        launch.actions.ExecuteProcess       (cmd  = ['gazebo', '--verbose', '-s', 'libgazebo_ros_factory.so', world_path], output='screen'),
-        
+        launch.actions.DeclareLaunchArgument(name = 'model'       , default_value = model_path, description = 'Absolute path to robot urdf file'),
+        launch.actions.DeclareLaunchArgument(name = 'use_sim_time', default_value = 'True'   , description = 'Flag to enable use_sim_time'),
+        launch.actions.ExecuteProcess       (cmd  = ['gzserver', '--verbose', '-s', 'libgazebo_ros_factory.so', world_path], output='screen'),
+
         robot_state_publisher_node,
         spawn_gazebo_entity,
         robot_localization_node,
-        # slam_toolbox_node,
-        steering_node,
-        # rviz_node,
+        slam_toolbox_node,
     ])
