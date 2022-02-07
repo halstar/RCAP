@@ -121,7 +121,7 @@ This repository gathers the Raspberry Pi files, a.k.a. the ROS car application (
 - colcon build --symlink-install
 - source install/setup.bash
 - ros2 run tf2_ros static_transform_publisher 0 0 0 0 0 0 map laser &
-- ros2 launch rplidar_ros2 view_rplidar_launch.py &
+- ros2 launch rplidar_ros view_rplidar.launch.py &
 - rviz2 -d rviz/rplidar_ros2.rviz
 
 ## Install Navigation2 (Nav2)
