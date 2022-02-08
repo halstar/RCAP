@@ -1,0 +1,71 @@
+-- The C compiler identification is GNU 9.3.0
+-- The CXX compiler identification is GNU 9.3.0
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake: 1.1.4 (/opt/ros/galactic/share/ament_cmake/cmake)
+-- Found PythonInterp: /usr/bin/python3 (found suitable version "3.8.10", minimum required is "3") 
+-- Using PYTHON_EXECUTABLE: /usr/bin/python3
+-- Found ament_lint_auto: 0.10.6 (/opt/ros/galactic/share/ament_lint_auto/cmake)
+-- Added test 'copyright' to check source files copyright and LICENSE
+-- Added test 'cppcheck' to perform static code analysis on C / C++ code
+-- Configured cppcheck include dirs: 
+-- Configured cppcheck exclude dirs and/or files: 
+-- Added test 'cpplint' to check C / C++ code against the Google style
+-- Configured cpplint exclude dirs and/or files: 
+-- Added test 'flake8' to check Python code syntax and style conventions
+-- Added test 'lint_cmake' to check CMake code style
+-- Added test 'pep257' to check Python code against some of the style conventions in PEP 257
+-- Added test 'uncrustify' to check C / C++ code style
+-- Configured uncrustify additional arguments: 
+-- Added test 'xmllint' to check XML markup files
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/stef/RCAP/robot_car/build/robot_car
+-- Install configuration: ""
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/robot_car/description
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/robot_car/description/robot_car.vm.simulation.urdf
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/robot_car/description/robot_car.physical.urdf
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/robot_car/description/robot_car.vm.joint.state.gui.urdf
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/robot_car/description/robot_car.vm.rqt.steering.urdf
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/robot_car/launch
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/robot_car/launch/robot_car.vm.rqt.steering.launch.py
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/robot_car/launch/robot_car.vm.simulation.launch.py
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/robot_car/launch/robot_car.physical.launch.py
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/robot_car/launch/robot_car.vm.joint.state.gui.launch.py
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/robot_car/launch/robot_car.vm.display.launch.py
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/robot_car/rviz
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/robot_car/rviz/urdf_config.joint.state.gui.rviz
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/robot_car/rviz/urdf_config.simulation.rviz
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/robot_car/rviz/urdf_config.physical.rviz
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/robot_car/config
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/robot_car/config/nav2_params.yaml
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/robot_car/config/ekf.yaml
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/robot_car/world
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/robot_car/world/my_world.sdf
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/robot_car/meshes
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/robot_car/meshes/omni_wheel.dae
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/ament_index/resource_index/package_run_dependencies/robot_car
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/ament_index/resource_index/parent_prefix_path/robot_car
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/robot_car/environment/ament_prefix_path.sh
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/robot_car/environment/ament_prefix_path.dsv
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/robot_car/environment/path.sh
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/robot_car/environment/path.dsv
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/robot_car/local_setup.bash
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/robot_car/local_setup.sh
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/robot_car/local_setup.zsh
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/robot_car/local_setup.dsv
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/robot_car/package.dsv
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/ament_index/resource_index/packages/robot_car
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/robot_car/cmake/robot_carConfig.cmake
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/robot_car/cmake/robot_carConfig-version.cmake
+-- Installing: /home/stef/RCAP/robot_car/install/robot_car/share/robot_car/package.xml
