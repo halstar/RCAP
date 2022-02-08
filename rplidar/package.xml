@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>rplidar_ros2</name>
+  <name>rplidar</name>
   <version>1.0.1</version>
   <description>
-    The rplidar ros2 package, support rplidar A2/A1 and A3/S1
+      ROS2 paackage to support Slamtec RPLIDAR A2
   </description>
   <maintainer email="ros@slamtec.com">Slamtec ROS Maintainer</maintainer>
   <license>BSD</license>

@@ -2,7 +2,7 @@
 # Set minimum required version of cmake, project name and compile options
 ################################################################################
 cmake_minimum_required(VERSION 3.5)
-project(rplidar_ros2)
+project(rplidar)
 
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 14)
@@ -54,7 +54,7 @@ ament_target_dependencies(rplidar_scan_publisher
 ################################################################################
 # Install
 ################################################################################
-install(DIRECTORY launch rviz
+install(DIRECTORY launch
   DESTINATION share/${PROJECT_NAME}
 )
 

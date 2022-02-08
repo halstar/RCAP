@@ -46,7 +46,7 @@ def generate_launch_description():
 
 
         Node(
-            package='rplidar_ros2',
+            package='rplidar',
             executable='rplidar_scan_publisher',
             name='rplidar_scan_publisher',
             parameters=[{'serial_port': serial_port, 

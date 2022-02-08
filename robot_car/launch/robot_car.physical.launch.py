@@ -6,7 +6,7 @@ import os
 def generate_launch_description():
     robot_car_pkg_share      = launch_ros.substitutions.FindPackageShare(package = 'robot_car').find('robot_car')
     slam_toolbox_pkg_share   = launch_ros.substitutions.FindPackageShare(package = 'slam_toolbox').find('slam_toolbox')
-    model_path               = os.path.join(robot_car_pkg_share, 'description/robot_car.simulation.urdf')
+    model_path               = os.path.join(robot_car_pkg_share, 'description/robot_car.vm.simulation.urdf')
     world_path               = os.path.join(robot_car_pkg_share, 'world/my_world.sdf'),
 
     robot_state_publisher_node = launch_ros.actions.Node(
