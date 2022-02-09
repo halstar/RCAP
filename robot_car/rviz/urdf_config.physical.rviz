@@ -4,11 +4,14 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
+        - /Global Options1
         - /Status1
         - /RobotModel1
         - /RobotModel1/Description Topic1
+        - /RPLidarLaserScan1
+        - /RPLidarLaserScan1/Topic1
       Splitter Ratio: 0.5317919254302979
-    Tree Height: 758
+    Tree Height: 805
   - Class: rviz_common/Selection
     Name: Selection
   - Class: rviz_common/Tool Properties
@@ -27,7 +30,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: RPLidarLaserScan
 Visualization Manager:
   Class: ""
   Displays:
@@ -67,6 +70,65 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
+        antenna_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        base_footprint:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        board_1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        board_2_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        imu_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        lidar_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        tower_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheel_back_left_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheel_back_right_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheel_front_left_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheel_front_right_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
       Name: RobotModel
       TF Prefix: ""
       Update Interval: 0
@@ -75,8 +137,8 @@ Visualization Manager:
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
-        Max Value: 0
-        Min Value: 0
+        Max Value: 0.10899999737739563
+        Min Value: 0.10899999737739563
         Value: true
       Axis: Z
       Channel Name: intensity
@@ -101,7 +163,7 @@ Visualization Manager:
         Durability Policy: Volatile
         Filter size: 10
         History Policy: Keep Last
-        Reliability Policy: Reliable
+        Reliability Policy: Best Effort
         Value: /scan
       Use Fixed Frame: true
       Use rainbow: true
@@ -240,7 +302,7 @@ Visualization Manager:
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: map
+    Fixed Frame: base_link
     Frame Rate: 30
   Name: root
   Tools:
@@ -283,7 +345,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 4.106738567352295
+      Distance: 3.9318699836730957
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -298,18 +360,18 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.8709045052528381
+      Pitch: 0.9397963881492615
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 2.7586257457733154
+      Yaw: 2.558624744415283
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 996
+  Height: 1043
   Hide Left Dock: false
   Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd00000001000000000000016a00000385fc0200000005fb000000100044006900730070006c006100790073010000004100000385000000dd00fffffffb0000001200530065006c0065006300740069006f006e0000000254000000640000006400fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007300000003390000008d0000006400fffffffb0000000a00560069006500770073000000030b000000c6000000b000fffffffb0000000800540069006d006500000003c5000000540000003b00ffffff000004410000038500000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd00000001000000000000016a000003b4fc0200000005fb000000100044006900730070006c0061007900730100000041000003b4000000dd00fffffffb0000001200530065006c0065006300740069006f006e0000000254000000640000006400fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007300000003390000008d0000006400fffffffb0000000a00560069006500770073000000030b000000c6000000b000fffffffb0000000800540069006d006500000003c5000000540000003b00ffffff0000046b000003b400000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
@@ -318,6 +380,6 @@ Window Geometry:
     collapsed: false
   Views:
     collapsed: false
-  Width: 1457
+  Width: 1499
   X: 0
   Y: 28
