@@ -79,7 +79,7 @@ class RPLidarScanPublisher : public rclcpp::Node
         this->get_parameter_or<int>("tcp_port", tcp_port, 20108);
         this->get_parameter_or<std::string>("serial_port", serial_port, "/dev/ttyUSB0"); 
         this->get_parameter_or<int>("serial_baudrate", serial_baudrate, 115200/*256000*/);//ros run for A1 A2, change to 256000 if A3
-        this->get_parameter_or<std::string>("frame_id", frame_id, "laser_frame");
+        this->get_parameter_or<std::string>("frame_id", frame_id, "lidar_link");
         this->get_parameter_or<bool>("inverted", inverted, false);
         this->get_parameter_or<bool>("angle_compensate", angle_compensate, false);
         this->get_parameter_or<std::string>("scan_mode", scan_mode, std::string());
