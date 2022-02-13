@@ -12,7 +12,7 @@ def generate_launch_description():
     robot_state_publisher_node = launch_ros.actions.Node(
         package    = 'robot_state_publisher',
         executable = 'robot_state_publisher',
-        parameters = [{'robot_description': Command(['xacro ', LaunchConfiguration('model')])}]
+        parameters = [{'robot_description': Command(['xacro ', LaunchConfiguration('model')])}, {'use_sim_time': LaunchConfiguration('use_sim_time')}]
     )
     spawn_gazebo_entity = launch_ros.actions.Node(
         package    = 'gazebo_ros',
@@ -38,7 +38,7 @@ def generate_launch_description():
 
     return launch.LaunchDescription([
         launch.actions.DeclareLaunchArgument(name = 'model'       , default_value = model_path, description = 'Absolute path to robot urdf file'),
-        launch.actions.DeclareLaunchArgument(name = 'use_sim_time', default_value = 'True'   , description = 'Flag to enable use_sim_time'),
+        launch.actions.DeclareLaunchArgument(name = 'use_sim_time', default_value = 'False'    , description = 'Flag to enable use_sim_time'),
         launch.actions.ExecuteProcess       (cmd  = ['gzserver', '--verbose', '-s', 'libgazebo_ros_factory.so', world_path], output='screen'),
 
         robot_state_publisher_node,
