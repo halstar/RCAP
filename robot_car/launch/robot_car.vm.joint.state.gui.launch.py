@@ -27,7 +27,7 @@ def generate_launch_description():
     )
 
     return launch.LaunchDescription([
-        launch.actions.DeclareLaunchArgument(name = 'model'     , default_value = model_path      , description = 'Absolute path to robot URDF file'),
+        launch.actions.DeclareLaunchArgument(name = 'model'     , default_value = model_path      , description = 'Absolute path to robot URDF file' ),
         launch.actions.DeclareLaunchArgument(name = 'rvizconfig', default_value = rviz_config_path, description = 'Absolute path to RVIZ config file'),
         
         joint_state_publisher_gui_node,

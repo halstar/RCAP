@@ -46,10 +46,10 @@ def generate_launch_description():
     )
 
     return launch.LaunchDescription([
-        launch.actions.DeclareLaunchArgument(name = 'model'       , default_value = model_path      , description = 'Absolute path to robot urdf file'),
+        launch.actions.DeclareLaunchArgument(name = 'model'       , default_value = model_path      , description = 'Absolute path to robot urdf file' ),
         launch.actions.DeclareLaunchArgument(name = 'rvizconfig'  , default_value = rviz_config_path, description = 'Absolute path to rviz config file'),
-        launch.actions.DeclareLaunchArgument(name = 'use_sim_time', default_value = 'True'          , description = 'Flag to enable use_sim_time'),
-        launch.actions.ExecuteProcess       (cmd  = ['gazebo', '--verbose', '-s', 'libgazebo_ros_factory.so', world_path], output='screen'),
+        launch.actions.DeclareLaunchArgument(name = 'use_sim_time', default_value = 'True'          , description = 'Flag to enable use_sim_time'      ),
+        launch.actions.ExecuteProcess       (cmd  = ['gazebo', '--verbose', '-s', 'libgazebo_ros_factory.so', world_path], output = 'screen'           ),
         
         robot_state_publisher_node,
         spawn_gazebo_entity,

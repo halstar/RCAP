@@ -45,8 +45,6 @@
 
 #define DEG2RAD(x) ((x)*M_PI/180.)
 
-#define ROS2VERSION "1.0.1"
-
 using namespace rp::standalone::rplidar;
 
 bool need_exit = false;
@@ -64,25 +62,12 @@ class RPLidarScanPublisher : public rclcpp::Node
   private:    
     void init_param()
     {
-        this->declare_parameter("channel_type");
-        this->declare_parameter("tcp_ip");
-        this->declare_parameter("tcp_port");
-        this->declare_parameter("serial_port");
-        this->declare_parameter("serial_baudrate");
-        this->declare_parameter("frame_id");
-        this->declare_parameter("inverted");
-        this->declare_parameter("angle_compensate");
-        this->declare_parameter("scan_mode");
-
-        this->get_parameter_or<std::string>("channel_type", channel_type, "serial");
-        this->get_parameter_or<std::string>("tcp_ip", tcp_ip, "192.168.0.7"); 
-        this->get_parameter_or<int>("tcp_port", tcp_port, 20108);
-        this->get_parameter_or<std::string>("serial_port", serial_port, "/dev/ttyUSB0"); 
-        this->get_parameter_or<int>("serial_baudrate", serial_baudrate, 115200/*256000*/);//ros run for A1 A2, change to 256000 if A3
-        this->get_parameter_or<std::string>("frame_id", frame_id, "lidar_link");
-        this->get_parameter_or<bool>("inverted", inverted, false);
-        this->get_parameter_or<bool>("angle_compensate", angle_compensate, false);
-        this->get_parameter_or<std::string>("scan_mode", scan_mode, std::string());
+        this->get_parameter_or<std::string>("serial_port"     , serial_port     , "/dev/ttyUSB0"); 
+        this->get_parameter_or<int>        ("serial_baudrate" , serial_baudrate , 115200        );
+        this->get_parameter_or<std::string>("frame_id"        , frame_id        , "lidar_link"  );
+        this->get_parameter_or<bool>       ("inverted"        , inverted        , false         );
+        this->get_parameter_or<bool>       ("angle_compensate", angle_compensate, false         );
+        this->get_parameter_or<std::string>("scan_mode"       , scan_mode       , ""            );
     }
 
     bool getRPLIDARDeviceInfo(RPlidarDriver * drv)
@@ -242,42 +227,25 @@ public:
     {
         
         init_param();
-        RCLCPP_INFO(this->get_logger(),"RPLIDAR running on ROS2 package rplidar_ros2. ROS2 SDK Version:" ROS2VERSION ", RPLIDAR SDK Version:" RPLIDAR_SDK_VERSION "");
+        RCLCPP_INFO(this->get_logger(),"RPLIDAR running with ROS2 package rplidar. RPLIDAR SDK version:" RPLIDAR_SDK_VERSION "");
 
         u_result     op_result;
 
         // create the driver instance
-        if(channel_type == "tcp"){
-            drv = RPlidarDriver::CreateDriver(rp::standalone::rplidar::DRIVER_TYPE_TCP);
-        }
-        else{
-            drv = RPlidarDriver::CreateDriver(rp::standalone::rplidar::DRIVER_TYPE_SERIALPORT);
-        }
-
+        drv = RPlidarDriver::CreateDriver(rp::standalone::rplidar::DRIVER_TYPE_SERIALPORT);
         
         if (!drv) {
             RCLCPP_ERROR(this->get_logger(),"Create Driver fail, exit");
             return -2;
         }
 
-        if(channel_type == "tcp"){
-            // make connection...
-            if (IS_FAIL(drv->connect(tcp_ip.c_str(), (_u32)tcp_port))) {
-                RCLCPP_ERROR(this->get_logger(),"Error, cannot bind to the specified serial port %s.",serial_port.c_str());
-                RPlidarDriver::DisposeDriver(drv);
-                return -1;
-            }
-
-        }
-        else{
         // make connection...
-            if (IS_FAIL(drv->connect(serial_port.c_str(), (_u32)serial_baudrate))) {
-                RCLCPP_ERROR(this->get_logger(),"Error, cannot bind to the specified serial port %s.",serial_port.c_str());
-                RPlidarDriver::DisposeDriver(drv);
-                return -1;
-            }
-
+        if (IS_FAIL(drv->connect(serial_port.c_str(), (_u32)serial_baudrate))) {
+            RCLCPP_ERROR(this->get_logger(),"Error, cannot bind to the specified serial port %s.",serial_port.c_str());
+            RPlidarDriver::DisposeDriver(drv);
+            return -1;
         }
+
         
         // get rplidar device info
         if (!getRPLIDARDeviceInfo(drv)) {
@@ -365,8 +333,8 @@ public:
                         auto angle_compensate_nodes = new rplidar_response_measurement_node_hq_t[angle_compensate_nodes_count];
                         memset(angle_compensate_nodes, 0, angle_compensate_nodes_count*sizeof(rplidar_response_measurement_node_hq_t));
 
-                        size_t i = 0, j = 0;
-                        for( ; i < count; i++ ) {
+                        int i = 0, j = 0;
+                        for( ; i < (int)count; i++ ) {
                             if (nodes[i].dist_mm_q2 != 0) {
                                 float angle = getAngle(nodes[i]);
                                 int angle_value = (int)(angle * angle_compensate_multiple);
@@ -437,16 +405,13 @@ public:
     rclcpp::Service<std_srvs::srv::Empty>::SharedPtr start_motor_service;
     rclcpp::Service<std_srvs::srv::Empty>::SharedPtr stop_motor_service;
 
-    std::string channel_type;
-    std::string tcp_ip;
     std::string serial_port;
-    int tcp_port = 20108;
     int serial_baudrate = 115200;
     std::string frame_id;
     bool inverted = false;
     bool angle_compensate = true;
     float max_distance = 8.0;
-    size_t angle_compensate_multiple = 1;//it stand of angle compensate at per 1 degree
+    int angle_compensate_multiple = 1;
     std::string scan_mode;
 
     RPlidarDriver * drv;    
