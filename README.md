@@ -113,8 +113,6 @@ This repository gathers the Raspberry Pi files, a.k.a. the ROS car application (
 - sudo chmod 666 /dev/ttyUSB0
 
 
-- mkdir -p slamtec/src
-- cd  slamtec/src
 - git clone https://github.com/Slamtec/rplidar_ros.git
 - cd rplidar_ros
 - git checkout ros2
@@ -123,6 +121,14 @@ This repository gathers the Raspberry Pi files, a.k.a. the ROS car application (
 - ros2 run tf2_ros static_transform_publisher 0 0 0 0 0 0 map laser &
 - ros2 launch rplidar_ros view_rplidar.launch.py &
 - rviz2 -d rviz/rplidar_ros2.rviz
+
+##  Setup & try MPU9250 IMU
+
+- sudo pip install smbus
+- sudo i2c detect -y 1
+- suo pip install FaBo9Axis_MPU9250
+- python FaBo9Axis_MPU9250/example/read9axis.py
+
 
 ## Install Navigation2 (Nav2)
 
