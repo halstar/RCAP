@@ -25,7 +25,7 @@ def generate_launch_description():
         executable = 'ekf_node',
         name       = 'ekf_filter_node',
         output     = 'screen',
-        parameters = [os.path.join(robot_car_pkg_share, 'config/ekf.yaml'), {'use_sim_time': LaunchConfiguration('use_sim_time')}]
+        parameters = [os.path.join(robot_car_pkg_share, 'config/ekf.physical.yaml'), {'use_sim_time': LaunchConfiguration('use_sim_time')}]
     )
     slam_toolbox_node = launch_ros.actions.Node(
         package    = 'slam_toolbox',

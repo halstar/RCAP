@@ -45,7 +45,7 @@ void MPU9250Driver::handleInput()
 {
   auto message = sensor_msgs::msg::Imu();
   message.header.stamp = this->get_clock()->now();
-  message.header.frame_id = "base_link";
+  message.header.frame_id = "imu_link";
   // Direct measurements
   message.linear_acceleration_covariance = {0};
   message.linear_acceleration.x = mpu9250_->getAccelerationX();
