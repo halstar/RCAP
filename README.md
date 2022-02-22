@@ -11,7 +11,7 @@ This repository gathers the Raspberry Pi files, a.k.a. the ROS car application (
 - sudo apt-get upgrade
 - sudo apt-get install vim 
 - sudo apt-get install libssl-dev
-- sudo apt-get install i2c-tools
+- sudo apt-get install i2c-tools libi2c-dev
 - sudo apt-get install curl gnupg2 lsb-release
 - sudo apt-get install libpython3-dev python3-pip
 
@@ -124,10 +124,38 @@ This repository gathers the Raspberry Pi files, a.k.a. the ROS car application (
 
 ##  Setup & try MPU9250 IMU
 
+- i2cdetect -y 1
 - sudo pip install smbus
-- sudo i2c detect -y 1
-- suo pip install FaBo9Axis_MPU9250
-- python FaBo9Axis_MPU9250/example/read9axis.py
+- sudo pip install FaBo9Axis_MPU9250
+
+
+ - vim read9axis.py
+> import FaBo9Axis_MPU9250
+> import time
+> import sys
+> 
+> mpu9250 = FaBo9Axis_MPU9250.MPU9250()
+> 
+>   while True:
+>       accel = mpu9250.readAccel()
+>       print(" ax = " , ( accel['x'] ))
+>       print(" ay = " , ( accel['y'] ))
+>       print(" az = " , ( accel['z'] ))
+> 
+>       gyro = mpu9250.readGyro()
+>       print(" gx = " , ( gyro['x'] ))
+>       print(" gy = " , ( gyro['y'] ))
+>       print(" gz = " , ( gyro['z'] ))
+> 
+>       mag = mpu9250.readMagnet()
+>       print(" mx = " , ( mag['x'] ))
+>       print(" my = " , ( mag['y'] ))
+>       print(" mz = " , ( mag['z'] ))
+>       print()
+> 
+>       time.sleep(0.5)
+
+- python3 read9axis.py
 
 
 ## Install Navigation2 (Nav2)
@@ -143,10 +171,6 @@ This repository gathers the Raspberry Pi files, a.k.a. the ROS car application (
 - sudo apt-get install ros-galactic-xacro
 
 
-- ros2 run tf2_tools view_frames
-- xdg-open frames.pdf 
-
-
 - ros2 launch robot_car display.launch.py
 - rviz2 -d rviz/urdf_config.rviz
 - ros2 launch slam_toolbox online_async_launch.py
@@ -155,10 +179,16 @@ This repository gathers the Raspberry Pi files, a.k.a. the ROS car application (
 - ros2 run nav2_costmap_2d nav2_costmap_2d_markers voxel_grid:=/local_costmap/voxel_grid visualization_marker:=/my_marker
 
 
-- rqt_robot_steering --force-discoverThanks - ros2 run teleop_twist_keyboard teleop_twist_keyboard
+- rqt_robot_steering --force-discover
+- ros2 run teleop_twist_keyboard teleop_twist_keyboard
 - ros2 topic pub /goal_pose geometry_msgs/PoseStamped '{header: {stamp: {sec: 0, nanosec: 0}, frame_id: "map"}, pose: {position: {x: 1.0, y: 0.0, z: 0.0}, orientation: {w: 1.0}}}' -1
 - ros2 topic echo /goal_pose
 
 ## Commands found usefull while learning/testing
 
 - ros2 run joint_state_publisher_gui joint_state_publisher_gui description/robot_car.urdf
+- ros2 run tf2_ros static_transform_publisher 0 0 0 3.14 0 0 base_link lidar_link
+
+- rqt_graph
+- ros2 run tf2_tools view_frames
+- xdg-open frames.pdf 
