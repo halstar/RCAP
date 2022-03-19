@@ -37,6 +37,7 @@ class MPU9250Sensor {
   double getMagneticFluxDensityX() const;
   double getMagneticFluxDensityY() const;
   double getMagneticFluxDensityZ() const;
+  void readStatus2() const;
   void setGyroscopeOffset(double gyro_x_offset, double gyro_y_offset, double gyro_z_offset);
   void setAccelerometerOffset(double accel_x_offset, double accel_y_offset, double accel_z_offset);
   void calibrate();
@@ -83,6 +84,7 @@ class MPU9250Sensor {
   static constexpr int MAGN_XOUT_L = 0x03;
   static constexpr int MAGN_YOUT_L = 0x05;
   static constexpr int MAGN_ZOUT_L = 0x07;
+  static constexpr int STATUS_2 = 0x09;
   static constexpr int MAGN_MEAS_MODE = 0x0A;
   static constexpr int DLPF_CONFIG = 0x1A;
   // Helper constants

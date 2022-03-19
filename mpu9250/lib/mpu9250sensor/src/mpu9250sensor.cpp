@@ -222,6 +222,13 @@ double MPU9250Sensor::getMagneticFluxDensityZ() const
   initImuI2c();
   return magn_flux_z_converted;
 }
+void MPU9250Sensor::readStatus2() const
+{
+  initMagnI2c();
+  int8_t status2 = i2cBus_->read(STATUS_2);
+
+  return;
+}
 
 double MPU9250Sensor::convertRawGyroscopeData(int16_t gyro_raw) const
 {

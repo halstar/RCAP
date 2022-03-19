@@ -9,6 +9,8 @@ using namespace std::chrono_literals;
 
 MPU9250Driver::MPU9250Driver() : Node("mpu9250publisher")
 {
+    RCLCPP_INFO(this->get_logger(), "Starting MPU9250Driver Node");
+
   // Create concrete I2C communicator and pass to sensor
   std::unique_ptr<I2cCommunicator> i2cBus = std::make_unique<LinuxI2cCommunicator>();
   mpu9250_ = std::make_unique<MPU9250Sensor>(std::move(i2cBus));
@@ -43,6 +45,9 @@ MPU9250Driver::MPU9250Driver() : Node("mpu9250publisher")
 
 void MPU9250Driver::handleInput()
 {
+  RCLCPP_DEBUG(this->get_logger(), "Creating IMU message");
+
+
   auto message = sensor_msgs::msg::Imu();
   message.header.stamp = this->get_clock()->now();
   message.header.frame_id = "imu_link";
@@ -79,12 +84,22 @@ void MPU9250Driver::declareParameters()
 void MPU9250Driver::calculateOrientation(sensor_msgs::msg::Imu& imu_message)
 {
   // Calculate Euler angles
-  double roll, pitch, yaw;
+  double roll, pitch, yaw, magneticFluxDensityX, magneticFluxDensityY,  magneticFluxDensityZ;
+
+  magneticFluxDensityX = mpu9250_->getMagneticFluxDensityX();
+  magneticFluxDensityY = mpu9250_->getMagneticFluxDensityY();
+  magneticFluxDensityY = mpu9250_->getMagneticFluxDensityZ();
+  mpu9250_->readStatus2();
+
   roll = atan2(imu_message.linear_acceleration.y, imu_message.linear_acceleration.z);
-  pitch = atan2(-imu_message.linear_acceleration.y,
+  pitch = atan2(-imu_message.linear_acceleration.x,
                 (sqrt(imu_message.linear_acceleration.y * imu_message.linear_acceleration.y +
                       imu_message.linear_acceleration.z * imu_message.linear_acceleration.z)));
-  yaw = atan2(mpu9250_->getMagneticFluxDensityY(), mpu9250_->getMagneticFluxDensityX());
+  yaw = atan2(-mpu9250_->getMagneticFluxDensityY(), mpu9250_->getMagneticFluxDensityX());
+
+
+  RCLCPP_DEBUG(this->get_logger(), "Roll: %f / Pitch: %f / Yaw: %f", roll * 180.0 / 3.1416, pitch * 180.0 / 3.1416, yaw * 180.0 / 3.1416);
+  //RCLCPP_DEBUG(this->get_logger(), "MAG X: %f / MAG Y: %f", magneticFluxDensityX, magneticFluxDensityY);
 
   // Convert to quaternion
   double cy = cos(yaw * 0.5);
@@ -107,3 +122,4 @@ int main(int argc, char* argv[])
   rclcpp::shutdown();
   return 0;
 }
+
