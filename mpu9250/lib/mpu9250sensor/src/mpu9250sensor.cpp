@@ -57,11 +57,22 @@ void MPU9250Sensor::printOffsets() const
 void MPU9250Sensor::setContinuousMeasurementMode100Hz()
 {
   initMagnI2c();
-  // Set to power-down mode first before switching to another mode
+
+  resolution = 4912.0 / 32760.0;
+
   int result = i2cBus_->write(MAGN_MEAS_MODE, 0x00);
-  // Wait until mode changes
   std::this_thread::sleep_for(std::chrono::milliseconds(100));
-  // Switch to 100 Hz mode
+
+  result = i2cBus_->write(MAGN_MEAS_MODE, FUSE_ROM_ACCESS_MODE);
+  std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+  magn_asax = (i2cBus_->read(0x10) - 128) * 0.5 / 128 + 1;
+  magn_asay = (i2cBus_->read(0x11) - 128) * 0.5 / 128 + 1;
+  magn_asaz = (i2cBus_->read(0x12) - 128) * 0.5 / 128 + 1;
+
+  result = i2cBus_->write(MAGN_MEAS_MODE, 0x00);
+  std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
   result = i2cBus_->write(MAGN_MEAS_MODE, 0x16);
   std::this_thread::sleep_for(std::chrono::milliseconds(100));
   initImuI2c();
@@ -191,14 +202,13 @@ double MPU9250Sensor::getAngularVelocityZ() const
 
 double MPU9250Sensor::getMagneticFluxDensityX() const
 {
-  // TODO: check for overflow of magnetic sensor
   initMagnI2c();
   int16_t magn_flux_x_msb = i2cBus_->read(MAGN_XOUT_L + 1);
   int16_t magn_flux_x_lsb = i2cBus_->read(MAGN_XOUT_L);
   int16_t magn_flux_x = magn_flux_x_lsb | magn_flux_x_msb << 8;
   double magn_flux_x_converted = convertRawMagnetometerData(magn_flux_x);
   initImuI2c();
-  return magn_flux_x_converted;
+  return magn_flux_x_converted * magn_asax * resolution;
 }
 
 double MPU9250Sensor::getMagneticFluxDensityY() const
@@ -209,7 +219,7 @@ double MPU9250Sensor::getMagneticFluxDensityY() const
   int16_t magn_flux_y = magn_flux_y_lsb | magn_flux_y_msb << 8;
   double magn_flux_y_converted = convertRawMagnetometerData(magn_flux_y);
   initImuI2c();
-  return magn_flux_y_converted;
+  return magn_flux_y_converted * magn_asay * resolution;
 }
 
 double MPU9250Sensor::getMagneticFluxDensityZ() const
@@ -220,8 +230,9 @@ double MPU9250Sensor::getMagneticFluxDensityZ() const
   int16_t magn_flux_z = magn_flux_z_lsb | magn_flux_z_msb << 8;
   double magn_flux_z_converted = convertRawMagnetometerData(magn_flux_z);
   initImuI2c();
-  return magn_flux_z_converted;
+  return magn_flux_z_converted * magn_asaz * resolution;
 }
+
 void MPU9250Sensor::readStatus2() const
 {
   initMagnI2c();

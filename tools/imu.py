@@ -2,16 +2,17 @@ import i2c
 import math
 import time
 
-from globals import *
+# MPU9250 hard coded addresses
+I2C_BUS_NUMBER = 1
+IMU_ADDRESS    = 0x68
+MAG_ADDRESS    = 0x0C
 
-# MPU6050 hard coded address
-IMU_ADDRESS = 0x68
-
-# MPU6050 registers
+# Accelerometers & gyroscopes registers
 PWR_MGMT_1   = 0x6B
 GYRO_CONFIG  = 0x18
 SMPLRT_DIV   = 0x19
 CONFIG       = 0x1A
+INT_PIN_CFG  = 0x37
 INT_ENABLE   = 0x38
 ACCEL_XOUT_H = 0x3B
 ACCEL_YOUT_H = 0x3D
@@ -26,6 +27,15 @@ XG_OFFSET_H  = 0x13
 YG_OFFSET_H  = 0x15
 ZG_OFFSET_H  = 0x17
 
+# Magnetometers registers
+ST1   = 0x02
+HXL   = 0x03
+HYL   = 0x05
+HZL   = 0x07
+ST2   = 0x09
+CNTL1 = 0x0A
+
+# Accelerometers & gyroscopes registers
 ACCELERATION_SCALE_FACTOR = 16384.0
 GYROSCOPE_SCALE_FACTOR    =   131.0
 

@@ -65,6 +65,10 @@ class MPU9250Sensor {
   double accel_x_offset_{0.0};
   double accel_y_offset_{0.0};
   double accel_z_offset_{0.0};
+  double resolution;
+  double magn_asax;
+  double magn_asay;
+  double magn_asaz;
 
   // MPU9250 registers and addresses (s. datasheet for details)
   static constexpr int MPU9250_ADDRESS_DEFAULT = 0x68;
@@ -86,6 +90,7 @@ class MPU9250Sensor {
   static constexpr int MAGN_ZOUT_L = 0x07;
   static constexpr int STATUS_2 = 0x09;
   static constexpr int MAGN_MEAS_MODE = 0x0A;
+  static constexpr int FUSE_ROM_ACCESS_MODE = 0x0F;
   static constexpr int DLPF_CONFIG = 0x1A;
   // Helper constants
   static constexpr int GYRO_CONFIG_SHIFT = 3;

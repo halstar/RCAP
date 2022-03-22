@@ -95,11 +95,23 @@ void MPU9250Driver::calculateOrientation(sensor_msgs::msg::Imu& imu_message)
   pitch = atan2(-imu_message.linear_acceleration.x,
                 (sqrt(imu_message.linear_acceleration.y * imu_message.linear_acceleration.y +
                       imu_message.linear_acceleration.z * imu_message.linear_acceleration.z)));
-  yaw = atan2(-mpu9250_->getMagneticFluxDensityY(), mpu9250_->getMagneticFluxDensityX());
+
+  double magX = mpu9250_->getMagneticFluxDensityX();
+  double magY = mpu9250_->getMagneticFluxDensityY();
+  double magZ = mpu9250_->getMagneticFluxDensityZ();
+
+  double Yh = (magY * cos(roll)) - (magZ * sin(roll));
+  double Xh = (magX * cos(pitch))+(magY * sin(roll)*sin(pitch)) + (magZ * cos(roll) * sin(pitch));
+
+//   yaw =  atan2(Yh, Xh);
+ 
+   yaw = atan2(-magY, magX);
+
+//  yaw = atan2(-mpu9250_->getMagneticFluxDensityY(), mpu9250_->getMagneticFluxDensityX());
 
 
-  RCLCPP_DEBUG(this->get_logger(), "Roll: %f / Pitch: %f / Yaw: %f", roll * 180.0 / 3.1416, pitch * 180.0 / 3.1416, yaw * 180.0 / 3.1416);
-  //RCLCPP_DEBUG(this->get_logger(), "MAG X: %f / MAG Y: %f", magneticFluxDensityX, magneticFluxDensityY);
+
+  RCLCPP_INFO(this->get_logger(), "Roll: %f / Pitch: %f / Yaw: %f", roll * 180.0 / 3.1416, pitch * 180.0 / 3.1416, yaw * 180.0 / 3.1416);
 
   // Convert to quaternion
   double cy = cos(yaw * 0.5);
