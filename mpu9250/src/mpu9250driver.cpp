@@ -17,18 +17,12 @@ MPU9250Driver::MPU9250Driver() : Node("mpu9250publisher")
   // Declare parameters
   declareParameters();
   // Set parameters
-  mpu9250_->setGyroscopeRange(
-      static_cast<MPU9250Sensor::GyroRange>(this->get_parameter("gyro_range").as_int()));
-  mpu9250_->setAccelerometerRange(
-      static_cast<MPU9250Sensor::AccelRange>(this->get_parameter("accel_range").as_int()));
-  mpu9250_->setDlpfBandwidth(
-      static_cast<MPU9250Sensor::DlpfBandwidth>(this->get_parameter("dlpf_bandwidth").as_int()));
-  mpu9250_->setGyroscopeOffset(this->get_parameter("gyro_x_offset").as_double(),
-                               this->get_parameter("gyro_y_offset").as_double(),
-                               this->get_parameter("gyro_z_offset").as_double());
-  mpu9250_->setAccelerometerOffset(this->get_parameter("accel_x_offset").as_double(),
-                                   this->get_parameter("accel_y_offset").as_double(),
-                                   this->get_parameter("accel_z_offset").as_double());
+  mpu9250_->setGyroscopeOffset(this->get_parameter("gyroscope_x_offset").as_double(),
+                               this->get_parameter("gyroscope_y_offset").as_double(),
+                               this->get_parameter("gyroscope_z_offset").as_double());
+  mpu9250_->setAccelerometerOffset(this->get_parameter("acceleration_x_offset").as_double(),
+                                   this->get_parameter("acceleration_y_offset").as_double(),
+                                   this->get_parameter("acceleration_z_offset").as_double());
   // Check if we want to calibrate the sensor
   if (this->get_parameter("calibrate").as_bool()) {
     RCLCPP_INFO(this->get_logger(), "Calibrating...");

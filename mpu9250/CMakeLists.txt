@@ -31,5 +31,5 @@ target_include_directories(
                        $<INSTALL_INTERFACE:include>)
 
 install(TARGETS ${PROJECT_NAME} DESTINATION lib/${PROJECT_NAME})
-install(DIRECTORY launch params DESTINATION share/${PROJECT_NAME}/)
+install(DIRECTORY launch config DESTINATION share/${PROJECT_NAME}/)
 ament_package()

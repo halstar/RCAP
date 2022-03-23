@@ -1,5 +1,5 @@
 import os
-import json
+import yaml 
 import imu
 import time
 
@@ -7,7 +7,7 @@ CALIBRATION_LOOP_COUNT        = 50000
 DRIFT_CALIBRATION_DURATION    = 120
 PROGRESS_INDICATION_STEP_IN_S = 1
 
-SETUP_FILE = "imu_setup.json"
+SETUP_FILE = "imu_calibration.yaml"
 
 
 def main():
@@ -20,8 +20,8 @@ def main():
     print('\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/ ')
     print('')
 
-    with open(SETUP_FILE, 'r') as json_file:
-        setup_data = json.load(json_file)
+    with open(SETUP_FILE, 'r') as yaml_file:
+        setup_data = yaml.safe_load(yaml_file)
 
     imu_device = imu.ImuDevice()
 
@@ -131,20 +131,20 @@ def main():
     print('')
     imu_device.print_info()
 
-    setup_data['ACCELERATION_X_OFFSET'] = x_acceleration_offset
-    setup_data['ACCELERATION_Y_OFFSET'] = y_acceleration_offset
-    setup_data['ACCELERATION_Z_OFFSET'] = z_acceleration_offset
+    setup_data['mpu9250driver']['ros__parameters']['acceleration_x_offset'] = x_acceleration_offset
+    setup_data['mpu9250driver']['ros__parameters']['acceleration_y_offset'] = y_acceleration_offset
+    setup_data['mpu9250driver']['ros__parameters']['acceleration_z_offset'] = z_acceleration_offset
 
-    setup_data['GYROSCOPE_X_OFFSET'] = x_gyroscope_offset
-    setup_data['GYROSCOPE_Y_OFFSET'] = y_gyroscope_offset
-    setup_data['GYROSCOPE_Z_OFFSET'] = z_gyroscope_offset
+    setup_data['mpu9250driver']['ros__parameters']['gyroscope_x_offset'] = x_gyroscope_offset
+    setup_data['mpu9250driver']['ros__parameters']['gyroscope_y_offset'] = y_gyroscope_offset
+    setup_data['mpu9250driver']['ros__parameters']['gyroscope_z_offset'] = z_gyroscope_offset
 
-    setup_data['GYROSCOPE_X_DRIFT_CORRECTION'] = x_gyroscope_drift_correction
-    setup_data['GYROSCOPE_Y_DRIFT_CORRECTION'] = y_gyroscope_drift_correction
-    setup_data['GYROSCOPE_Z_DRIFT_CORRECTION'] = z_gyroscope_drift_correction
+    setup_data['mpu9250driver']['ros__parameters']['gyroscope_x_drift_correction'] = x_gyroscope_drift_correction
+    setup_data['mpu9250driver']['ros__parameters']['gyroscope_y_drift_correction'] = y_gyroscope_drift_correction
+    setup_data['mpu9250driver']['ros__parameters']['gyroscope_z_drift_correction'] = z_gyroscope_drift_correction
 
-    with open(SETUP_FILE, 'w') as json_file:
-        json.dump(setup_data, json_file, indent=4)
+    with open(SETUP_FILE, 'w') as yaml_file:
+        yaml.dump(setup_data, yaml_file)
 
     print('')
     print('/\/\/\/\/\/\/\/\/\/\/\/\/\ ')
