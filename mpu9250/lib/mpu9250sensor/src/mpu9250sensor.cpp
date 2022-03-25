@@ -133,10 +133,7 @@ double MPU9250Sensor::getAccelerationX() const
   int16_t accel_x_msb = i2cBus_->read(ACCEL_XOUT_H);
   int16_t accel_x_lsb = i2cBus_->read(ACCEL_XOUT_H + 1);
   int16_t accel_x = accel_x_lsb | accel_x_msb << 8;
-  double accel_x_converted = convertRawAccelerometerData(accel_x);
-  if (calibrated_) {
-    return accel_x_converted - accel_x_offset_;
-  }
+  double accel_x_converted = convertRawAccelerometerData(accel_x - accel_x_offset_);
   return accel_x_converted;
 }
 
@@ -145,10 +142,7 @@ double MPU9250Sensor::getAccelerationY() const
   int16_t accel_y_msb = i2cBus_->read(ACCEL_YOUT_H);
   int16_t accel_y_lsb = i2cBus_->read(ACCEL_YOUT_H + 1);
   int16_t accel_y = accel_y_lsb | accel_y_msb << 8;
-  double accel_y_converted = convertRawAccelerometerData(accel_y);
-  if (calibrated_) {
-    return accel_y_converted - accel_y_offset_;
-  }
+  double accel_y_converted = convertRawAccelerometerData(accel_y - accel_y_offset_);
   return accel_y_converted;
 }
 
@@ -157,10 +151,7 @@ double MPU9250Sensor::getAccelerationZ() const
   int16_t accel_z_msb = i2cBus_->read(ACCEL_ZOUT_H);
   int16_t accel_z_lsb = i2cBus_->read(ACCEL_ZOUT_H + 1);
   int16_t accel_z = accel_z_lsb | accel_z_msb << 8;
-  double accel_z_converted = convertRawAccelerometerData(accel_z);
-  if (calibrated_) {
-    return accel_z_converted - accel_z_offset_;
-  }
+  double accel_z_converted = convertRawAccelerometerData(accel_z - accel_z_offset_);
   return accel_z_converted;
 }
 
@@ -169,10 +160,7 @@ double MPU9250Sensor::getAngularVelocityX() const
   int16_t gyro_x_msb = i2cBus_->read(GYRO_XOUT_H);
   int16_t gyro_x_lsb = i2cBus_->read(GYRO_XOUT_H + 1);
   int16_t gyro_x = gyro_x_lsb | gyro_x_msb << 8;
-  double gyro_x_converted = convertRawGyroscopeData(gyro_x);
-  if (calibrated_) {
-    return gyro_x_converted - gyro_x_offset_;
-  }
+  double gyro_x_converted = convertRawGyroscopeData(gyro_x - gyro_x_offset_);
   return gyro_x_converted;
 }
 
@@ -181,10 +169,7 @@ double MPU9250Sensor::getAngularVelocityY() const
   int16_t gyro_y_msb = i2cBus_->read(GYRO_YOUT_H);
   int16_t gyro_y_lsb = i2cBus_->read(GYRO_YOUT_H + 1);
   int16_t gyro_y = gyro_y_lsb | gyro_y_msb << 8;
-  double gyro_y_converted = convertRawGyroscopeData(gyro_y);
-  if (calibrated_) {
-    return gyro_y_converted - gyro_y_offset_;
-  }
+  double gyro_y_converted = convertRawGyroscopeData(gyro_y - gyro_y_offset_);
   return gyro_y_converted;
 }
 
@@ -193,10 +178,7 @@ double MPU9250Sensor::getAngularVelocityZ() const
   int16_t gyro_z_msb = i2cBus_->read(GYRO_ZOUT_H);
   int16_t gyro_z_lsb = i2cBus_->read(GYRO_ZOUT_H + 1);
   int16_t gyro_z = gyro_z_lsb | gyro_z_msb << 8;
-  double gyro_z_converted = convertRawGyroscopeData(gyro_z);
-  if (calibrated_) {
-    return gyro_z_converted - gyro_z_offset_;
-  }
+  double gyro_z_converted = convertRawGyroscopeData(gyro_z - gyro_z_offset_);
   return gyro_z_converted;
 }
 
@@ -277,24 +259,3 @@ void MPU9250Sensor::setAccelerometerOffset(double accel_x_offset, double accel_y
   accel_z_offset_ = accel_z_offset;
 }
 
-void MPU9250Sensor::calibrate()
-{
-  int count = 0;
-  while (count < CALIBRATION_COUNT) {
-    gyro_x_offset_ += getAngularVelocityX();
-    gyro_y_offset_ += getAngularVelocityY();
-    gyro_z_offset_ += getAngularVelocityZ();
-    accel_x_offset_ += getAccelerationX();
-    accel_y_offset_ += getAccelerationY();
-    accel_z_offset_ += getAccelerationZ();
-    ++count;
-  }
-  gyro_x_offset_ /= CALIBRATION_COUNT;
-  gyro_y_offset_ /= CALIBRATION_COUNT;
-  gyro_z_offset_ /= CALIBRATION_COUNT;
-  accel_x_offset_ /= CALIBRATION_COUNT;
-  accel_y_offset_ /= CALIBRATION_COUNT;
-  accel_z_offset_ /= CALIBRATION_COUNT;
-  accel_z_offset_ -= GRAVITY;
-  calibrated_ = true;
-}

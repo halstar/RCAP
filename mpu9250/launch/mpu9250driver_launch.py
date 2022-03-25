@@ -17,7 +17,7 @@ def generate_launch_description():
     mpu9250driver_node = Node(
         package='mpu9250driver',
         executable='mpu9250driver',
-        name='mpu9250driver_node',
+        name='mpu9250driver',
         parameters=[config]
     )
 

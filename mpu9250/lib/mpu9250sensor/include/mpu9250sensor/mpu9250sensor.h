@@ -40,7 +40,6 @@ class MPU9250Sensor {
   void readStatus2() const;
   void setGyroscopeOffset(double gyro_x_offset, double gyro_y_offset, double gyro_z_offset);
   void setAccelerometerOffset(double accel_x_offset, double accel_y_offset, double accel_z_offset);
-  void calibrate();
 
  private:
   void initImuI2c() const;
@@ -58,13 +57,12 @@ class MPU9250Sensor {
   int accel_range_{2};
   int gyro_range_{250};
   int dlpf_range_{260};
-  bool calibrated_{false};
-  double gyro_x_offset_{0.0};
-  double gyro_y_offset_{0.0};
-  double gyro_z_offset_{0.0};
-  double accel_x_offset_{0.0};
-  double accel_y_offset_{0.0};
-  double accel_z_offset_{0.0};
+  int gyro_x_offset_{0};
+  int gyro_y_offset_{0};
+  int gyro_z_offset_{0};
+  int accel_x_offset_{0};
+  int accel_y_offset_{0};
+  int accel_z_offset_{0};
   double resolution;
   double magn_asax;
   double magn_asay;
@@ -104,7 +102,6 @@ class MPU9250Sensor {
   const std::unordered_map<int, int> ACCEL_SENS_MAP{{2, 16384}, {4, 8192}, {8, 4096}, {16, 2048}};
   const std::unordered_map<int, double> GYRO_SENS_MAP{
       {250, 131}, {500, 65.5}, {1000, 32.8}, {2000, 16.4}};
-  static constexpr int CALIBRATION_COUNT{1000};
 };
 
 #endif  // MPU9250SENSOR_H

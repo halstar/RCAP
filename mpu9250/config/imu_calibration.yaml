@@ -1,11 +1,11 @@
-mpu9250driver_node:
+mpu9250driver:
   ros__parameters:
-    acceleration_x_offset: 2141
-    acceleration_y_offset: 9895
-    acceleration_z_offset: -3655
-    gyroscope_x_drift_correction: -829
-    gyroscope_x_offset: -65
-    gyroscope_y_drift_correction: 407
-    gyroscope_y_offset: 116
-    gyroscope_z_drift_correction: -76
-    gyroscope_z_offset: 193
+    acceleration_x_offset: 2124
+    acceleration_y_offset: 9897
+    acceleration_z_offset: -3509
+    gyroscope_x_drift_correction: -599
+    gyroscope_x_offset: -64
+    gyroscope_y_drift_correction: 324
+    gyroscope_y_offset: 122
+    gyroscope_z_drift_correction: -133
+    gyroscope_z_offset: 199

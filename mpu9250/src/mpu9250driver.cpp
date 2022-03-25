@@ -7,9 +7,9 @@
 
 using namespace std::chrono_literals;
 
-MPU9250Driver::MPU9250Driver() : Node("mpu9250publisher")
+MPU9250Driver::MPU9250Driver() : Node("mpu9250driver")
 {
-    RCLCPP_INFO(this->get_logger(), "Starting MPU9250Driver Node");
+  RCLCPP_INFO(this->get_logger(), "Starting MPU9250Driver Node");
 
   // Create concrete I2C communicator and pass to sensor
   std::unique_ptr<I2cCommunicator> i2cBus = std::make_unique<LinuxI2cCommunicator>();
@@ -17,17 +17,13 @@ MPU9250Driver::MPU9250Driver() : Node("mpu9250publisher")
   // Declare parameters
   declareParameters();
   // Set parameters
-  mpu9250_->setGyroscopeOffset(this->get_parameter("gyroscope_x_offset").as_double(),
-                               this->get_parameter("gyroscope_y_offset").as_double(),
-                               this->get_parameter("gyroscope_z_offset").as_double());
-  mpu9250_->setAccelerometerOffset(this->get_parameter("acceleration_x_offset").as_double(),
-                                   this->get_parameter("acceleration_y_offset").as_double(),
-                                   this->get_parameter("acceleration_z_offset").as_double());
+  mpu9250_->setGyroscopeOffset(this->get_parameter("gyroscope_x_offset").as_int(),
+                               this->get_parameter("gyroscope_y_offset").as_int(),
+                               this->get_parameter("gyroscope_z_offset").as_int());
+  mpu9250_->setAccelerometerOffset(this->get_parameter("acceleration_x_offset").as_int(),
+                                   this->get_parameter("acceleration_y_offset").as_int(),
+                                   this->get_parameter("acceleration_z_offset").as_int());
   // Check if we want to calibrate the sensor
-  if (this->get_parameter("calibrate").as_bool()) {
-    RCLCPP_INFO(this->get_logger(), "Calibrating...");
-    mpu9250_->calibrate();
-  }
   mpu9250_->printConfig();
   mpu9250_->printOffsets();
   // Create publisher
@@ -62,17 +58,15 @@ void MPU9250Driver::handleInput()
 
 void MPU9250Driver::declareParameters()
 {
-  this->declare_parameter<bool>("calibrate", true);
   this->declare_parameter<int>("gyro_range", MPU9250Sensor::GyroRange::GYR_250_DEG_S);
   this->declare_parameter<int>("accel_range", MPU9250Sensor::AccelRange::ACC_2_G);
   this->declare_parameter<int>("dlpf_bandwidth", MPU9250Sensor::DlpfBandwidth::DLPF_260_HZ);
-  this->declare_parameter<double>("gyro_x_offset", 0.0);
-  this->declare_parameter<double>("gyro_y_offset", 0.0);
-  this->declare_parameter<double>("gyro_z_offset", 0.0);
-  this->declare_parameter<double>("accel_x_offset", 0.0);
-  this->declare_parameter<double>("accel_y_offset", 0.0);
-  this->declare_parameter<double>("accel_z_offset", 0.0);
-  this->declare_parameter<int>("frequency", 0.0);
+  this->declare_parameter<int>("gyroscope_x_offset", 0);
+  this->declare_parameter<int>("gyroscope_y_offset", 0);
+  this->declare_parameter<int>("gyroscope_z_offset", 0);
+  this->declare_parameter<int>("acceleration_x_offset", 0);
+  this->declare_parameter<int>("acceleration_y_offset", 0);
+  this->declare_parameter<int>("acceleration_z_offset", 100);
 }
 
 void MPU9250Driver::calculateOrientation(sensor_msgs::msg::Imu& imu_message)
@@ -102,8 +96,6 @@ void MPU9250Driver::calculateOrientation(sensor_msgs::msg::Imu& imu_message)
    yaw = atan2(-magY, magX);
 
 //  yaw = atan2(-mpu9250_->getMagneticFluxDensityY(), mpu9250_->getMagneticFluxDensityX());
-
-
 
   RCLCPP_INFO(this->get_logger(), "Roll: %f / Pitch: %f / Yaw: %f", roll * 180.0 / 3.1416, pitch * 180.0 / 3.1416, yaw * 180.0 / 3.1416);
 
