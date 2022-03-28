@@ -105,36 +105,6 @@ class ImuDevice:
         # Write sample rate divider register
         self.i2c_device.write_byte(SMPLRT_DIV, 0x04)
 
-        # BYPASS_EN enable
-        self.i2c_device.write_byte(INT_PIN_CFG, 0x02) 
-
-        # Disable master
-        self.i2c_device.write_byte(USER_CTRL, 0x00)
-
-        # Set power down mode
-        self.i2c_device.write_byte(AK8963_CNTL1, 0x00)
-        time.sleep(0.1)
-
-        # Set Fuse ROM access mode
-        self.i2c_device.write_byte(AK8963_CNTL1, 0x0F)
-        time.sleep(0.1)
-
-        # Read Fuse ROM data
-        self.magnetometer_adjustment_x = (self.i2c_device.read_byte(AK8963_ASAX) - 128) * 0.5 / 128 + 1;
-        self.magnetometer_adjustment_y = (self.i2c_device.read_byte(AK8963_ASAY) - 128) * 0.5 / 128 + 1;
-        self.magnetometer_adjustment_z = (self.i2c_device.read_byte(AK8963_ASAZ) - 128) * 0.5 / 128 + 1;
-
-        # Set power down mode
-        self.i2c_device.write_byte(AK8963_CNTL1, 0x00)
-        time.sleep(0.1)
-        
-        # Set scale and continous mode
-        self.i2c_device.write_byte(AK8963_CNTL1, 0x12)
-        time.sleep(0.1)
-
-        # Set magnetometer resolution
-        self.magnetometer_resolution = 4912.0 / 32760.0
-
     def __read_word__(self, register, isLittleEndian=True):
 
         # Acceleration and gyroscope data are 16-bit
@@ -208,6 +178,38 @@ class ImuDevice:
         self.magnetometer_adjustment_x = 0
         self.magnetometer_adjustment_y = 0
         self.magnetometer_adjustment_z = 0 
+
+    def set_magnetometer_factory_data(self):
+
+        # BYPASS_EN enable
+        self.i2c_device.write_byte(INT_PIN_CFG, 0x02) 
+
+        # Disable master
+        self.i2c_device.write_byte(USER_CTRL, 0x00)
+
+        # Set power down mode
+        self.i2c_device.write_byte(AK8963_CNTL1, 0x00)
+        time.sleep(0.1)
+
+        # Set Fuse ROM access mode
+        self.i2c_device.write_byte(AK8963_CNTL1, 0x0F)
+        time.sleep(0.1)
+
+        # Read Fuse ROM data
+        self.magnetometer_adjustment_x = (self.i2c_device.read_byte(AK8963_ASAX) - 128) * 0.5 / 128 + 1;
+        self.magnetometer_adjustment_y = (self.i2c_device.read_byte(AK8963_ASAY) - 128) * 0.5 / 128 + 1;
+        self.magnetometer_adjustment_z = (self.i2c_device.read_byte(AK8963_ASAZ) - 128) * 0.5 / 128 + 1;
+
+        # Set power down mode
+        self.i2c_device.write_byte(AK8963_CNTL1, 0x00)
+        time.sleep(0.1)
+        
+        # Set scale and continous mode
+        self.i2c_device.write_byte(AK8963_CNTL1, 0x12)
+        time.sleep(0.1)
+
+        # Set magnetometer resolution
+        self.magnetometer_resolution = 4912.0 / 32760.0
 
     def read_acceleration_data(self):
         self.acceleration_x = self.__read_word__(ACCEL_XOUT_H) - self.acceleration_offset_x

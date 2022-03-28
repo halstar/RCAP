@@ -1,5 +1,5 @@
 import os
-import json
+import yaml
 import imu
 import time
 
@@ -7,7 +7,7 @@ CALIBRATION_DURATION          = 30
 TRIAL_DURATION                = 15
 PROGRESS_INDICATION_STEP_IN_S = 1
 
-SETUP_FILE = "imu_calibration.json"
+SETUP_FILE = "imu_calibration.yaml"
 
 
 def main():
@@ -27,6 +27,7 @@ def main():
 
     imu_device.reset        ()
     imu_device.reset_offsets()
+    imu_device.set_magnetometer_factory_data()
 
     imu_device.print_info()
 
@@ -105,9 +106,9 @@ def main():
 
     print('')
 
-    setup_data['mpu9250driver']['ros__parameters']['magnetometer_x_offset'] = x_gyroscope_drift_correction
-    setup_data['mpu9250driver']['ros__parameters']['magnetometer_y_offset'] = y_gyroscope_drift_correction
-    setup_data['mpu9250driver']['ros__parameters']['magnetometer_z_offset'] = z_gyroscope_drift_correction
+    setup_data['mpu9250driver']['ros__parameters']['magnetometer_x_offset'] = x_magnetometer_offset
+    setup_data['mpu9250driver']['ros__parameters']['magnetometer_y_offset'] = y_magnetometer_offset
+    setup_data['mpu9250driver']['ros__parameters']['magnetometer_z_offset'] = z_magnetometer_offset
 
     with open(SETUP_FILE, 'w') as yaml_file:
         yaml.dump(setup_data, yaml_file)
