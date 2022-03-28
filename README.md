@@ -9,9 +9,9 @@ This repository gathers the Raspberry Pi files, a.k.a. the ROS car application (
 
 - sudo apt-get update
 - sudo apt-get upgrade
-- sudo apt-get install vim 
+- sudo apt-get install vim pyyaml
 - sudo apt-get install libssl-dev
-- sudo apt-get install i2c-tools libi2c-dev
+- sudo apt-get install i2c-tools libi2c-dev smbus
 - sudo apt-get install curl gnupg2 lsb-release
 - sudo apt-get install libpython3-dev python3-pip
 
@@ -122,40 +122,12 @@ This repository gathers the Raspberry Pi files, a.k.a. the ROS car application (
 - ros2 launch rplidar_ros view_rplidar.launch.py &
 - rviz2 -d rviz/rplidar_ros2.rviz
 
-##  Setup & try MPU9250 IMU
+##  Try & calibrate MPU9250 IMU
 
 - i2cdetect -y 1
-- sudo pip install smbus
-- sudo pip install FaBo9Axis_MPU9250
 
-
- - vim read9axis.py
-> import FaBo9Axis_MPU9250
-> import time
-> import sys
-> 
-> mpu9250 = FaBo9Axis_MPU9250.MPU9250()
-> 
->   while True:
->       accel = mpu9250.readAccel()
->       print(" ax = " , ( accel['x'] ))
->       print(" ay = " , ( accel['y'] ))
->       print(" az = " , ( accel['z'] ))
-> 
->       gyro = mpu9250.readGyro()
->       print(" gx = " , ( gyro['x'] ))
->       print(" gy = " , ( gyro['y'] ))
->       print(" gz = " , ( gyro['z'] ))
-> 
->       mag = mpu9250.readMagnet()
->       print(" mx = " , ( mag['x'] ))
->       print(" my = " , ( mag['y'] ))
->       print(" mz = " , ( mag['z'] ))
->       print()
-> 
->       time.sleep(0.5)
-
-- python3 read9axis.py
+- cd tools
+- python3 calibrate_imu.py
 
 
 ## Install Navigation2 (Nav2)

@@ -9,3 +9,6 @@ mpu9250driver:
     gyroscope_y_offset: 122
     gyroscope_z_drift_correction: -133
     gyroscope_z_offset: 199
+    magnetometer_x_offset: 0
+    magnetometer_y_offset: 0
+    magnetometer_z_offset: 0

@@ -3,11 +3,11 @@ import json
 import imu
 import time
 
-CALIBRATION_LOOP_COUNT        = 50000
-DRIFT_CALIBRATION_DURATION    = 120
+CALIBRATION_DURATION          = 30
+TRIAL_DURATION                = 15
 PROGRESS_INDICATION_STEP_IN_S = 1
 
-SETUP_FILE = "imu_setup.json"
+SETUP_FILE = "imu_calibration.json"
 
 
 def main():
@@ -15,13 +15,13 @@ def main():
     os.system('clear')
 
     print('')
-    print('/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\ ')
-    print('|  IMU calibration starting... | ')
-    print('\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/ ')
+    print('/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/ ')
+    print('|  Magnetometer calibration starting... | ')
+    print('\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\ ')
     print('')
 
-    with open(SETUP_FILE, 'r') as json_file:
-        setup_data = json.load(json_file)
+    with open(SETUP_FILE, 'r') as yaml_file:
+        setup_data = yaml.safe_load(yaml_file)
 
     imu_device = imu.ImuDevice()
 
@@ -30,67 +30,63 @@ def main():
 
     imu_device.print_info()
 
-    x_acceleration_measure = 0
-    y_acceleration_measure = 0
-    z_acceleration_measure = 0
+    x_magnetometer_measure = 0
+    y_magnetometer_measure = 0
+    z_magnetometer_measure = 0
 
-    x_gyroscope_measure = 0
-    y_gyroscope_measure = 0
-    z_gyroscope_measure = 0
+    x_magnetometer_min = 32667
+    y_magnetometer_min = 32667
+    z_magnetometer_min = 32667
 
-    print('')
-    print('Computing accelerometers & gyroscopes offsets ', end = '', flush = True)
+    x_magnetometer_max = -32667
+    y_magnetometer_max = -32667
+    z_magnetometer_max = -32667
 
+    start_time    = time.time()
     progress_time = time.time()
 
-    for i in range(0, CALIBRATION_LOOP_COUNT):
+    while time.time() - start_time < CALIBRATION_DURATION:
 
         if time.time() - progress_time > PROGRESS_INDICATION_STEP_IN_S:
             print('.', end = '', flush = True)
             progress_time = time.time()
 
-        imu_device.read_acceleration_data()
-        imu_device.read_gyroscope_data   ()
+        imu_device.read_magnetometer_data()
 
-        x_acceleration_measure += imu_device.get_x_acceleration()
-        y_acceleration_measure += imu_device.get_y_acceleration()
-        z_acceleration_measure += imu_device.get_z_acceleration()
+        x_magnetometer_measure = imu_device.get_x_magnetometer()
+        y_acceleration_measure = imu_device.get_y_magnetometer()
+        z_acceleration_measure = imu_device.get_z_magnetometer()
 
-        x_gyroscope_measure += imu_device.get_x_gyroscope()
-        y_gyroscope_measure += imu_device.get_y_gyroscope()
-        z_gyroscope_measure += imu_device.get_z_gyroscope()
+        if   x_magnetometer_measure < x_magnetometer_min:
+             x_magnetometer_min     = x_magnetometer_measure
+        elif x_magnetometer_measure > x_magnetometer_max:
+             x_magnetometer_max     = x_magnetometer_measure
+
+        if   y_magnetometer_measure < y_magnetometer_min:
+             y_magnetometer_min     = y_magnetometer_measure
+        elif y_magnetometer_measure > y_magnetometer_max:
+             y_magnetometer_max     = y_magnetometer_measure
+
+        if   z_magnetometer_measure < z_magnetometer_min:
+             z_magnetometer_min     = z_magnetometer_measure
+        elif z_magnetometer_measure > z_magnetometer_max:
+             z_magnetometer_max     = z_magnetometer_measure
+
+        # Refresh rate is 100Hz, so let's wait for 10ms
+        time.sleep(0.01)
 
     print('')
 
-    x_acceleration_measure /= CALIBRATION_LOOP_COUNT
-    y_acceleration_measure /= CALIBRATION_LOOP_COUNT
-    z_acceleration_measure /= CALIBRATION_LOOP_COUNT
+    x_magnetometer_offset = int((x_magnetometer_min + x_magnetometer_max) / 2)
+    y_magnetometer_offset = int((y_magnetometer_min + y_magnetometer_max) / 2)
+    z_magnetometer_offset = int((z_magnetometer_min + z_magnetometer_max) / 2)
 
-    x_gyroscope_measure /= CALIBRATION_LOOP_COUNT
-    y_gyroscope_measure /= CALIBRATION_LOOP_COUNT
-    z_gyroscope_measure /= CALIBRATION_LOOP_COUNT
-
-    x_acceleration_offset = int(x_acceleration_measure)
-    y_acceleration_offset = int(y_acceleration_measure)
-    z_acceleration_offset = int(z_acceleration_measure) - 16384
-
-    x_gyroscope_offset = int(x_gyroscope_measure)
-    y_gyroscope_offset = int(y_gyroscope_measure)
-    z_gyroscope_offset = int(z_gyroscope_measure)
-
-    imu_device.set_x_acceleration_offset(x_acceleration_offset)
-    imu_device.set_y_acceleration_offset(y_acceleration_offset)
-    imu_device.set_z_acceleration_offset(z_acceleration_offset)
-
-    imu_device.set_x_gyroscope_offset(x_gyroscope_offset)
-    imu_device.set_y_gyroscope_offset(y_gyroscope_offset)
-    imu_device.set_z_gyroscope_offset(z_gyroscope_offset)
+    imu_device.set_x_magnetometer_offset(x_magnetometer_offset)
+    imu_device.set_y_magnetometer_offset(y_magnetometer_offset)
+    imu_device.set_z_magnetometer_offset(z_magnetometer_offset)
 
     print('')
     imu_device.print_info()
-
-    print('')
-    print('Computing gyroscopes drift corrections ', end = '', flush = True)
 
     i             = 0
     start_time    = time.time()
@@ -100,56 +96,26 @@ def main():
     y_gyroscope_measure = 0
     z_gyroscope_measure = 0
 
-    while time.time() - start_time < DRIFT_CALIBRATION_DURATION:
+    while time.time() - start_time < TRIAL_DURATION:
 
-        if time.time() - progress_time > PROGRESS_INDICATION_STEP_IN_S:
-            print('.', end = '', flush = True)
-            progress_time = time.time()
-
-        imu_device.read_gyroscope_data()
-
-        x_gyroscope_measure += imu_device.get_x_gyroscope()
-        y_gyroscope_measure += imu_device.get_y_gyroscope()
-        z_gyroscope_measure += imu_device.get_z_gyroscope()
-
-        i += 1
+        imu_device.read_magnetometer_data()
+        imu_device.compute_angles        ()
+        print(imu_device.get_yaw(), end = '\r', flush = True)
+        time.sleep(0.1)
 
     print('')
 
-    x_gyroscope_measure /= DRIFT_CALIBRATION_DURATION
-    y_gyroscope_measure /= DRIFT_CALIBRATION_DURATION
-    z_gyroscope_measure /= DRIFT_CALIBRATION_DURATION
+    setup_data['mpu9250driver']['ros__parameters']['magnetometer_x_offset'] = x_gyroscope_drift_correction
+    setup_data['mpu9250driver']['ros__parameters']['magnetometer_y_offset'] = y_gyroscope_drift_correction
+    setup_data['mpu9250driver']['ros__parameters']['magnetometer_z_offset'] = z_gyroscope_drift_correction
 
-    x_gyroscope_drift_correction = int(x_gyroscope_measure)
-    y_gyroscope_drift_correction = int(y_gyroscope_measure)
-    z_gyroscope_drift_correction = int(z_gyroscope_measure)
-
-    imu_device.set_x_gyroscope_drift_correction(x_gyroscope_drift_correction)
-    imu_device.set_y_gyroscope_drift_correction(y_gyroscope_drift_correction)
-    imu_device.set_z_gyroscope_drift_correction(z_gyroscope_drift_correction)
+    with open(SETUP_FILE, 'w') as yaml_file:
+        yaml.dump(setup_data, yaml_file)
 
     print('')
-    imu_device.print_info()
-
-    setup_data['ACCELERATION_X_OFFSET'] = x_acceleration_offset
-    setup_data['ACCELERATION_Y_OFFSET'] = y_acceleration_offset
-    setup_data['ACCELERATION_Z_OFFSET'] = z_acceleration_offset
-
-    setup_data['GYROSCOPE_X_OFFSET'] = x_gyroscope_offset
-    setup_data['GYROSCOPE_Y_OFFSET'] = y_gyroscope_offset
-    setup_data['GYROSCOPE_Z_OFFSET'] = z_gyroscope_offset
-
-    setup_data['GYROSCOPE_X_DRIFT_CORRECTION'] = x_gyroscope_drift_correction
-    setup_data['GYROSCOPE_Y_DRIFT_CORRECTION'] = y_gyroscope_drift_correction
-    setup_data['GYROSCOPE_Z_DRIFT_CORRECTION'] = z_gyroscope_drift_correction
-
-    with open(SETUP_FILE, 'w') as json_file:
-        json.dump(setup_data, json_file, indent=4)
-
-    print('')
-    print('/\/\/\/\/\/\/\/\/\/\/\/\/\ ')
-    print('| IMU calibration done!  | ')
-    print('\/\/\/\/\/\/\/\/\/\/\/\/\/ ')
+    print('/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/ ')
+    print('| Magnetometer calibration done!  | ')
+    print('\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\ ')
     print('')
 
 
