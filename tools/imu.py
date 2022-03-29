@@ -91,29 +91,29 @@ class ImuDevice:
         self.last_gyroscope_read_time  = 0.0
         self.gyroscope_read_delta_time = 0.0
 
-        self.i2c_device = i2c.I2cDevice(I2C_BUS_NUMBER, IMU_ADDRESS)
+        self.i2c_device = i2c.I2cDevice(I2C_BUS_NUMBER)
 
         # Write power management register
-        self.i2c_device.write_byte(PWR_MGMT_1, 0x01)
+        self.i2c_device.write_byte(IMU_ADDRESS, PWR_MGMT_1, 0x01)
 
         # Write configuration register
-        self.i2c_device.write_byte(CONFIG, 0x02)
+        self.i2c_device.write_byte(IMU_ADDRESS, CONFIG, 0x02)
 
         # Write gyroscope configuration register
-        self.i2c_device.write_byte(GYRO_CONFIG, 0x00)
+        self.i2c_device.write_byte(IMU_ADDRESS, GYRO_CONFIG, 0x00)
 
         # Write sample rate divider register
-        self.i2c_device.write_byte(SMPLRT_DIV, 0x04)
+        self.i2c_device.write_byte(IMU_ADDRESS, SMPLRT_DIV, 0x04)
 
-    def __read_word__(self, register, isLittleEndian=True):
+    def __read_word__(self, address, register, isLittleEndian=True):
 
         # Acceleration and gyroscope data are 16-bit
         if (isLittleEndian == True):
-            higher_byte = self.i2c_device.read_byte(register    )
-            lower_byte  = self.i2c_device.read_byte(register + 1)
+            higher_byte = self.i2c_device.read_byte(address, register    )
+            lower_byte  = self.i2c_device.read_byte(address, register + 1)
         else:
-            lower_byte  = self.i2c_device.read_byte(register    )
-            higher_byte = self.i2c_device.read_byte(register + 1)
+            lower_byte  = self.i2c_device.read_byte(address, register    )
+            higher_byte = self.i2c_device.read_byte(address, register + 1)
 
         # Concatenate higher and lower bytes
         value = (higher_byte << 8) + lower_byte
@@ -123,11 +123,11 @@ class ImuDevice:
             value = value - 65536
         return value
 
-    def __write_word__(self, register, value):
+    def __write_word__(self, address, register, value):
 
         # Acceleration and gyroscope data are 16-bit
-        self.i2c_device.write_byte(register    , value >> 8    )
-        self.i2c_device.write_byte(register + 1, value & 0x00FF)
+        self.i2c_device.write_byte(address, register    , value >> 8    )
+        self.i2c_device.write_byte(address, register + 1, value & 0x00FF)
 
     def __get_x_rotation__(self):
         radians = math.atan2(self.acceleration_y, math.sqrt(self.acceleration_x ** 2 +
@@ -144,20 +144,20 @@ class ImuDevice:
         return math.degrees(radians)
 
     def reset(self):
-        self.i2c_device.write_byte(PWR_MGMT_1, 0x81)
+        self.i2c_device.write_byte(IMU_ADDRESS, PWR_MGMT_1, 0x81)
         time.sleep(1)
-        self.i2c_device.write_byte(PWR_MGMT_1, 0x01)
+        self.i2c_device.write_byte(IMU_ADDRESS, PWR_MGMT_1, 0x01)
         time.sleep(1)
 
     def reset_offsets(self):
 
-        self.__write_word__(XA_OFFSET_H, 0)
-        self.__write_word__(YA_OFFSET_H, 0)
-        self.__write_word__(ZA_OFFSET_H, 0)
+        self.__write_word__(IMU_ADDRESS, XA_OFFSET_H, 0)
+        self.__write_word__(IMU_ADDRESS, YA_OFFSET_H, 0)
+        self.__write_word__(IMU_ADDRESS, ZA_OFFSET_H, 0)
 
-        self.__write_word__(XG_OFFSET_H, 0)
-        self.__write_word__(YG_OFFSET_H, 0)
-        self.__write_word__(ZG_OFFSET_H, 0)
+        self.__write_word__(IMU_ADDRESS, XG_OFFSET_H, 0)
+        self.__write_word__(IMU_ADDRESS, YG_OFFSET_H, 0)
+        self.__write_word__(IMU_ADDRESS, ZG_OFFSET_H, 0)
 
         self.acceleration_offset_x = 0
         self.acceleration_offset_y = 0
@@ -182,44 +182,44 @@ class ImuDevice:
     def set_magnetometer_factory_data(self):
 
         # BYPASS_EN enable
-        self.i2c_device.write_byte(INT_PIN_CFG, 0x02) 
+        self.i2c_device.write_byte(IMU_ADDRESS, INT_PIN_CFG, 0x02) 
 
         # Disable master
-        self.i2c_device.write_byte(USER_CTRL, 0x00)
+        self.i2c_device.write_byte(IMU_ADDRESS, USER_CTRL, 0x00)
 
         # Set power down mode
-        self.i2c_device.write_byte(AK8963_CNTL1, 0x00)
+        self.i2c_device.write_byte(MAG_ADDRESS, AK8963_CNTL1, 0x00)
         time.sleep(0.1)
 
         # Set Fuse ROM access mode
-        self.i2c_device.write_byte(AK8963_CNTL1, 0x0F)
+        self.i2c_device.write_byte(MAG_ADDRESS, AK8963_CNTL1, 0x0F)
         time.sleep(0.1)
 
         # Read Fuse ROM data
-        self.magnetometer_adjustment_x = (self.i2c_device.read_byte(AK8963_ASAX) - 128) * 0.5 / 128 + 1;
-        self.magnetometer_adjustment_y = (self.i2c_device.read_byte(AK8963_ASAY) - 128) * 0.5 / 128 + 1;
-        self.magnetometer_adjustment_z = (self.i2c_device.read_byte(AK8963_ASAZ) - 128) * 0.5 / 128 + 1;
+        self.magnetometer_adjustment_x = (self.i2c_device.read_byte(MAG_ADDRESS, AK8963_ASAX) - 128) * 0.5 / 128 + 1;
+        self.magnetometer_adjustment_y = (self.i2c_device.read_byte(MAG_ADDRESS, AK8963_ASAY) - 128) * 0.5 / 128 + 1;
+        self.magnetometer_adjustment_z = (self.i2c_device.read_byte(MAG_ADDRESS, AK8963_ASAZ) - 128) * 0.5 / 128 + 1;
 
         # Set power down mode
-        self.i2c_device.write_byte(AK8963_CNTL1, 0x00)
+        self.i2c_device.write_byte(MAG_ADDRESS, AK8963_CNTL1, 0x00)
         time.sleep(0.1)
         
         # Set scale and continous mode
-        self.i2c_device.write_byte(AK8963_CNTL1, 0x12)
+        self.i2c_device.write_byte(MAG_ADDRESS, AK8963_CNTL1, 0x12)
         time.sleep(0.1)
 
         # Set magnetometer resolution
         self.magnetometer_resolution = 4912.0 / 32760.0
 
     def read_acceleration_data(self):
-        self.acceleration_x = self.__read_word__(ACCEL_XOUT_H) - self.acceleration_offset_x
-        self.acceleration_y = self.__read_word__(ACCEL_YOUT_H) - self.acceleration_offset_y
-        self.acceleration_z = self.__read_word__(ACCEL_ZOUT_H) - self.acceleration_offset_z
+        self.acceleration_x = self.__read_word__(IMU_ADDRESS, ACCEL_XOUT_H) - self.acceleration_offset_x
+        self.acceleration_y = self.__read_word__(IMU_ADDRESS, ACCEL_YOUT_H) - self.acceleration_offset_y
+        self.acceleration_z = self.__read_word__(IMU_ADDRESS, ACCEL_ZOUT_H) - self.acceleration_offset_z
 
     def read_gyroscope_data(self):
-        self.gyroscope_x = self.__read_word__(GYRO_XOUT_H) - self.gyroscope_offset_x
-        self.gyroscope_y = self.__read_word__(GYRO_YOUT_H) - self.gyroscope_offset_y
-        self.gyroscope_z = self.__read_word__(GYRO_ZOUT_H) - self.gyroscope_offset_z
+        self.gyroscope_x = self.__read_word__(IMU_ADDRESS, GYRO_XOUT_H) - self.gyroscope_offset_x
+        self.gyroscope_y = self.__read_word__(IMU_ADDRESS, GYRO_YOUT_H) - self.gyroscope_offset_y
+        self.gyroscope_z = self.__read_word__(IMU_ADDRESS, GYRO_ZOUT_H) - self.gyroscope_offset_z
 
         current_read_time = time.time()
 
@@ -229,12 +229,12 @@ class ImuDevice:
         self.last_gyroscope_read_time = current_read_time
 
     def read_magnetometer_data(self):
-        self.magnetometer_x = self.__read_word__(AK8963_HXL) - self.magnetometer_offset_x
-        self.magnetometer_y = self.__read_word__(AK8963_HYL) - self.magnetometer_offset_y
-        self.magnetometer_z = self.__read_word__(AK8963_HZL) - self.magnetometer_offset_z
+        self.magnetometer_x = self.__read_word__(MAG_ADDRESS, AK8963_HXL) - self.magnetometer_offset_x
+        self.magnetometer_y = self.__read_word__(MAG_ADDRESS, AK8963_HYL) - self.magnetometer_offset_y
+        self.magnetometer_z = self.__read_word__(MAG_ADDRESS, AK8963_HZL) - self.magnetometer_offset_z
         
         # Read Status 2 register to trigger next reading
-        self.i2c_device.read_byte(AK8963_ST2)
+        self.i2c_device.read_byte(MAG_ADDRESS, AK8963_ST2)
 
     def correct_gyroscope_data(self):
 
