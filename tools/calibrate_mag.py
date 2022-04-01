@@ -4,7 +4,7 @@ import imu
 import time
 
 CALIBRATION_DURATION          = 30
-TRIAL_DURATION                = 15
+TRIAL_DURATION                = 30
 PROGRESS_INDICATION_STEP_IN_S = 1
 
 SETUP_FILE = "imu_calibration.yaml"
@@ -63,17 +63,17 @@ def main():
 
         if   x_magnetometer_measure < x_magnetometer_min:
              x_magnetometer_min     = x_magnetometer_measure
-        elif x_magnetometer_measure > x_magnetometer_max:
+        if x_magnetometer_measure > x_magnetometer_max:
              x_magnetometer_max     = x_magnetometer_measure
 
         if   y_magnetometer_measure < y_magnetometer_min:
              y_magnetometer_min     = y_magnetometer_measure
-        elif y_magnetometer_measure > y_magnetometer_max:
+        if y_magnetometer_measure > y_magnetometer_max:
              y_magnetometer_max     = y_magnetometer_measure
 
         if   z_magnetometer_measure < z_magnetometer_min:
              z_magnetometer_min     = z_magnetometer_measure
-        elif z_magnetometer_measure > z_magnetometer_max:
+        if z_magnetometer_measure > z_magnetometer_max:
              z_magnetometer_max     = z_magnetometer_measure
 
         # Refresh rate is 100Hz, so let's wait for 10ms
@@ -87,9 +87,13 @@ def main():
 
     average_range = (x_magnetometer_range + y_magnetometer_range + z_magnetometer_range) / 3.0
 
-    imu_device.set_x_magnetometer_scale(average_range / x_magnetometer_range)
-    imu_device.set_y_magnetometer_scale(average_range / y_magnetometer_range)
-    imu_device.set_z_magnetometer_scale(average_range / z_magnetometer_range)
+    x_magnetometer_scale = average_range / x_magnetometer_range
+    y_magnetometer_scale = average_range / y_magnetometer_range
+    z_magnetometer_scale = average_range / z_magnetometer_range
+
+    imu_device.set_x_magnetometer_scale(x_magnetometer_scale)
+    imu_device.set_y_magnetometer_scale(y_magnetometer_scale)
+    imu_device.set_z_magnetometer_scale(z_magnetometer_scale)
 
     x_magnetometer_offset = int((x_magnetometer_min + x_magnetometer_max) / 2.0)
     y_magnetometer_offset = int((y_magnetometer_min + y_magnetometer_max) / 2.0)
@@ -122,6 +126,10 @@ def main():
     setup_data['mpu9250driver']['ros__parameters']['magnetometer_x_offset'] = x_magnetometer_offset
     setup_data['mpu9250driver']['ros__parameters']['magnetometer_y_offset'] = y_magnetometer_offset
     setup_data['mpu9250driver']['ros__parameters']['magnetometer_z_offset'] = z_magnetometer_offset
+
+    setup_data['mpu9250driver']['ros__parameters']['magnetometer_x_scale'] = x_magnetometer_scale
+    setup_data['mpu9250driver']['ros__parameters']['magnetometer_y_scale'] = y_magnetometer_scale
+    setup_data['mpu9250driver']['ros__parameters']['magnetometer_z_scale'] = z_magnetometer_scale
 
     with open(SETUP_FILE, 'w') as yaml_file:
         yaml.dump(setup_data, yaml_file)

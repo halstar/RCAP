@@ -145,7 +145,7 @@ class ImuDevice:
 
     def __get_z_rotation__(self):
         radians = math.atan2(-self.get_y_magnetometer_scaled(), self.get_x_magnetometer_scaled())
-        return math.degrees(radians)
+        return math.degrees(radians) + 180 
 
     def reset(self):
         self.i2c_device.write_byte(IMU_ADDRESS, PWR_MGMT_1, 0x81)
@@ -237,9 +237,9 @@ class ImuDevice:
         self.last_gyroscope_read_time = current_read_time
 
     def read_magnetometer_data(self):
-        self.magnetometer_x = self.__read_word__(MAG_ADDRESS, AK8963_HXL) - self.magnetometer_offset_x
-        self.magnetometer_y = self.__read_word__(MAG_ADDRESS, AK8963_HYL) - self.magnetometer_offset_y
-        self.magnetometer_z = self.__read_word__(MAG_ADDRESS, AK8963_HZL) - self.magnetometer_offset_z
+        self.magnetometer_x = self.__read_word__(MAG_ADDRESS, AK8963_HXL, False) - self.magnetometer_offset_x
+        self.magnetometer_y = self.__read_word__(MAG_ADDRESS, AK8963_HYL, False) - self.magnetometer_offset_y
+        self.magnetometer_z = self.__read_word__(MAG_ADDRESS, AK8963_HZL, False) - self.magnetometer_offset_z
        
         # Read Status 2 register to trigger next reading
         self.i2c_device.read_byte(MAG_ADDRESS, AK8963_ST2)
@@ -449,9 +449,10 @@ class ImuDevice:
         print("X / Y / Z acceleration offsets       : {} / {} / {}".format(self.acceleration_offset_x       , self.acceleration_offset_y       , self.acceleration_offset_z       ))
         print("X / Y / Z gyroscope    offsets       : {} / {} / {}".format(self.gyroscope_offset_x          , self.gyroscope_offset_y          , self.gyroscope_offset_z          ))
         print("X / Y / Z gyroscope drift corrections: {} / {} / {}".format(self.gyroscope_drift_correction_x, self.gyroscope_drift_correction_y, self.gyroscope_drift_correction_z))
-        print("X / Y / Z magnetometer scales        : {} / {} / {}".format(self.magnetometer_scale_x        , self.magnetometer_scale_y        , self.magnetometer_scale_z        ))
         print("X / Y / Z magnetometer offsets       : {} / {} / {}".format(self.magnetometer_offset_x       , self.magnetometer_offset_y       , self.magnetometer_offset_z       ))
-        print("X / Y / Z magnetometer adjustments   : {} / {} / {}".format(self.magnetometer_adjustment_x   , self.magnetometer_adjustment_y   , self.magnetometer_adjustment_z   ))
+        print("")
+        print("X / Y / Z magnetometer scales     : {:6.2f} / {:6.2f} / {:6.2f}".format(self.magnetometer_scale_x        , self.magnetometer_scale_y        , self.magnetometer_scale_z        ))
+        print("X / Y / Z magnetometer adjustments: {:6.2f} / {:6.2f} / {:6.2f}".format(self.magnetometer_adjustment_x   , self.magnetometer_adjustment_y   , self.magnetometer_adjustment_z   ))
 
         self.read_acceleration_data()
         self.read_gyroscope_data   ()
