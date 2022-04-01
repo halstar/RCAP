@@ -72,6 +72,10 @@ class ImuDevice:
         self.gyroscope_drift_correction_y = 0
         self.gyroscope_drift_correction_z = 0
 
+        self.magnetometer_scale_x = 1.0
+        self.magnetometer_scale_y = 1.0
+        self.magnetometer_scale_z = 1.0   
+
         self.magnetometer_offset_x = 0
         self.magnetometer_offset_y = 0
         self.magnetometer_offset_z = 0   
@@ -170,6 +174,10 @@ class ImuDevice:
         self.gyroscope_drift_correction_x = 0
         self.gyroscope_drift_correction_y = 0
         self.gyroscope_drift_correction_z = 0
+
+        self.magnetometer_scale_x = 1.0
+        self.magnetometer_scale_y = 1.0
+        self.magnetometer_scale_z = 1.0
 
         self.magnetometer_offset_x = 0
         self.magnetometer_offset_y = 0
@@ -292,13 +300,13 @@ class ImuDevice:
         return self.gyroscope_z / GYROSCOPE_SCALE_FACTOR
 
     def get_x_magnetometer_scaled(self):
-        return self.magnetometer_x * self.magnetometer_adjustment_x * self.magnetometer_resolution
+        return self.magnetometer_x * self.magnetometer_adjustment_x * self.magnetometer_resolution * self.magnetometer_scale_x
 
     def get_y_magnetometer_scaled(self):
-        return self.magnetometer_y * self.magnetometer_adjustment_y * self.magnetometer_resolution
+        return self.magnetometer_y * self.magnetometer_adjustment_y * self.magnetometer_resolution * self.magnetometer_scale_y
 
     def get_z_magnetometer_scaled(self):
-        return self.magnetometer_z * self.magnetometer_adjustment_z * self.magnetometer_resolution
+        return self.magnetometer_z * self.magnetometer_adjustment_z * self.magnetometer_resolution * self.magnetometer_scale_z
 
     def compute_angles(self):
         self.roll  = self.__get_x_rotation__()
@@ -364,6 +372,24 @@ class ImuDevice:
     def set_z_gyroscope_drift_correction(self, correction):
         self.gyroscope_drift_correction_z = correction
 
+    def get_x_magnetometer_scale(self):
+        return self.magnetometer_scale_x
+
+    def set_x_magnetometer_scale(self, scale):
+        self.magnetometer_scale_x = scale
+
+    def get_y_magnetometer_scale(self):
+        return self.magnetometer_scale_y
+
+    def set_y_magnetometer_scale(self, scale):
+        self.magnetometer_scale_y = scale
+
+    def get_z_magnetometer_scale(self):
+        return self.magnetometer_scale_z
+
+    def set_z_magnetometer_scale(self, scale):
+        self.magnetometer_scale_z = scale
+
     def get_x_magnetometer_offset(self):
         return self.magnetometer_offset_x
 
@@ -423,6 +449,7 @@ class ImuDevice:
         print("X / Y / Z acceleration offsets       : {} / {} / {}".format(self.acceleration_offset_x       , self.acceleration_offset_y       , self.acceleration_offset_z       ))
         print("X / Y / Z gyroscope    offsets       : {} / {} / {}".format(self.gyroscope_offset_x          , self.gyroscope_offset_y          , self.gyroscope_offset_z          ))
         print("X / Y / Z gyroscope drift corrections: {} / {} / {}".format(self.gyroscope_drift_correction_x, self.gyroscope_drift_correction_y, self.gyroscope_drift_correction_z))
+        print("X / Y / Z magnetometer scales        : {} / {} / {}".format(self.magnetometer_scale_x        , self.magnetometer_scale_y        , self.magnetometer_scale_z        ))
         print("X / Y / Z magnetometer offsets       : {} / {} / {}".format(self.magnetometer_offset_x       , self.magnetometer_offset_y       , self.magnetometer_offset_z       ))
         print("X / Y / Z magnetometer adjustments   : {} / {} / {}".format(self.magnetometer_adjustment_x   , self.magnetometer_adjustment_y   , self.magnetometer_adjustment_z   ))
 

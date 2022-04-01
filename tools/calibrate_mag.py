@@ -81,9 +81,19 @@ def main():
 
     print('')
 
-    x_magnetometer_offset = int((x_magnetometer_min + x_magnetometer_max) / 2)
-    y_magnetometer_offset = int((y_magnetometer_min + y_magnetometer_max) / 2)
-    z_magnetometer_offset = int((z_magnetometer_min + z_magnetometer_max) / 2)
+    x_magnetometer_range = (x_magnetometer_max - x_magnetometer_min) / 2.0
+    y_magnetometer_range = (y_magnetometer_max - y_magnetometer_min) / 2.0
+    z_magnetometer_range = (z_magnetometer_max - z_magnetometer_min) / 2.0
+
+    average_range = (x_magnetometer_range + y_magnetometer_range + z_magnetometer_range) / 3.0
+
+    imu_device.set_x_magnetometer_scale(average_range / x_magnetometer_range)
+    imu_device.set_y_magnetometer_scale(average_range / y_magnetometer_range)
+    imu_device.set_z_magnetometer_scale(average_range / z_magnetometer_range)
+
+    x_magnetometer_offset = int((x_magnetometer_min + x_magnetometer_max) / 2.0)
+    y_magnetometer_offset = int((y_magnetometer_min + y_magnetometer_max) / 2.0)
+    z_magnetometer_offset = int((z_magnetometer_min + z_magnetometer_max) / 2.0)
 
     imu_device.set_x_magnetometer_offset(x_magnetometer_offset)
     imu_device.set_y_magnetometer_offset(y_magnetometer_offset)
