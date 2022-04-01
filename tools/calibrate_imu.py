@@ -25,8 +25,9 @@ def main():
 
     imu_device = imu.ImuDevice()
 
-    imu_device.reset        ()
-    imu_device.reset_offsets()
+    imu_device.reset             ()
+    imu_device.reset_offsets     ()
+    imu_device.setup_magnetometer()
 
     imu_device.print_info()
 

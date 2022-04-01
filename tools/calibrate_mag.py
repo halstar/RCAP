@@ -25,9 +25,9 @@ def main():
 
     imu_device = imu.ImuDevice()
 
-    imu_device.reset        ()
-    imu_device.reset_offsets()
-    imu_device.set_magnetometer_factory_data()
+    imu_device.reset             ()
+    imu_device.reset_offsets     ()
+    imu_device.setup_magnetometer()
 
     imu_device.print_info()
 
@@ -43,6 +43,9 @@ def main():
     y_magnetometer_max = -32667
     z_magnetometer_max = -32667
 
+    print('')
+    print('Please move magnetometer on all axis for {}s '.format(CALIBRATION_DURATION), end = '', flush = True)
+
     start_time    = time.time()
     progress_time = time.time()
 
@@ -55,8 +58,8 @@ def main():
         imu_device.read_magnetometer_data()
 
         x_magnetometer_measure = imu_device.get_x_magnetometer()
-        y_acceleration_measure = imu_device.get_y_magnetometer()
-        z_acceleration_measure = imu_device.get_z_magnetometer()
+        y_magnetometer_measure = imu_device.get_y_magnetometer()
+        z_magnetometer_measure = imu_device.get_z_magnetometer()
 
         if   x_magnetometer_measure < x_magnetometer_min:
              x_magnetometer_min     = x_magnetometer_measure
@@ -89,19 +92,19 @@ def main():
     print('')
     imu_device.print_info()
 
+    print('')
+    print('Now you can check calibration result for {}s '.format(TRIAL_DURATION), end = '', flush = True)
+    print('')
+
     i             = 0
     start_time    = time.time()
     progress_time = time.time()
-
-    x_gyroscope_measure = 0
-    y_gyroscope_measure = 0
-    z_gyroscope_measure = 0
 
     while time.time() - start_time < TRIAL_DURATION:
 
         imu_device.read_magnetometer_data()
         imu_device.compute_angles        ()
-        print(imu_device.get_yaw(), end = '\r', flush = True)
+        print('Yaw = {:6.2f}'.format(imu_device.get_yaw()), end = '\r', flush = True)
         time.sleep(0.1)
 
     print('')

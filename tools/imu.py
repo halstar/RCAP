@@ -179,7 +179,7 @@ class ImuDevice:
         self.magnetometer_adjustment_y = 0
         self.magnetometer_adjustment_z = 0 
 
-    def set_magnetometer_factory_data(self):
+    def setup_magnetometer(self):
 
         # BYPASS_EN enable
         self.i2c_device.write_byte(IMU_ADDRESS, INT_PIN_CFG, 0x02) 
@@ -232,7 +232,7 @@ class ImuDevice:
         self.magnetometer_x = self.__read_word__(MAG_ADDRESS, AK8963_HXL) - self.magnetometer_offset_x
         self.magnetometer_y = self.__read_word__(MAG_ADDRESS, AK8963_HYL) - self.magnetometer_offset_y
         self.magnetometer_z = self.__read_word__(MAG_ADDRESS, AK8963_HZL) - self.magnetometer_offset_z
-        
+       
         # Read Status 2 register to trigger next reading
         self.i2c_device.read_byte(MAG_ADDRESS, AK8963_ST2)
 
