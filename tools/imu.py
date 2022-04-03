@@ -43,7 +43,6 @@ AK8963_ASAZ  = 0x12
 ACCELERATION_SCALE_FACTOR = 16384.0
 GYROSCOPE_SCALE_FACTOR    =   131.0
 
-
 class ImuDevice:
 
     def __init__(self):

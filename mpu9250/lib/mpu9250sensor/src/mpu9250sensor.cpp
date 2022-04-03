@@ -11,211 +11,157 @@ extern "C" {
 MPU9250Sensor::MPU9250Sensor(std::unique_ptr<I2cCommunicator> i2cBus) : i2cBus_(std::move(i2cBus))
 {
   initImuI2c();
+
   // Wake up sensor
   int result = i2cBus_->write(PWR_MGMT_1, 0);
+
+  // Disable I2C master interface
+  result = i2cBus_->write(MPU9250_USER_CTRL, 0x00);
   // Enable bypass mode for magnetometer
-  enableBypassMode();
+  result = i2cBus_->write(MPU9250_BYPASS_ADDR, 0x02);
+
   // Set magnetometer to 100 Hz continuous measurement mode
-  setContinuousMeasurementMode100Hz();
-  // Read current ranges from sensor
-  readGyroscopeRange();
-  readAccelerometerRange();
-  readDlpfConfig();
+  initMagnI2c();
+
+  result = i2cBus_->write(MAG_MEAS_MODE, 0x00);
+  std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+  result = i2cBus_->write(MAG_MEAS_MODE, FUSE_ROM_ACCESS_MODE);
+  std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+  mag_asax = (i2cBus_->read(0x10) - 128) * 0.5 / 128 + 1;
+  mag_asay = (i2cBus_->read(0x11) - 128) * 0.5 / 128 + 1;
+  mag_asaz = (i2cBus_->read(0x12) - 128) * 0.5 / 128 + 1;
+
+  result = i2cBus_->write(MAG_MEAS_MODE, 0x00);
+  std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+  result = i2cBus_->write(MAG_MEAS_MODE, 0x16);
+  std::this_thread::sleep_for(std::chrono::milliseconds(100));
+  initImuI2c();
+
+  return;
 }
 
 void MPU9250Sensor::initImuI2c() const
 {
-  if (ioctl(i2cBus_->getFile(), I2C_SLAVE, MPU9250_ADDRESS_DEFAULT) < 0) {
-    std::cerr << "Failed to find device address! Check device address!";
+  if (ioctl(i2cBus_->getFile(), I2C_SLAVE, MPU9250_ADDRESS_DEFAULT) < 0)
+  {
+    std::cerr << "Failed to select IMU device";
     exit(1);
   }
+
+  return;
 }
 
 void MPU9250Sensor::initMagnI2c() const
 {
-  if (ioctl(i2cBus_->getFile(), I2C_SLAVE, AK8963_ADDRESS_DEFAULT) < 0) {
-    std::cerr << "Failed to find device address! Check device address!";
+  if (ioctl(i2cBus_->getFile(), I2C_SLAVE, AK8963_ADDRESS_DEFAULT) < 0)
+  {
+    std::cerr << "Failed to select magnetometer device";
     exit(1);
   }
-}
 
-void MPU9250Sensor::printConfig() const
-{
-  std::cout << "Accelerometer Range: +-" << accel_range_ << "g\n";
-  std::cout << "Gyroscope Range: +-" << gyro_range_ << " degree per sec\n";
-  std::cout << "DLPF Range: " << dlpf_range_ << " Hz\n";
-}
-
-void MPU9250Sensor::printOffsets() const
-{
-  std::cout << "Accelerometer Offsets: x: " << accel_x_offset_ << ", y: " << accel_y_offset_
-            << ", z: " << accel_z_offset_ << "\n";
-  std::cout << "Gyroscope Offsets: x: " << gyro_x_offset_ << ", y: " << gyro_y_offset_
-            << ", z: " << gyro_z_offset_ << "\n";
-}
-
-void MPU9250Sensor::setContinuousMeasurementMode100Hz()
-{
-  initMagnI2c();
-
-  resolution = 4912.0 / 32760.0;
-
-  int result = i2cBus_->write(MAGN_MEAS_MODE, 0x00);
-  std::this_thread::sleep_for(std::chrono::milliseconds(100));
-
-  result = i2cBus_->write(MAGN_MEAS_MODE, FUSE_ROM_ACCESS_MODE);
-  std::this_thread::sleep_for(std::chrono::milliseconds(100));
-
-  magn_asax = (i2cBus_->read(0x10) - 128) * 0.5 / 128 + 1;
-  magn_asay = (i2cBus_->read(0x11) - 128) * 0.5 / 128 + 1;
-  magn_asaz = (i2cBus_->read(0x12) - 128) * 0.5 / 128 + 1;
-
-  result = i2cBus_->write(MAGN_MEAS_MODE, 0x00);
-  std::this_thread::sleep_for(std::chrono::milliseconds(100));
-
-  result = i2cBus_->write(MAGN_MEAS_MODE, 0x16);
-  std::this_thread::sleep_for(std::chrono::milliseconds(100));
-  initImuI2c();
-}
-
-void MPU9250Sensor::enableBypassMode()
-{
-  // Disable I2C master interface
-  int result = i2cBus_->write(MPU9250_USER_CTRL, 0x00);
-  // Enable bypass mode
-  result = i2cBus_->write(MPU9250_BYPASS_ADDR, 0x02);
-}
-
-int MPU9250Sensor::readGyroscopeRange()
-{
-  int range = i2cBus_->read(GYRO_CONFIG);
-  range = range >> GYRO_CONFIG_SHIFT;
-  gyro_range_ = GYRO_RANGES[range];
-  return gyro_range_;
-}
-
-int MPU9250Sensor::readAccelerometerRange()
-{
-  int range = i2cBus_->read(ACCEL_CONFIG);
-  range = range >> ACCEL_CONFIG_SHIFT;
-  accel_range_ = ACCEL_RANGES[range];
-  return accel_range_;
-}
-
-int MPU9250Sensor::readDlpfConfig()
-{
-  int range = i2cBus_->read(DLPF_CONFIG);
-  range = range & 7;  // Read only first 3 bits
-  dlpf_range_ = DLPF_RANGES[range];
-  return dlpf_range_;
-}
-
-void MPU9250Sensor::setGyroscopeRange(MPU9250Sensor::GyroRange range)
-{
-  int result = i2cBus_->write(GYRO_CONFIG, range << GYRO_CONFIG_SHIFT);
-  gyro_range_ = GYRO_RANGES[static_cast<size_t>(range)];
-}
-
-void MPU9250Sensor::setAccelerometerRange(MPU9250Sensor::AccelRange range)
-{
-  int result = i2cBus_->write(ACCEL_CONFIG, range << ACCEL_CONFIG_SHIFT);
-  accel_range_ = ACCEL_RANGES[static_cast<size_t>(range)];
-}
-
-void MPU9250Sensor::setDlpfBandwidth(DlpfBandwidth bandwidth)
-{
-  int result = i2cBus_->write(DLPF_CONFIG, bandwidth);
-  dlpf_range_ = DLPF_RANGES[static_cast<size_t>(bandwidth)];
+  return;
 }
 
 double MPU9250Sensor::getAccelerationX() const
 {
   int16_t accel_x_msb = i2cBus_->read(ACCEL_XOUT_H);
   int16_t accel_x_lsb = i2cBus_->read(ACCEL_XOUT_H + 1);
-  int16_t accel_x = accel_x_lsb | accel_x_msb << 8;
-  double accel_x_converted = convertRawAccelerometerData(accel_x - accel_x_offset_);
-  return accel_x_converted;
+  int16_t accel_x     = accel_x_lsb | accel_x_msb << 8;
+  double accel_x_conv = convertRawAccelerometerData(accel_x - accel_x_offset_);
+
+  return accel_x_conv;
 }
 
 double MPU9250Sensor::getAccelerationY() const
 {
   int16_t accel_y_msb = i2cBus_->read(ACCEL_YOUT_H);
   int16_t accel_y_lsb = i2cBus_->read(ACCEL_YOUT_H + 1);
-  int16_t accel_y = accel_y_lsb | accel_y_msb << 8;
-  double accel_y_converted = convertRawAccelerometerData(accel_y - accel_y_offset_);
-  return accel_y_converted;
+  int16_t accel_y     = accel_y_lsb | accel_y_msb << 8;
+  double accel_y_conv = convertRawAccelerometerData(accel_y - accel_y_offset_);
+
+  return accel_y_conv;
 }
 
 double MPU9250Sensor::getAccelerationZ() const
 {
   int16_t accel_z_msb = i2cBus_->read(ACCEL_ZOUT_H);
   int16_t accel_z_lsb = i2cBus_->read(ACCEL_ZOUT_H + 1);
-  int16_t accel_z = accel_z_lsb | accel_z_msb << 8;
-  double accel_z_converted = convertRawAccelerometerData(accel_z - accel_z_offset_);
-  return accel_z_converted;
+  int16_t accel_z     = accel_z_lsb | accel_z_msb << 8;
+  double accel_z_conv = convertRawAccelerometerData(accel_z - accel_z_offset_);
+
+  return accel_z_conv;
 }
 
 double MPU9250Sensor::getAngularVelocityX() const
 {
   int16_t gyro_x_msb = i2cBus_->read(GYRO_XOUT_H);
   int16_t gyro_x_lsb = i2cBus_->read(GYRO_XOUT_H + 1);
-  int16_t gyro_x = gyro_x_lsb | gyro_x_msb << 8;
-  double gyro_x_converted = convertRawGyroscopeData(gyro_x - gyro_x_offset_);
-  return gyro_x_converted;
+  int16_t gyro_x     = gyro_x_lsb | gyro_x_msb << 8;
+  double gyro_x_conv = convertRawGyroscopeData(gyro_x - gyro_x_offset_);
+
+  return gyro_x_conv;
 }
 
 double MPU9250Sensor::getAngularVelocityY() const
 {
   int16_t gyro_y_msb = i2cBus_->read(GYRO_YOUT_H);
   int16_t gyro_y_lsb = i2cBus_->read(GYRO_YOUT_H + 1);
-  int16_t gyro_y = gyro_y_lsb | gyro_y_msb << 8;
-  double gyro_y_converted = convertRawGyroscopeData(gyro_y - gyro_y_offset_);
-  return gyro_y_converted;
+  int16_t gyro_y     = gyro_y_lsb | gyro_y_msb << 8;
+  double gyro_y_conv = convertRawGyroscopeData(gyro_y - gyro_y_offset_);
+
+  return gyro_y_conv;
 }
 
 double MPU9250Sensor::getAngularVelocityZ() const
 {
   int16_t gyro_z_msb = i2cBus_->read(GYRO_ZOUT_H);
   int16_t gyro_z_lsb = i2cBus_->read(GYRO_ZOUT_H + 1);
-  int16_t gyro_z = gyro_z_lsb | gyro_z_msb << 8;
-  double gyro_z_converted = convertRawGyroscopeData(gyro_z - gyro_z_offset_);
-  return gyro_z_converted;
+  int16_t gyro_z     = gyro_z_lsb | gyro_z_msb << 8;
+  double gyro_z_conv = convertRawGyroscopeData(gyro_z - gyro_z_offset_);
+
+  return gyro_z_conv;
 }
 
 double MPU9250Sensor::getMagneticFluxDensityX() const
 {
   initMagnI2c();
-  int16_t magn_flux_x_msb = i2cBus_->read(MAGN_XOUT_L + 1);
-  int16_t magn_flux_x_lsb = i2cBus_->read(MAGN_XOUT_L);
-  int16_t magn_flux_x = magn_flux_x_lsb | magn_flux_x_msb << 8;
-  double magn_flux_x_converted = convertRawMagnetometerData(magn_flux_x);
+  int16_t mag_x_msb = i2cBus_->read(MAG_XOUT_L + 1);
+  int16_t mag_x_lsb = i2cBus_->read(MAG_XOUT_L);
+  int16_t mag_x     = mag_x_lsb | mag_x_msb << 8;
+  double mag_x_conv = convertRawMagnetometerData(mag_x - mag_x_offset_);
   initImuI2c();
-  return magn_flux_x_converted * magn_asax * resolution;
+
+  return mag_x_conv * mag_asax * mag_x_scale_;
 }
 
 double MPU9250Sensor::getMagneticFluxDensityY() const
 {
   initMagnI2c();
-  int16_t magn_flux_y_msb = i2cBus_->read(MAGN_YOUT_L + 1);
-  int16_t magn_flux_y_lsb = i2cBus_->read(MAGN_YOUT_L);
-  int16_t magn_flux_y = magn_flux_y_lsb | magn_flux_y_msb << 8;
-  double magn_flux_y_converted = convertRawMagnetometerData(magn_flux_y);
+  int16_t mag_y_msb = i2cBus_->read(MAG_YOUT_L + 1);
+  int16_t mag_y_lsb = i2cBus_->read(MAG_YOUT_L);
+  int16_t mag_y     = mag_y_lsb | mag_y_msb << 8;
+  double mag_y_conv = convertRawMagnetometerData(mag_y - mag_y_offset_);
   initImuI2c();
-  return magn_flux_y_converted * magn_asay * resolution;
+
+  return mag_y_conv * mag_asay * mag_y_scale_;
 }
 
 double MPU9250Sensor::getMagneticFluxDensityZ() const
 {
   initMagnI2c();
-  int16_t magn_flux_z_msb = i2cBus_->read(MAGN_ZOUT_L + 1);
-  int16_t magn_flux_z_lsb = i2cBus_->read(MAGN_ZOUT_L);
-  int16_t magn_flux_z = magn_flux_z_lsb | magn_flux_z_msb << 8;
-  double magn_flux_z_converted = convertRawMagnetometerData(magn_flux_z);
+  int16_t mag_z_msb = i2cBus_->read(MAG_ZOUT_L + 1);
+  int16_t mag_z_lsb = i2cBus_->read(MAG_ZOUT_L);
+  int16_t mag_z     = mag_z_lsb | mag_z_msb << 8;
+  double mag_z_conv = convertRawMagnetometerData(mag_z - mag_z_offset_);
   initImuI2c();
-  return magn_flux_z_converted * magn_asaz * resolution;
+
+  return mag_z_conv * mag_asaz * mag_z_scale_;
 }
 
-void MPU9250Sensor::readStatus2() const
+void MPU9250Sensor::triggerNextMagReading() const
 {
   initMagnI2c();
   int8_t status2 = i2cBus_->read(STATUS_2);
@@ -225,37 +171,54 @@ void MPU9250Sensor::readStatus2() const
 
 double MPU9250Sensor::convertRawGyroscopeData(int16_t gyro_raw) const
 {
-  const double ang_vel_in_deg_per_s = static_cast<double>(gyro_raw) / GYRO_SENS_MAP.at(gyro_range_);
+  const double ang_vel_in_deg_per_s = static_cast<double>(gyro_raw) / GYRO_SCALE_FACTOR;
   return ang_vel_in_deg_per_s;
 }
 
-double MPU9250Sensor::convertRawMagnetometerData(int16_t flux_raw) const
+double MPU9250Sensor::convertRawMagnetometerData(int16_t mag_raw) const
 {
-  const double magn_flux_in_mu_tesla =
-      static_cast<double>(flux_raw) * MAX_CONV_MAGN_FLUX / MAX_RAW_MAGN_FLUX;
-  return magn_flux_in_mu_tesla;
+  const double mag_in_mu_tesla = static_cast<double>(mag_raw) * MAX_CONV_MAG_FLUX / MAX_RAW_MAG_FLUX;
+  return mag_in_mu_tesla;
 }
 
 double MPU9250Sensor::convertRawAccelerometerData(int16_t accel_raw) const
 {
-  const double accel_in_m_per_s =
-      static_cast<double>(accel_raw) / ACCEL_SENS_MAP.at(accel_range_) * GRAVITY;
+  const double accel_in_m_per_s = static_cast<double>(accel_raw) / ACCEL_SCALE_FACTOR * GRAVITY;
   return accel_in_m_per_s;
 }
 
-void MPU9250Sensor::setGyroscopeOffset(double gyro_x_offset, double gyro_y_offset,
-                                       double gyro_z_offset)
+void MPU9250Sensor::setGyroscopeOffset(double gyro_x_offset, double gyro_y_offset, double gyro_z_offset)
 {
   gyro_x_offset_ = gyro_x_offset;
   gyro_y_offset_ = gyro_y_offset;
   gyro_z_offset_ = gyro_z_offset;
+
+  return;
 }
 
-void MPU9250Sensor::setAccelerometerOffset(double accel_x_offset, double accel_y_offset,
-                                           double accel_z_offset)
+void MPU9250Sensor::setAccelerometerOffset(double accel_x_offset, double accel_y_offset, double accel_z_offset)
 {
   accel_x_offset_ = accel_x_offset;
   accel_y_offset_ = accel_y_offset;
   accel_z_offset_ = accel_z_offset;
+
+  return;
 }
 
+void MPU9250Sensor::setMagnetometerOffset (double mag_x_offset, double mag_y_offset, double mag_z_offset)
+{
+  mag_x_offset_ = mag_x_offset;
+  mag_y_offset_ = mag_y_offset;
+  mag_z_offset_ = mag_z_offset;
+
+  return;
+}
+
+void MPU9250Sensor::setMagnetometerScale  (double mag_x_scale, double mag_y_scale, double mag_z_scale)
+{
+  mag_x_scale_ = mag_x_scale;
+  mag_y_scale_ = mag_y_scale;
+  mag_z_scale_ = mag_z_scale;
+
+  return;
+}
