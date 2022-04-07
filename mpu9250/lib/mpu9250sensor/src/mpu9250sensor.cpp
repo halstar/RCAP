@@ -165,6 +165,7 @@ void MPU9250Sensor::triggerNextMagReading() const
 {
   initMagnI2c();
   int8_t status2 = i2cBus_->read(STATUS_2);
+  initImuI2c();
 
   return;
 }

@@ -66,18 +66,18 @@ void MPU9250Driver::handleInput()
 
 void MPU9250Driver::declareParameters()
 {
-  this->declare_parameter<int>("gyroscope_x_offset"   , 0);
-  this->declare_parameter<int>("gyroscope_y_offset"   , 0);
-  this->declare_parameter<int>("gyroscope_z_offset"   , 0);
-  this->declare_parameter<int>("acceleration_x_offset", 0);
-  this->declare_parameter<int>("acceleration_y_offset", 0);
-  this->declare_parameter<int>("acceleration_z_offset", 0);
-  this->declare_parameter<int>("magnometer_x_offset"  , 0);
-  this->declare_parameter<int>("magnometer_y_offset"  , 0);
-  this->declare_parameter<int>("magnometer_z_offset"  , 0);
-  this->declare_parameter<int>("magnometer_x_scale"   , 0);
-  this->declare_parameter<int>("magnometer_y_scale"   , 0);
-  this->declare_parameter<int>("magnometer_z_scale"   , 0);
+  this->declare_parameter<int>   ("gyroscope_x_offset"   , 0);
+  this->declare_parameter<int>   ("gyroscope_y_offset"   , 0);
+  this->declare_parameter<int>   ("gyroscope_z_offset"   , 0);
+  this->declare_parameter<int>   ("acceleration_x_offset", 0);
+  this->declare_parameter<int>   ("acceleration_y_offset", 0);
+  this->declare_parameter<int>   ("acceleration_z_offset", 0);
+  this->declare_parameter<int>   ("magnetometer_x_offset", 0);
+  this->declare_parameter<int>   ("magnetometer_y_offset", 0);
+  this->declare_parameter<int>   ("magnetometer_z_offset", 0);
+  this->declare_parameter<double>("magnetometer_x_scale" , 0);
+  this->declare_parameter<double>("magnetometer_y_scale" , 0);
+  this->declare_parameter<double>("magnetometer_z_scale" , 0);
 
   return;
 }
