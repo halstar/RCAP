@@ -4,22 +4,19 @@ from launch_ros.actions import Node
 
 import os
 
-
 def generate_launch_description():
-    ld = LaunchDescription()
 
-    config = os.path.join(
-        get_package_share_directory('mpu9250driver'),
-        'config',
-        'imu_calibration.yaml'
-        )
+    config_path = os.path.join(get_package_share_directory('mpu9250driver'), 'config', 'imu_calibration.yaml')
 
-    mpu9250driver_node = Node(
-        package='mpu9250driver',
-        executable='mpu9250driver',
-        name='mpu9250driver',
-        parameters=[config]
+    mpu9250driver = launch_ros.actions.Node(
+        package    = 'mpu9250driver',
+        executable = 'mpu9250driver',
+        name       = 'mpu9250driver',
+        parameters = [config_path]
     )
 
     ld.add_action(mpu9250driver_node)
-    return ld
+    
+    return launch.LaunchDescription([
+        mpu9250driver
+    ])
