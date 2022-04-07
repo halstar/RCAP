@@ -1,4 +1,4 @@
-#include "LinuxI2cCommunicator.h"
+#include "I2cCommunicator.h"
 
 extern "C" {
 #include <errno.h>
@@ -12,7 +12,7 @@ extern "C" {
 #include <iostream>
 #include <string>
 
-LinuxI2cCommunicator::LinuxI2cCommunicator(int bus_number)
+I2cCommunicator::I2cCommunicator(int bus_number)
 {
   const std::string filename_ = "/dev/i2c-" + std::to_string(bus_number);
   std::cout << filename_ << std::endl;
@@ -24,25 +24,25 @@ LinuxI2cCommunicator::LinuxI2cCommunicator(int bus_number)
   }
 }
 
-LinuxI2cCommunicator::~LinuxI2cCommunicator() { close(file_); }
+I2cCommunicator::~I2cCommunicator() { close(file_); }
 
-int LinuxI2cCommunicator::read(unsigned char address)
+int I2cCommunicator::read(unsigned char address)
 {
   int result = i2c_smbus_read_byte_data(file_, address);
   if (result < 0) reportError(errno);
   return result;
 }
 
-int LinuxI2cCommunicator::write(unsigned char address, unsigned char value)
+int I2cCommunicator::write(unsigned char address, unsigned char value)
 {
   int result = i2c_smbus_write_byte_data(file_, address, value);
   if (result < 0) reportError(errno);
   return result;
 }
 
-char LinuxI2cCommunicator::getFile() { return file_; }
+char I2cCommunicator::getFile() { return file_; }
 
-void LinuxI2cCommunicator::reportError(int error)
+void I2cCommunicator::reportError(int error)
 {
   std::cerr << "Error! Errno: " << strerror(error);
 }

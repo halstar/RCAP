@@ -3,7 +3,7 @@
 #include <chrono>
 #include <memory>
 
-#include "LinuxI2cCommunicator.h"
+#include "I2cCommunicator.h"
 
 using namespace std::chrono_literals;
 
@@ -12,7 +12,7 @@ MPU9250Driver::MPU9250Driver() : Node("mpu9250driver")
   RCLCPP_INFO(this->get_logger(), "Starting MPU9250Driver Node");
 
   // Create concrete I2C communicator and pass to sensor
-  std::unique_ptr<I2cCommunicator> i2cBus = std::make_unique<LinuxI2cCommunicator>();
+  std::unique_ptr<I2cCommunicator> i2cBus = std::make_unique<I2cCommunicator>();
   mpu9250_ = std::make_unique<MPU9250Sensor>(std::move(i2cBus));
   
   // Declare parameters
@@ -58,7 +58,7 @@ void MPU9250Driver::handleInput()
   
   // Calculate euler angles, convert to quaternion and store in message
   message.orientation_covariance = {0};
-  calculateOrientation(message);
+  computeOrientation(message);
   publisher_->publish (message);
 
   return;
@@ -82,9 +82,8 @@ void MPU9250Driver::declareParameters()
   return;
 }
 
-void MPU9250Driver::calculateOrientation(sensor_msgs::msg::Imu& imu_message)
+void MPU9250Driver::computeOrientation(sensor_msgs::msg::Imu& imu_message)
 {
-  // Calculate Euler angles
   double roll, pitch, yaw, magneticFluxDensityX, magneticFluxDensityY,  magneticFluxDensityZ;
 
   magneticFluxDensityX = mpu9250_->getMagneticFluxDensityX();
