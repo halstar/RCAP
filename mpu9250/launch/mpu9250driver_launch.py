@@ -1,7 +1,6 @@
 from ament_index_python.packages import get_package_share_directory
-from launch import LaunchDescription
-from launch_ros.actions import Node
-
+import launch
+import launch_ros
 import os
 
 def generate_launch_description():
@@ -15,8 +14,6 @@ def generate_launch_description():
         parameters = [config_path]
     )
 
-    ld.add_action(mpu9250driver_node)
-    
     return launch.LaunchDescription([
         mpu9250driver
     ])
