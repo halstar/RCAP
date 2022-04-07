@@ -1,4 +1,4 @@
-#include "mpu9250driver/mpu9250driver.h"
+#include "mpu9250driver.h"
 
 #include <chrono>
 #include <memory>

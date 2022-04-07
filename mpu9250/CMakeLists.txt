@@ -15,17 +15,14 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-# Add internal libs folder
-add_subdirectory(lib)
-
-# find dependencies
+# Find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
 
-add_executable(${PROJECT_NAME} src/mpu9250driver.cpp)
+add_executable(${PROJECT_NAME} src/mpu9250driver.cpp src/mpu9250sensor.cpp src/LinuxI2cCommunicator.cpp)
+target_link_libraries(${PROJECT_NAME} i2c)
 ament_target_dependencies(${PROJECT_NAME} rclcpp sensor_msgs)
-target_link_libraries(${PROJECT_NAME} mpu9250sensor linux_i2c_communicator)
 target_include_directories(
   ${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
                        $<INSTALL_INTERFACE:include>)

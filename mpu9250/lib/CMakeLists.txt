@@ -1,2 +1,0 @@
-add_subdirectory(i2c)
-add_subdirectory(mpu9250sensor)
