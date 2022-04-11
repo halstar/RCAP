@@ -1,0 +1,2 @@
+source;share/mpu9250driver/environment/ament_prefix_path.sh
+source;share/mpu9250driver/environment/path.sh

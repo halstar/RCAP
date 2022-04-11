@@ -1,0 +1,37 @@
+[35m[1mScanning dependencies of target mpu9250sensor[0m
+[ 33%] Built target linux_i2c_communicator
+[ 50%] [32mBuilding CXX object lib/mpu9250sensor/CMakeFiles/mpu9250sensor.dir/src/mpu9250sensor.cpp.o[0m
+[01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:[m[K In constructor ‘[01m[KMPU9250Sensor::MPU9250Sensor(std::unique_ptr<I2cCommunicator>)[m[K’:
+[01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:16:7:[m[K [01;35m[Kwarning: [m[Kvariable ‘[01m[Kresult[m[K’ set but not used [[01;35m[K-Wunused-but-set-variable[m[K]
+   16 |   int [01;35m[Kresult[m[K = i2cBus_->write(PWR_MGMT_1, 0);
+      |       [01;35m[K^~~~~~[m[K
+[01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:[m[K In member function ‘[01m[Kvoid MPU9250Sensor::triggerNextMagReading() const[m[K’:
+[01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:167:10:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kstatus2[m[K’ [[01;35m[K-Wunused-variable[m[K]
+  167 |   int8_t [01;35m[Kstatus2[m[K = i2cBus_->read(STATUS_2);
+      |          [01;35m[K^~~~~~~[m[K
+[ 66%] [32m[1mLinking CXX static library libmpu9250sensor.a[0m
+[ 66%] Built target mpu9250sensor
+[ 83%] [32m[1mLinking CXX executable mpu9250driver[0m
+[100%] Built target mpu9250driver
+-- Install configuration: ""
+-- Installing: /home/stef/RCAP/mpu9250/install/mpu9250driver/lib/mpu9250driver/mpu9250driver
+-- Set runtime path of "/home/stef/RCAP/mpu9250/install/mpu9250driver/lib/mpu9250driver/mpu9250driver" to ""
+-- Up-to-date: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/mpu9250driver//launch
+-- Up-to-date: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/mpu9250driver//launch/mpu9250driver_launch.py
+-- Up-to-date: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/mpu9250driver//config
+-- Up-to-date: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/mpu9250driver//config/imu_calibration.yaml
+-- Up-to-date: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/ament_index/resource_index/package_run_dependencies/mpu9250driver
+-- Up-to-date: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/ament_index/resource_index/parent_prefix_path/mpu9250driver
+-- Up-to-date: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/mpu9250driver/environment/ament_prefix_path.sh
+-- Up-to-date: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/mpu9250driver/environment/ament_prefix_path.dsv
+-- Up-to-date: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/mpu9250driver/environment/path.sh
+-- Up-to-date: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/mpu9250driver/environment/path.dsv
+-- Up-to-date: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/mpu9250driver/local_setup.bash
+-- Up-to-date: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/mpu9250driver/local_setup.sh
+-- Up-to-date: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/mpu9250driver/local_setup.zsh
+-- Up-to-date: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/mpu9250driver/local_setup.dsv
+-- Installing: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/mpu9250driver/package.dsv
+-- Up-to-date: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/ament_index/resource_index/packages/mpu9250driver
+-- Up-to-date: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/mpu9250driver/cmake/mpu9250driverConfig.cmake
+-- Up-to-date: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/mpu9250driver/cmake/mpu9250driverConfig-version.cmake
+-- Up-to-date: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/mpu9250driver/package.xml

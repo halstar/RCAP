@@ -1,0 +1,205 @@
+[0.029s] Invoking command in '/home/stef/RCAP/mpu9250/build/mpu9250driver': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/galactic /usr/bin/cmake /home/stef/RCAP/mpu9250 -DCMAKE_INSTALL_PREFIX=/home/stef/RCAP/mpu9250/install/mpu9250driver
+[0.185s] -- The C compiler identification is GNU 9.3.0
+[0.344s] -- The CXX compiler identification is GNU 9.3.0
+[0.357s] -- Check for working C compiler: /usr/bin/cc
+[0.529s] -- Check for working C compiler: /usr/bin/cc -- works
+[0.532s] -- Detecting C compiler ABI info
+[0.694s] -- Detecting C compiler ABI info - done
+[0.741s] -- Detecting C compile features
+[0.742s] -- Detecting C compile features - done
+[0.750s] -- Check for working CXX compiler: /usr/bin/c++
+[0.945s] -- Check for working CXX compiler: /usr/bin/c++ -- works
+[0.949s] -- Detecting CXX compiler ABI info
+[1.146s] -- Detecting CXX compiler ABI info - done
+[1.199s] -- Detecting CXX compile features
+[1.201s] -- Detecting CXX compile features - done
+[1.210s] -- Found ament_cmake: 1.1.4 (/opt/ros/galactic/share/ament_cmake/cmake)
+[1.265s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.8.10", minimum required is "3") 
+[1.266s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[1.466s] -- Found rclcpp: 9.2.0 (/opt/ros/galactic/share/rclcpp/cmake)
+[1.624s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[1.645s] -- Found rosidl_adapter: 2.2.1 (/opt/ros/galactic/share/rosidl_adapter/cmake)
+[1.816s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "1.1.1f")  
+[1.901s] -- Found FastRTPS: /opt/ros/galactic/include  
+[2.135s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[2.353s] -- Found rmw_implementation_cmake: 3.3.1 (/opt/ros/galactic/share/rmw_implementation_cmake/cmake)
+[2.361s] -- Found rmw_cyclonedds_cpp: 0.22.3 (/opt/ros/galactic/share/rmw_cyclonedds_cpp/cmake)
+[2.434s] -- Using RMW implementation 'rmw_cyclonedds_cpp' as default
+[2.436s] -- Looking for pthread.h
+[2.609s] -- Looking for pthread.h - found
+[2.610s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[2.794s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+[2.794s] -- Looking for pthread_create in pthreads
+[2.926s] -- Looking for pthread_create in pthreads - not found
+[2.927s] -- Looking for pthread_create in pthread
+[3.107s] -- Looking for pthread_create in pthread - found
+[3.111s] -- Found Threads: TRUE  
+[3.748s] -- Found sensor_msgs: 2.2.3 (/opt/ros/galactic/share/sensor_msgs/cmake)
+[4.414s] -- Configuring done
+[4.452s] -- Generating done
+[4.461s] -- Build files have been written to: /home/stef/RCAP/mpu9250/build/mpu9250driver
+[4.477s] Invoked command in '/home/stef/RCAP/mpu9250/build/mpu9250driver' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/galactic /usr/bin/cmake /home/stef/RCAP/mpu9250 -DCMAKE_INSTALL_PREFIX=/home/stef/RCAP/mpu9250/install/mpu9250driver
+[4.479s] Invoking command in '/home/stef/RCAP/mpu9250/build/mpu9250driver': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/galactic /usr/bin/cmake --build /home/stef/RCAP/mpu9250/build/mpu9250driver -- -j4 -l4
+[4.558s] [35m[1mScanning dependencies of target linux_i2c_communicator[0m
+[4.559s] [35m[1mScanning dependencies of target mpu9250sensor[0m
+[4.582s] [ 33%] [32mBuilding CXX object lib/mpu9250sensor/CMakeFiles/mpu9250sensor.dir/src/mpu9250sensor.cpp.o[0m
+[4.582s] [ 33%] [32mBuilding CXX object lib/i2c/CMakeFiles/linux_i2c_communicator.dir/src/LinuxI2cCommunicator.cpp.o[0m
+[5.287s] [ 50%] [32m[1mLinking CXX static library liblinux_i2c_communicator.a[0m
+[5.356s] [ 50%] Built target linux_i2c_communicator
+[5.545s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:[m[K In constructor ‘[01m[KMPU9250Sensor::MPU9250Sensor(std::unique_ptr<I2cCommunicator>)[m[K’:
+[5.545s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:26:27:[m[K [01;31m[Kerror: [m[K‘[01m[Kmag_MEAS_MODE[m[K’ was not declared in this scope; did you mean ‘[01m[KMAGN_MEAS_MODE[m[K’?
+[5.545s]    26 |   result = i2cBus_->write([01;31m[Kmag_MEAS_MODE[m[K, 0x00);
+[5.546s]       |                           [01;31m[K^~~~~~~~~~~~~[m[K
+[5.546s]       |                           [32m[KMAGN_MEAS_MODE[m[K
+[5.547s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:32:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kmag_asax[m[K’ was not declared in this scope; did you mean ‘[01m[Kmagn_asax[m[K’?
+[5.547s]    32 |   [01;31m[Kmag_asax[m[K = (i2cBus_->read(0x10) - 128) * 0.5 / 128 + 1;
+[5.548s]       |   [01;31m[K^~~~~~~~[m[K
+[5.548s]       |   [32m[Kmagn_asax[m[K
+[5.549s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:33:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kmag_asay[m[K’ was not declared in this scope; did you mean ‘[01m[Kmagn_asay[m[K’?
+[5.549s]    33 |   [01;31m[Kmag_asay[m[K = (i2cBus_->read(0x11) - 128) * 0.5 / 128 + 1;
+[5.549s]       |   [01;31m[K^~~~~~~~[m[K
+[5.549s]       |   [32m[Kmagn_asay[m[K
+[5.550s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:34:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kmag_asaz[m[K’ was not declared in this scope; did you mean ‘[01m[Kmagn_asaz[m[K’?
+[5.550s]    34 |   [01;31m[Kmag_asaz[m[K = (i2cBus_->read(0x12) - 128) * 0.5 / 128 + 1;
+[5.551s]       |   [01;31m[K^~~~~~~~[m[K
+[5.551s]       |   [32m[Kmagn_asaz[m[K
+[5.553s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:[m[K In member function ‘[01m[Kdouble MPU9250Sensor::getAccelerationX() const[m[K’:
+[5.553s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:74:15:[m[K [01;35m[Kwarning: [m[Kcomparison is always false due to limited range of data type [[01;35m[K-Wtype-limits[m[K]
+[5.554s]    74 |   if ([01;35m[Kaccel_x > 32768[m[K)
+[5.554s]       |       [01;35m[K~~~~~~~~^~~~~~~[m[K
+[5.554s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:76:23:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K;[m[K’ before ‘[01m[K}[m[K’ token
+[5.554s]    76 |       accel_x -= 65536
+[5.554s]       |                       [01;31m[K^[m[K
+[5.555s]       |                       [32m[K;[m[K
+[5.555s]    77 |   [32m[K}[m[K
+[5.555s]       |   [32m[K~[m[K                    
+[5.555s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:[m[K In member function ‘[01m[Kdouble MPU9250Sensor::getAccelerationY() const[m[K’:
+[5.555s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:89:15:[m[K [01;35m[Kwarning: [m[Kcomparison is always false due to limited range of data type [[01;35m[K-Wtype-limits[m[K]
+[5.556s]    89 |   if ([01;35m[Kaccel_y > 32768[m[K)
+[5.556s]       |       [01;35m[K~~~~~~~~^~~~~~~[m[K
+[5.556s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:91:23:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K;[m[K’ before ‘[01m[K}[m[K’ token
+[5.556s]    91 |       accel_y -= 65536
+[5.556s]       |                       [01;31m[K^[m[K
+[5.557s]       |                       [32m[K;[m[K
+[5.557s]    92 |   [32m[K}[m[K
+[5.557s]       |   [32m[K~[m[K                    
+[5.558s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:[m[K In member function ‘[01m[Kdouble MPU9250Sensor::getAccelerationZ() const[m[K’:
+[5.558s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:104:15:[m[K [01;35m[Kwarning: [m[Kcomparison is always false due to limited range of data type [[01;35m[K-Wtype-limits[m[K]
+[5.558s]   104 |   if ([01;35m[Kaccel_z > 32768[m[K)
+[5.558s]       |       [01;35m[K~~~~~~~~^~~~~~~[m[K
+[5.559s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:106:23:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K;[m[K’ before ‘[01m[K}[m[K’ token
+[5.559s]   106 |       accel_z -= 65536
+[5.559s]       |                       [01;31m[K^[m[K
+[5.559s]       |                       [32m[K;[m[K
+[5.559s]   107 |   [32m[K}[m[K
+[5.560s]       |   [32m[K~[m[K                    
+[5.560s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:[m[K In member function ‘[01m[Kdouble MPU9250Sensor::getAngularVelocityX() const[m[K’:
+[5.560s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:119:14:[m[K [01;35m[Kwarning: [m[Kcomparison is always false due to limited range of data type [[01;35m[K-Wtype-limits[m[K]
+[5.560s]   119 |   if ([01;35m[Kgyro_x > 32768[m[K)
+[5.560s]       |       [01;35m[K~~~~~~~^~~~~~~[m[K
+[5.561s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:121:22:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K;[m[K’ before ‘[01m[K}[m[K’ token
+[5.561s]   121 |       gyro_x -= 65536
+[5.561s]       |                      [01;31m[K^[m[K
+[5.561s]       |                      [32m[K;[m[K
+[5.562s]   122 |   [32m[K}[m[K
+[5.562s]       |   [32m[K~[m[K                   
+[5.562s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:[m[K In member function ‘[01m[Kdouble MPU9250Sensor::getAngularVelocityY() const[m[K’:
+[5.562s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:134:14:[m[K [01;35m[Kwarning: [m[Kcomparison is always false due to limited range of data type [[01;35m[K-Wtype-limits[m[K]
+[5.563s]   134 |   if ([01;35m[Kgyro_y > 32768[m[K)
+[5.563s]       |       [01;35m[K~~~~~~~^~~~~~~[m[K
+[5.563s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:136:22:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K;[m[K’ before ‘[01m[K}[m[K’ token
+[5.563s]   136 |       gyro_y -= 65536
+[5.564s]       |                      [01;31m[K^[m[K
+[5.564s]       |                      [32m[K;[m[K
+[5.564s]   137 |   [32m[K}[m[K
+[5.564s]       |   [32m[K~[m[K                   
+[5.564s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:[m[K In member function ‘[01m[Kdouble MPU9250Sensor::getAngularVelocityZ() const[m[K’:
+[5.565s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:149:14:[m[K [01;35m[Kwarning: [m[Kcomparison is always false due to limited range of data type [[01;35m[K-Wtype-limits[m[K]
+[5.565s]   149 |   if ([01;35m[Kgyro_z > 32768[m[K)
+[5.566s]       |       [01;35m[K~~~~~~~^~~~~~~[m[K
+[5.566s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:151:22:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K;[m[K’ before ‘[01m[K}[m[K’ token
+[5.566s]   151 |       gyro_z -= 65536
+[5.566s]       |                      [01;31m[K^[m[K
+[5.566s]       |                      [32m[K;[m[K
+[5.567s]   152 |   [32m[K}[m[K
+[5.567s]       |   [32m[K~[m[K                   
+[5.567s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:[m[K In member function ‘[01m[Kdouble MPU9250Sensor::getMagneticFluxDensityX() const[m[K’:
+[5.567s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:161:37:[m[K [01;31m[Kerror: [m[K‘[01m[Kmag_XOUT_L[m[K’ was not declared in this scope
+[5.568s]   161 |   int16_t mag_x_msb = i2cBus_->read([01;31m[Kmag_XOUT_L[m[K + 1);
+[5.568s]       |                                     [01;31m[K^~~~~~~~~~[m[K
+[5.568s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:165:13:[m[K [01;35m[Kwarning: [m[Kcomparison is always false due to limited range of data type [[01;35m[K-Wtype-limits[m[K]
+[5.568s]   165 |   if ([01;35m[Kmag_x > 32768[m[K)
+[5.569s]       |       [01;35m[K~~~~~~^~~~~~~[m[K
+[5.569s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:167:21:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K;[m[K’ before ‘[01m[K}[m[K’ token
+[5.569s]   167 |       mag_x -= 65536
+[5.569s]       |                     [01;31m[K^[m[K
+[5.569s]       |                     [32m[K;[m[K
+[5.570s]   168 |   [32m[K}[m[K
+[5.570s]       |   [32m[K~[m[K                  
+[5.570s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:169:58:[m[K [01;31m[Kerror: [m[K‘[01m[Kmax_x_offset_[m[K’ was not declared in this scope; did you mean ‘[01m[Kmag_x_offset_[m[K’?
+[5.570s]   169 |   double mag_x_conv = convertRawMagnetometerData(mag_x - [01;31m[Kmax_x_offset_[m[K);
+[5.571s]       |                                                          [01;31m[K^~~~~~~~~~~~~[m[K
+[5.571s]       |                                                          [32m[Kmag_x_offset_[m[K
+[5.571s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:172:23:[m[K [01;31m[Kerror: [m[K‘[01m[Kmag_asax[m[K’ was not declared in this scope; did you mean ‘[01m[Kmagn_asax[m[K’?
+[5.571s]   172 |   return mag_x_conv * [01;31m[Kmag_asax[m[K * mag_x_scale_;
+[5.571s]       |                       [01;31m[K^~~~~~~~[m[K
+[5.572s]       |                       [32m[Kmagn_asax[m[K
+[5.572s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:[m[K In member function ‘[01m[Kdouble MPU9250Sensor::getMagneticFluxDensityY() const[m[K’:
+[5.572s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:178:37:[m[K [01;31m[Kerror: [m[K‘[01m[Kmag_YOUT_L[m[K’ was not declared in this scope
+[5.572s]   178 |   int16_t mag_y_msb = i2cBus_->read([01;31m[Kmag_YOUT_L[m[K + 1);
+[5.572s]       |                                     [01;31m[K^~~~~~~~~~[m[K
+[5.573s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:181:13:[m[K [01;35m[Kwarning: [m[Kcomparison is always false due to limited range of data type [[01;35m[K-Wtype-limits[m[K]
+[5.573s]   181 |   if ([01;35m[Kmag_y > 32768[m[K)
+[5.573s]       |       [01;35m[K~~~~~~^~~~~~~[m[K
+[5.573s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:183:21:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K;[m[K’ before ‘[01m[K}[m[K’ token
+[5.573s]   183 |       mag_y -= 65536
+[5.574s]       |                     [01;31m[K^[m[K
+[5.574s]       |                     [32m[K;[m[K
+[5.574s]   184 |   [32m[K}[m[K
+[5.574s]       |   [32m[K~[m[K                  
+[5.574s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:185:58:[m[K [01;31m[Kerror: [m[K‘[01m[Kmax_y_offset_[m[K’ was not declared in this scope; did you mean ‘[01m[Kmag_y_offset_[m[K’?
+[5.575s]   185 |   double mag_y_conv = convertRawMagnetometerData(mag_y - [01;31m[Kmax_y_offset_[m[K);
+[5.575s]       |                                                          [01;31m[K^~~~~~~~~~~~~[m[K
+[5.575s]       |                                                          [32m[Kmag_y_offset_[m[K
+[5.576s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:188:23:[m[K [01;31m[Kerror: [m[K‘[01m[Kmag_asay[m[K’ was not declared in this scope; did you mean ‘[01m[Kmagn_asay[m[K’?
+[5.576s]   188 |   return mag_y_conv * [01;31m[Kmag_asay[m[K * mag_y_scale_;
+[5.577s]       |                       [01;31m[K^~~~~~~~[m[K
+[5.577s]       |                       [32m[Kmagn_asay[m[K
+[5.577s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:[m[K In member function ‘[01m[Kdouble MPU9250Sensor::getMagneticFluxDensityZ() const[m[K’:
+[5.578s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:194:37:[m[K [01;31m[Kerror: [m[K‘[01m[Kmag_ZOUT_L[m[K’ was not declared in this scope
+[5.578s]   194 |   int16_t mag_z_msb = i2cBus_->read([01;31m[Kmag_ZOUT_L[m[K + 1);
+[5.578s]       |                                     [01;31m[K^~~~~~~~~~[m[K
+[5.579s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:197:13:[m[K [01;35m[Kwarning: [m[Kcomparison is always false due to limited range of data type [[01;35m[K-Wtype-limits[m[K]
+[5.579s]   197 |   if ([01;35m[Kmag_z > 32768[m[K)
+[5.579s]       |       [01;35m[K~~~~~~^~~~~~~[m[K
+[5.580s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:199:21:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K;[m[K’ before ‘[01m[K}[m[K’ token
+[5.580s]   199 |       mag_z -= 65536
+[5.580s]       |                     [01;31m[K^[m[K
+[5.581s]       |                     [32m[K;[m[K
+[5.581s]   200 |   [32m[K}[m[K
+[5.581s]       |   [32m[K~[m[K                  
+[5.582s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:201:58:[m[K [01;31m[Kerror: [m[K‘[01m[Kmax_z_offset_[m[K’ was not declared in this scope; did you mean ‘[01m[Kmag_z_offset_[m[K’?
+[5.582s]   201 |   double mag_z_conv = convertRawMagnetometerData(mag_z - [01;31m[Kmax_z_offset_[m[K);
+[5.583s]       |                                                          [01;31m[K^~~~~~~~~~~~~[m[K
+[5.583s]       |                                                          [32m[Kmag_z_offset_[m[K
+[5.583s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:204:23:[m[K [01;31m[Kerror: [m[K‘[01m[Kmag_asaz[m[K’ was not declared in this scope; did you mean ‘[01m[Kmagn_asaz[m[K’?
+[5.584s]   204 |   return mag_z_conv * [01;31m[Kmag_asaz[m[K * mag_z_scale_;
+[5.584s]       |                       [01;31m[K^~~~~~~~[m[K
+[5.584s]       |                       [32m[Kmagn_asaz[m[K
+[5.585s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:[m[K In member function ‘[01m[Kvoid MPU9250Sensor::triggerNextMagReading() const[m[K’:
+[5.585s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:210:10:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kstatus2[m[K’ [[01;35m[K-Wunused-variable[m[K]
+[5.585s]   210 |   int8_t [01;35m[Kstatus2[m[K = i2cBus_->read(STATUS_2);
+[5.586s]       |          [01;35m[K^~~~~~~[m[K
+[5.586s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:[m[K In member function ‘[01m[Kdouble MPU9250Sensor::convertRawMagnetometerData(int16_t) const[m[K’:
+[5.586s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:223:65:[m[K [01;31m[Kerror: [m[K‘[01m[KMAX_CONV_mag_FLUX[m[K’ was not declared in this scope; did you mean ‘[01m[KMAX_CONV_MAGN_FLUX[m[K’?
+[5.586s]   223 |   const double mag_in_mu_tesla = static_cast<double>(mag_raw) * [01;31m[KMAX_CONV_mag_FLUX[m[K / MAX_RAW_mag_FLUX;
+[5.586s]       |                                                                 [01;31m[K^~~~~~~~~~~~~~~~~[m[K
+[5.587s]       |                                                                 [32m[KMAX_CONV_MAGN_FLUX[m[K
+[5.587s] [01m[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:223:85:[m[K [01;31m[Kerror: [m[K‘[01m[KMAX_RAW_mag_FLUX[m[K’ was not declared in this scope; did you mean ‘[01m[KMAX_RAW_MAGN_FLUX[m[K’?
+[5.587s]   223 |   const double mag_in_mu_tesla = static_cast<double>(mag_raw) * MAX_CONV_mag_FLUX / [01;31m[KMAX_RAW_mag_FLUX[m[K;
+[5.587s]       |                                                                                     [01;31m[K^~~~~~~~~~~~~~~~[m[K
+[5.587s]       |                                                                                     [32m[KMAX_RAW_MAGN_FLUX[m[K
+[5.714s] make[2]: *** [lib/mpu9250sensor/CMakeFiles/mpu9250sensor.dir/build.make:63: lib/mpu9250sensor/CMakeFiles/mpu9250sensor.dir/src/mpu9250sensor.cpp.o] Error 1
+[5.715s] make[1]: *** [CMakeFiles/Makefile2:246: lib/mpu9250sensor/CMakeFiles/mpu9250sensor.dir/all] Error 2
+[5.715s] make: *** [Makefile:141: all] Error 2
+[5.718s] Invoked command in '/home/stef/RCAP/mpu9250/build/mpu9250driver' returned '2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/galactic /usr/bin/cmake --build /home/stef/RCAP/mpu9250/build/mpu9250driver -- -j4 -l4

@@ -1,0 +1,217 @@
+[0.000000] (-) TimerEvent: {}
+[0.001112] (mpu9250driver) JobQueued: {'identifier': 'mpu9250driver', 'dependencies': OrderedDict()}
+[0.001162] (mpu9250driver) JobStarted: {'identifier': 'mpu9250driver'}
+[0.019381] (mpu9250driver) JobProgress: {'identifier': 'mpu9250driver', 'progress': 'cmake'}
+[0.022077] (mpu9250driver) JobProgress: {'identifier': 'mpu9250driver', 'progress': 'build'}
+[0.022179] (mpu9250driver) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/stef/RCAP/mpu9250/build/mpu9250driver', '--', '-j4', '-l4'], 'cwd': '/home/stef/RCAP/mpu9250/build/mpu9250driver', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('QT_SCALE_FACTOR', '1'), ('LANGUAGE', 'en_US'), ('USER', 'stef'), ('LC_TIME', 'fr_FR.UTF-8'), ('XDG_SEAT', 'seat0'), ('SSH_AGENT_PID', '1243'), ('XDG_SESSION_TYPE', 'x11'), ('COMPIZ_CONFIG_PROFILE', 'mate'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/galactic/opt/yaml_cpp_vendor/lib:/opt/ros/galactic/opt/rviz_ogre_vendor/lib:/opt/ros/galactic/lib/x86_64-linux-gnu:/opt/ros/galactic/lib'), ('HOME', '/home/stef'), ('CYCLONEDDS_URI', '/home/stef/cyclonedds.xml'), ('OLDPWD', '/home/stef/RCAP'), ('DESKTOP_SESSION', 'mate'), ('ROS_PYTHON_VERSION', '3'), ('GTK_MODULES', 'appmenu-gtk-module:gail:atk-bridge:canberra-gtk-module'), ('XDG_SEAT_PATH', '/org/freedesktop/DisplayManager/Seat0'), ('LC_MONETARY', 'fr_FR.UTF-8'), ('MANAGERPID', '1069'), ('DBUS_STARTER_BUS_TYPE', 'session'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus,guid=41221b84b6edb8a49a5c3e3562363b47'), ('COLORTERM', 'truecolor'), ('UBUNTU_MENUPROXY', '1'), ('QT_QPA_PLATFORMTHEME', 'gtk2'), ('IM_CONFIG_PHASE', '1'), ('COLCON_PREFIX_PATH', '/home/stef/RCAP/robot_car/install'), ('ROS_DISTRO', 'galactic'), ('LOGNAME', 'stef'), ('WINDOWID', '58720262'), ('QT_AUTO_SCREEN_SCALE_FACTOR', '0'), ('JOURNAL_STREAM', '8:27442'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('TERM', 'xterm-256color'), ('GTK_OVERLAY_SCROLLING', '0'), ('XDG_SESSION_ID', 'c1'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/opt/ros/galactic/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'), ('SESSION_MANAGER', 'local/stef-VirtualBox:@/tmp/.ICE-unix/1076,unix/stef-VirtualBox:/tmp/.ICE-unix/1076'), ('GDM_LANG', 'en_US'), ('INVOCATION_ID', 'f196bf28503848a49ec4f1732062dcdb'), ('XDG_SESSION_PATH', '/org/freedesktop/DisplayManager/Session0'), ('LC_ADDRESS', 'fr_FR.UTF-8'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'MATE'), ('LC_TELEPHONE', 'fr_FR.UTF-8'), ('XDG_SESSION_DESKTOP', 'mate'), ('XAUTHORITY', '/home/stef/.Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('XDG_GREETER_DATA_DIR', '/var/lib/lightdm-data/stef'), ('AMENT_PREFIX_PATH', '/home/stef/RCAP/robot_car/install/robot_car:/opt/ros/galactic'), ('SHELL', '/bin/bash'), ('LC_NAME', 'fr_FR.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'mate'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'fr_FR.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('LC_IDENTIFICATION', 'fr_FR.UTF-8'), ('XDG_VTNR', '7'), ('PWD', '/home/stef/RCAP/mpu9250/build/mpu9250driver'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-mate:/etc/xdg'), ('DBUS_STARTER_ADDRESS', 'unix:path=/run/user/1000/bus,guid=41221b84b6edb8a49a5c3e3562363b47'), ('XDG_DATA_DIRS', '/usr/share/mate:/usr/local/share:/usr/share:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/galactic/lib/python3.8/site-packages'), ('LC_NUMERIC', 'fr_FR.UTF-8'), ('MATE_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('LC_PAPER', 'fr_FR.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6003'), ('CMAKE_PREFIX_PATH', '/home/stef/RCAP/robot_car/install/robot_car:/opt/ros/galactic')]), 'shell': False}
+[0.098618] (-) TimerEvent: {}
+[0.117945] (mpu9250driver) StdoutLine: {'line': b'\x1b[35m\x1b[1mScanning dependencies of target mpu9250sensor\x1b[0m\n'}
+[0.143243] (mpu9250driver) StdoutLine: {'line': b'[ 33%] Built target linux_i2c_communicator\n'}
+[0.143968] (mpu9250driver) StdoutLine: {'line': b'[ 50%] \x1b[32mBuilding CXX object lib/mpu9250sensor/CMakeFiles/mpu9250sensor.dir/src/mpu9250sensor.cpp.o\x1b[0m\n'}
+[0.198775] (-) TimerEvent: {}
+[0.299242] (-) TimerEvent: {}
+[0.399704] (-) TimerEvent: {}
+[0.500156] (-) TimerEvent: {}
+[0.600608] (-) TimerEvent: {}
+[0.701096] (-) TimerEvent: {}
+[0.802323] (-) TimerEvent: {}
+[0.902856] (-) TimerEvent: {}
+[1.003375] (-) TimerEvent: {}
+[1.039019] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:\x1b[m\x1b[K In constructor \xe2\x80\x98\x1b[01m\x1b[KMPU9250Sensor::MPU9250Sensor(std::unique_ptr<I2cCommunicator>)\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[1.039341] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:16:7:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kvariable \xe2\x80\x98\x1b[01m\x1b[Kresult\x1b[m\x1b[K\xe2\x80\x99 set but not used [\x1b[01;35m\x1b[K-Wunused-but-set-variable\x1b[m\x1b[K]\n'}
+[1.039569] (mpu9250driver) StderrLine: {'line': b'   16 |   int \x1b[01;35m\x1b[Kresult\x1b[m\x1b[K = i2cBus_->write(PWR_MGMT_1, 0);\n'}
+[1.039756] (mpu9250driver) StderrLine: {'line': b'      |       \x1b[01;35m\x1b[K^~~~~~\x1b[m\x1b[K\n'}
+[1.042914] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kdouble MPU9250Sensor::getAccelerationX() const\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[1.043130] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:74:15:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kcomparison is always false due to limited range of data type [\x1b[01;35m\x1b[K-Wtype-limits\x1b[m\x1b[K]\n'}
+[1.043357] (mpu9250driver) StderrLine: {'line': b'   74 |   if (\x1b[01;35m\x1b[Kaccel_x > 32768\x1b[m\x1b[K)\n'}
+[1.043564] (mpu9250driver) StderrLine: {'line': b'      |       \x1b[01;35m\x1b[K~~~~~~~~^~~~~~~\x1b[m\x1b[K\n'}
+[1.044487] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kdouble MPU9250Sensor::getAccelerationY() const\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[1.044671] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:89:15:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kcomparison is always false due to limited range of data type [\x1b[01;35m\x1b[K-Wtype-limits\x1b[m\x1b[K]\n'}
+[1.044869] (mpu9250driver) StderrLine: {'line': b'   89 |   if (\x1b[01;35m\x1b[Kaccel_y > 32768\x1b[m\x1b[K)\n'}
+[1.045050] (mpu9250driver) StderrLine: {'line': b'      |       \x1b[01;35m\x1b[K~~~~~~~~^~~~~~~\x1b[m\x1b[K\n'}
+[1.045934] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kdouble MPU9250Sensor::getAccelerationZ() const\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[1.046125] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:104:15:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kcomparison is always false due to limited range of data type [\x1b[01;35m\x1b[K-Wtype-limits\x1b[m\x1b[K]\n'}
+[1.046342] (mpu9250driver) StderrLine: {'line': b'  104 |   if (\x1b[01;35m\x1b[Kaccel_z > 32768\x1b[m\x1b[K)\n'}
+[1.046519] (mpu9250driver) StderrLine: {'line': b'      |       \x1b[01;35m\x1b[K~~~~~~~~^~~~~~~\x1b[m\x1b[K\n'}
+[1.047319] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kdouble MPU9250Sensor::getAngularVelocityX() const\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[1.047526] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:119:14:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kcomparison is always false due to limited range of data type [\x1b[01;35m\x1b[K-Wtype-limits\x1b[m\x1b[K]\n'}
+[1.047774] (mpu9250driver) StderrLine: {'line': b'  119 |   if (\x1b[01;35m\x1b[Kgyro_x > 32768\x1b[m\x1b[K)\n'}
+[1.047951] (mpu9250driver) StderrLine: {'line': b'      |       \x1b[01;35m\x1b[K~~~~~~~^~~~~~~\x1b[m\x1b[K\n'}
+[1.048742] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kdouble MPU9250Sensor::getAngularVelocityY() const\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[1.048926] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:134:14:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kcomparison is always false due to limited range of data type [\x1b[01;35m\x1b[K-Wtype-limits\x1b[m\x1b[K]\n'}
+[1.049112] (mpu9250driver) StderrLine: {'line': b'  134 |   if (\x1b[01;35m\x1b[Kgyro_y > 32768\x1b[m\x1b[K)\n'}
+[1.049490] (mpu9250driver) StderrLine: {'line': b'      |       \x1b[01;35m\x1b[K~~~~~~~^~~~~~~\x1b[m\x1b[K\n'}
+[1.050316] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kdouble MPU9250Sensor::getAngularVelocityZ() const\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[1.050502] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:149:14:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kcomparison is always false due to limited range of data type [\x1b[01;35m\x1b[K-Wtype-limits\x1b[m\x1b[K]\n'}
+[1.050689] (mpu9250driver) StderrLine: {'line': b'  149 |   if (\x1b[01;35m\x1b[Kgyro_z > 32768\x1b[m\x1b[K)\n'}
+[1.050975] (mpu9250driver) StderrLine: {'line': b'      |       \x1b[01;35m\x1b[K~~~~~~~^~~~~~~\x1b[m\x1b[K\n'}
+[1.051869] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kdouble MPU9250Sensor::getMagneticFluxDensityX() const\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[1.052088] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:165:13:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kcomparison is always false due to limited range of data type [\x1b[01;35m\x1b[K-Wtype-limits\x1b[m\x1b[K]\n'}
+[1.052284] (mpu9250driver) StderrLine: {'line': b'  165 |   if (\x1b[01;35m\x1b[Kmag_x > 32768\x1b[m\x1b[K)\n'}
+[1.052476] (mpu9250driver) StderrLine: {'line': b'      |       \x1b[01;35m\x1b[K~~~~~~^~~~~~~\x1b[m\x1b[K\n'}
+[1.054275] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kdouble MPU9250Sensor::getMagneticFluxDensityY() const\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[1.054516] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:181:13:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kcomparison is always false due to limited range of data type [\x1b[01;35m\x1b[K-Wtype-limits\x1b[m\x1b[K]\n'}
+[1.054694] (mpu9250driver) StderrLine: {'line': b'  181 |   if (\x1b[01;35m\x1b[Kmag_y > 32768\x1b[m\x1b[K)\n'}
+[1.054865] (mpu9250driver) StderrLine: {'line': b'      |       \x1b[01;35m\x1b[K~~~~~~^~~~~~~\x1b[m\x1b[K\n'}
+[1.056046] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kdouble MPU9250Sensor::getMagneticFluxDensityZ() const\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[1.056241] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:197:13:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kcomparison is always false due to limited range of data type [\x1b[01;35m\x1b[K-Wtype-limits\x1b[m\x1b[K]\n'}
+[1.056433] (mpu9250driver) StderrLine: {'line': b'  197 |   if (\x1b[01;35m\x1b[Kmag_z > 32768\x1b[m\x1b[K)\n'}
+[1.056619] (mpu9250driver) StderrLine: {'line': b'      |       \x1b[01;35m\x1b[K~~~~~~^~~~~~~\x1b[m\x1b[K\n'}
+[1.057459] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kvoid MPU9250Sensor::triggerNextMagReading() const\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[1.057662] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:210:10:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kunused variable \xe2\x80\x98\x1b[01m\x1b[Kstatus2\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K-Wunused-variable\x1b[m\x1b[K]\n'}
+[1.057860] (mpu9250driver) StderrLine: {'line': b'  210 |   int8_t \x1b[01;35m\x1b[Kstatus2\x1b[m\x1b[K = i2cBus_->read(STATUS_2);\n'}
+[1.058161] (mpu9250driver) StderrLine: {'line': b'      |          \x1b[01;35m\x1b[K^~~~~~~\x1b[m\x1b[K\n'}
+[1.103493] (-) TimerEvent: {}
+[1.203966] (-) TimerEvent: {}
+[1.304842] (-) TimerEvent: {}
+[1.355009] (mpu9250driver) StdoutLine: {'line': b'[ 66%] \x1b[32m\x1b[1mLinking CXX static library libmpu9250sensor.a\x1b[0m\n'}
+[1.404996] (-) TimerEvent: {}
+[1.418437] (mpu9250driver) StdoutLine: {'line': b'[ 66%] Built target mpu9250sensor\n'}
+[1.445495] (mpu9250driver) StdoutLine: {'line': b'\x1b[35m\x1b[1mScanning dependencies of target mpu9250driver\x1b[0m\n'}
+[1.505241] (-) TimerEvent: {}
+[1.578453] (mpu9250driver) StdoutLine: {'line': b'[ 83%] \x1b[32mBuilding CXX object CMakeFiles/mpu9250driver.dir/src/mpu9250driver.cpp.o\x1b[0m\n'}
+[1.605394] (-) TimerEvent: {}
+[1.705875] (-) TimerEvent: {}
+[1.806962] (-) TimerEvent: {}
+[1.907508] (-) TimerEvent: {}
+[2.007941] (-) TimerEvent: {}
+[2.108529] (-) TimerEvent: {}
+[2.209111] (-) TimerEvent: {}
+[2.309732] (-) TimerEvent: {}
+[2.410306] (-) TimerEvent: {}
+[2.510658] (-) TimerEvent: {}
+[2.611154] (-) TimerEvent: {}
+[2.711691] (-) TimerEvent: {}
+[2.812209] (-) TimerEvent: {}
+[2.912662] (-) TimerEvent: {}
+[3.013060] (-) TimerEvent: {}
+[3.114152] (-) TimerEvent: {}
+[3.214537] (-) TimerEvent: {}
+[3.314965] (-) TimerEvent: {}
+[3.415405] (-) TimerEvent: {}
+[3.515797] (-) TimerEvent: {}
+[3.616226] (-) TimerEvent: {}
+[3.716671] (-) TimerEvent: {}
+[3.817376] (-) TimerEvent: {}
+[3.917805] (-) TimerEvent: {}
+[4.018240] (-) TimerEvent: {}
+[4.118811] (-) TimerEvent: {}
+[4.219298] (-) TimerEvent: {}
+[4.319848] (-) TimerEvent: {}
+[4.420730] (-) TimerEvent: {}
+[4.521245] (-) TimerEvent: {}
+[4.621839] (-) TimerEvent: {}
+[4.722190] (-) TimerEvent: {}
+[4.822895] (-) TimerEvent: {}
+[4.923289] (-) TimerEvent: {}
+[5.023846] (-) TimerEvent: {}
+[5.124383] (-) TimerEvent: {}
+[5.224925] (-) TimerEvent: {}
+[5.325858] (-) TimerEvent: {}
+[5.426541] (-) TimerEvent: {}
+[5.526902] (-) TimerEvent: {}
+[5.627280] (-) TimerEvent: {}
+[5.728061] (-) TimerEvent: {}
+[5.828522] (-) TimerEvent: {}
+[5.928999] (-) TimerEvent: {}
+[6.029449] (-) TimerEvent: {}
+[6.129995] (-) TimerEvent: {}
+[6.230500] (-) TimerEvent: {}
+[6.331105] (-) TimerEvent: {}
+[6.431670] (-) TimerEvent: {}
+[6.532242] (-) TimerEvent: {}
+[6.632737] (-) TimerEvent: {}
+[6.733724] (-) TimerEvent: {}
+[6.834895] (-) TimerEvent: {}
+[6.896531] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/src/mpu9250driver.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kvoid MPU9250Driver::calculateOrientation(sensor_msgs::msg::Imu&)\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[6.896782] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/src/mpu9250driver.cpp:88:73:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kvariable \xe2\x80\x98\x1b[01m\x1b[KmagneticFluxDensityZ\x1b[m\x1b[K\xe2\x80\x99 set but not used [\x1b[01;35m\x1b[K-Wunused-but-set-variable\x1b[m\x1b[K]\n'}
+[6.896896] (mpu9250driver) StderrLine: {'line': b'   88 |   double roll, pitch, yaw, magneticFluxDensityX, magneticFluxDensityY,  \x1b[01;35m\x1b[KmagneticFluxDensityZ\x1b[m\x1b[K;\n'}
+[6.897006] (mpu9250driver) StderrLine: {'line': b'      |                                                                         \x1b[01;35m\x1b[K^~~~~~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[6.935447] (-) TimerEvent: {}
+[7.036150] (-) TimerEvent: {}
+[7.136912] (-) TimerEvent: {}
+[7.237502] (-) TimerEvent: {}
+[7.338001] (-) TimerEvent: {}
+[7.438634] (-) TimerEvent: {}
+[7.539516] (-) TimerEvent: {}
+[7.640118] (-) TimerEvent: {}
+[7.740892] (-) TimerEvent: {}
+[7.841710] (-) TimerEvent: {}
+[7.942189] (-) TimerEvent: {}
+[8.042688] (-) TimerEvent: {}
+[8.143650] (-) TimerEvent: {}
+[8.244433] (-) TimerEvent: {}
+[8.345191] (-) TimerEvent: {}
+[8.445759] (-) TimerEvent: {}
+[8.546250] (-) TimerEvent: {}
+[8.646819] (-) TimerEvent: {}
+[8.747344] (-) TimerEvent: {}
+[8.847990] (-) TimerEvent: {}
+[8.948543] (-) TimerEvent: {}
+[9.049122] (-) TimerEvent: {}
+[9.149910] (-) TimerEvent: {}
+[9.250426] (-) TimerEvent: {}
+[9.351518] (-) TimerEvent: {}
+[9.452100] (-) TimerEvent: {}
+[9.552853] (-) TimerEvent: {}
+[9.653674] (-) TimerEvent: {}
+[9.754910] (-) TimerEvent: {}
+[9.855525] (-) TimerEvent: {}
+[9.956745] (-) TimerEvent: {}
+[10.057633] (-) TimerEvent: {}
+[10.158148] (-) TimerEvent: {}
+[10.258694] (-) TimerEvent: {}
+[10.359350] (-) TimerEvent: {}
+[10.459853] (-) TimerEvent: {}
+[10.560311] (-) TimerEvent: {}
+[10.660920] (-) TimerEvent: {}
+[10.761813] (-) TimerEvent: {}
+[10.862347] (-) TimerEvent: {}
+[10.963015] (-) TimerEvent: {}
+[11.063408] (-) TimerEvent: {}
+[11.164766] (-) TimerEvent: {}
+[11.265274] (-) TimerEvent: {}
+[11.365788] (-) TimerEvent: {}
+[11.466317] (-) TimerEvent: {}
+[11.566835] (-) TimerEvent: {}
+[11.667289] (-) TimerEvent: {}
+[11.767776] (-) TimerEvent: {}
+[11.868298] (-) TimerEvent: {}
+[11.968796] (-) TimerEvent: {}
+[12.001817] (mpu9250driver) StdoutLine: {'line': b'[100%] \x1b[32m\x1b[1mLinking CXX executable mpu9250driver\x1b[0m\n'}
+[12.069029] (-) TimerEvent: {}
+[12.170337] (-) TimerEvent: {}
+[12.270861] (-) TimerEvent: {}
+[12.371699] (-) TimerEvent: {}
+[12.472223] (-) TimerEvent: {}
+[12.548845] (mpu9250driver) StdoutLine: {'line': b'[100%] Built target mpu9250driver\n'}
+[12.570699] (mpu9250driver) CommandEnded: {'returncode': 0}
+[12.572912] (-) TimerEvent: {}
+[12.612265] (mpu9250driver) JobProgress: {'identifier': 'mpu9250driver', 'progress': 'install'}
+[12.634684] (mpu9250driver) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/stef/RCAP/mpu9250/build/mpu9250driver'], 'cwd': '/home/stef/RCAP/mpu9250/build/mpu9250driver', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('QT_SCALE_FACTOR', '1'), ('LANGUAGE', 'en_US'), ('USER', 'stef'), ('LC_TIME', 'fr_FR.UTF-8'), ('XDG_SEAT', 'seat0'), ('SSH_AGENT_PID', '1243'), ('XDG_SESSION_TYPE', 'x11'), ('COMPIZ_CONFIG_PROFILE', 'mate'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/galactic/opt/yaml_cpp_vendor/lib:/opt/ros/galactic/opt/rviz_ogre_vendor/lib:/opt/ros/galactic/lib/x86_64-linux-gnu:/opt/ros/galactic/lib'), ('HOME', '/home/stef'), ('CYCLONEDDS_URI', '/home/stef/cyclonedds.xml'), ('OLDPWD', '/home/stef/RCAP'), ('DESKTOP_SESSION', 'mate'), ('ROS_PYTHON_VERSION', '3'), ('GTK_MODULES', 'appmenu-gtk-module:gail:atk-bridge:canberra-gtk-module'), ('XDG_SEAT_PATH', '/org/freedesktop/DisplayManager/Seat0'), ('LC_MONETARY', 'fr_FR.UTF-8'), ('MANAGERPID', '1069'), ('DBUS_STARTER_BUS_TYPE', 'session'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus,guid=41221b84b6edb8a49a5c3e3562363b47'), ('COLORTERM', 'truecolor'), ('UBUNTU_MENUPROXY', '1'), ('QT_QPA_PLATFORMTHEME', 'gtk2'), ('IM_CONFIG_PHASE', '1'), ('COLCON_PREFIX_PATH', '/home/stef/RCAP/robot_car/install'), ('ROS_DISTRO', 'galactic'), ('LOGNAME', 'stef'), ('WINDOWID', '58720262'), ('QT_AUTO_SCREEN_SCALE_FACTOR', '0'), ('JOURNAL_STREAM', '8:27442'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('TERM', 'xterm-256color'), ('GTK_OVERLAY_SCROLLING', '0'), ('XDG_SESSION_ID', 'c1'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/opt/ros/galactic/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'), ('SESSION_MANAGER', 'local/stef-VirtualBox:@/tmp/.ICE-unix/1076,unix/stef-VirtualBox:/tmp/.ICE-unix/1076'), ('GDM_LANG', 'en_US'), ('INVOCATION_ID', 'f196bf28503848a49ec4f1732062dcdb'), ('XDG_SESSION_PATH', '/org/freedesktop/DisplayManager/Session0'), ('LC_ADDRESS', 'fr_FR.UTF-8'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'MATE'), ('LC_TELEPHONE', 'fr_FR.UTF-8'), ('XDG_SESSION_DESKTOP', 'mate'), ('XAUTHORITY', '/home/stef/.Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('XDG_GREETER_DATA_DIR', '/var/lib/lightdm-data/stef'), ('AMENT_PREFIX_PATH', '/home/stef/RCAP/robot_car/install/robot_car:/opt/ros/galactic'), ('SHELL', '/bin/bash'), ('LC_NAME', 'fr_FR.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'mate'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'fr_FR.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('LC_IDENTIFICATION', 'fr_FR.UTF-8'), ('XDG_VTNR', '7'), ('PWD', '/home/stef/RCAP/mpu9250/build/mpu9250driver'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-mate:/etc/xdg'), ('DBUS_STARTER_ADDRESS', 'unix:path=/run/user/1000/bus,guid=41221b84b6edb8a49a5c3e3562363b47'), ('XDG_DATA_DIRS', '/usr/share/mate:/usr/local/share:/usr/share:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/galactic/lib/python3.8/site-packages'), ('LC_NUMERIC', 'fr_FR.UTF-8'), ('MATE_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('LC_PAPER', 'fr_FR.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6003'), ('CMAKE_PREFIX_PATH', '/home/stef/RCAP/robot_car/install/robot_car:/opt/ros/galactic')]), 'shell': False}
+[12.654195] (mpu9250driver) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[12.655031] (mpu9250driver) StdoutLine: {'line': b'-- Installing: /home/stef/RCAP/mpu9250/install/mpu9250driver/lib/mpu9250driver/mpu9250driver\n'}
+[12.664917] (mpu9250driver) StdoutLine: {'line': b'-- Set runtime path of "/home/stef/RCAP/mpu9250/install/mpu9250driver/lib/mpu9250driver/mpu9250driver" to ""\n'}
+[12.665297] (mpu9250driver) StdoutLine: {'line': b'-- Up-to-date: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/mpu9250driver//launch\n'}
+[12.665683] (mpu9250driver) StdoutLine: {'line': b'-- Up-to-date: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/mpu9250driver//launch/mpu9250driver_launch.py\n'}
+[12.665942] (mpu9250driver) StdoutLine: {'line': b'-- Up-to-date: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/mpu9250driver//config\n'}
+[12.666312] (mpu9250driver) StdoutLine: {'line': b'-- Up-to-date: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/mpu9250driver//config/imu_calibration.yaml\n'}
+[12.666680] (mpu9250driver) StdoutLine: {'line': b'-- Installing: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/ament_index/resource_index/package_run_dependencies/mpu9250driver\n'}
+[12.667479] (mpu9250driver) StdoutLine: {'line': b'-- Installing: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/ament_index/resource_index/parent_prefix_path/mpu9250driver\n'}
+[12.668238] (mpu9250driver) StdoutLine: {'line': b'-- Up-to-date: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/mpu9250driver/environment/ament_prefix_path.sh\n'}
+[12.668564] (mpu9250driver) StdoutLine: {'line': b'-- Installing: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/mpu9250driver/environment/ament_prefix_path.dsv\n'}
+[12.669598] (mpu9250driver) StdoutLine: {'line': b'-- Up-to-date: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/mpu9250driver/environment/path.sh\n'}
+[12.669980] (mpu9250driver) StdoutLine: {'line': b'-- Installing: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/mpu9250driver/environment/path.dsv\n'}
+[12.670802] (mpu9250driver) StdoutLine: {'line': b'-- Installing: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/mpu9250driver/local_setup.bash\n'}
+[12.671574] (mpu9250driver) StdoutLine: {'line': b'-- Installing: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/mpu9250driver/local_setup.sh\n'}
+[12.672357] (mpu9250driver) StdoutLine: {'line': b'-- Installing: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/mpu9250driver/local_setup.zsh\n'}
+[12.673025] (-) TimerEvent: {}
+[12.673367] (mpu9250driver) StdoutLine: {'line': b'-- Installing: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/mpu9250driver/local_setup.dsv\n'}
+[12.673963] (mpu9250driver) StdoutLine: {'line': b'-- Installing: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/mpu9250driver/package.dsv\n'}
+[12.674679] (mpu9250driver) StdoutLine: {'line': b'-- Installing: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/ament_index/resource_index/packages/mpu9250driver\n'}
+[12.675410] (mpu9250driver) StdoutLine: {'line': b'-- Installing: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/mpu9250driver/cmake/mpu9250driverConfig.cmake\n'}
+[12.676072] (mpu9250driver) StdoutLine: {'line': b'-- Installing: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/mpu9250driver/cmake/mpu9250driverConfig-version.cmake\n'}
+[12.676792] (mpu9250driver) StdoutLine: {'line': b'-- Up-to-date: /home/stef/RCAP/mpu9250/install/mpu9250driver/share/mpu9250driver/package.xml\n'}
+[12.682168] (mpu9250driver) CommandEnded: {'returncode': 0}
+[12.764162] (mpu9250driver) JobEnded: {'identifier': 'mpu9250driver', 'rc': 0}
+[12.769028] (-) EventReactorShutdown: {}

@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../../lib/i2c/include/i2c_comm_interface/I2cCommunicator.h
+
+../../lib/mpu9250sensor/include/mpu9250sensor/mpu9250sensor.h
+memory
+-
+string
+-
+unordered_map
+-
+I2cCommunicator.h
+../../lib/mpu9250sensor/include/mpu9250sensor/I2cCommunicator.h
+
+/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp
+mpu9250sensor.h
+/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.h
+linux/i2c-dev.h
+-
+sys/ioctl.h
+-
+iostream
+-
+thread
+-
+

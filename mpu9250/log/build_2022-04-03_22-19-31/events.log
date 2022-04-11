@@ -1,0 +1,180 @@
+[0.000000] (-) TimerEvent: {}
+[0.000924] (mpu9250driver) JobQueued: {'identifier': 'mpu9250driver', 'dependencies': OrderedDict()}
+[0.000990] (mpu9250driver) JobStarted: {'identifier': 'mpu9250driver'}
+[0.018709] (mpu9250driver) JobProgress: {'identifier': 'mpu9250driver', 'progress': 'cmake'}
+[0.019762] (mpu9250driver) JobProgress: {'identifier': 'mpu9250driver', 'progress': 'build'}
+[0.021407] (mpu9250driver) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/stef/RCAP/mpu9250/build/mpu9250driver', '--', '-j4', '-l4'], 'cwd': '/home/stef/RCAP/mpu9250/build/mpu9250driver', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('QT_SCALE_FACTOR', '1'), ('LANGUAGE', 'en_US'), ('USER', 'stef'), ('LC_TIME', 'fr_FR.UTF-8'), ('XDG_SEAT', 'seat0'), ('SSH_AGENT_PID', '1243'), ('XDG_SESSION_TYPE', 'x11'), ('COMPIZ_CONFIG_PROFILE', 'mate'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/galactic/opt/yaml_cpp_vendor/lib:/opt/ros/galactic/opt/rviz_ogre_vendor/lib:/opt/ros/galactic/lib/x86_64-linux-gnu:/opt/ros/galactic/lib'), ('HOME', '/home/stef'), ('CYCLONEDDS_URI', '/home/stef/cyclonedds.xml'), ('OLDPWD', '/home/stef/RCAP'), ('DESKTOP_SESSION', 'mate'), ('ROS_PYTHON_VERSION', '3'), ('GTK_MODULES', 'appmenu-gtk-module:gail:atk-bridge:canberra-gtk-module'), ('XDG_SEAT_PATH', '/org/freedesktop/DisplayManager/Seat0'), ('LC_MONETARY', 'fr_FR.UTF-8'), ('MANAGERPID', '1069'), ('DBUS_STARTER_BUS_TYPE', 'session'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus,guid=41221b84b6edb8a49a5c3e3562363b47'), ('COLORTERM', 'truecolor'), ('UBUNTU_MENUPROXY', '1'), ('QT_QPA_PLATFORMTHEME', 'gtk2'), ('IM_CONFIG_PHASE', '1'), ('COLCON_PREFIX_PATH', '/home/stef/RCAP/robot_car/install'), ('ROS_DISTRO', 'galactic'), ('LOGNAME', 'stef'), ('WINDOWID', '58720262'), ('QT_AUTO_SCREEN_SCALE_FACTOR', '0'), ('JOURNAL_STREAM', '8:27442'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('TERM', 'xterm-256color'), ('GTK_OVERLAY_SCROLLING', '0'), ('XDG_SESSION_ID', 'c1'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/opt/ros/galactic/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'), ('SESSION_MANAGER', 'local/stef-VirtualBox:@/tmp/.ICE-unix/1076,unix/stef-VirtualBox:/tmp/.ICE-unix/1076'), ('GDM_LANG', 'en_US'), ('INVOCATION_ID', 'f196bf28503848a49ec4f1732062dcdb'), ('XDG_SESSION_PATH', '/org/freedesktop/DisplayManager/Session0'), ('LC_ADDRESS', 'fr_FR.UTF-8'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'MATE'), ('LC_TELEPHONE', 'fr_FR.UTF-8'), ('XDG_SESSION_DESKTOP', 'mate'), ('XAUTHORITY', '/home/stef/.Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('XDG_GREETER_DATA_DIR', '/var/lib/lightdm-data/stef'), ('AMENT_PREFIX_PATH', '/home/stef/RCAP/robot_car/install/robot_car:/opt/ros/galactic'), ('SHELL', '/bin/bash'), ('LC_NAME', 'fr_FR.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'mate'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'fr_FR.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('LC_IDENTIFICATION', 'fr_FR.UTF-8'), ('XDG_VTNR', '7'), ('PWD', '/home/stef/RCAP/mpu9250/build/mpu9250driver'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-mate:/etc/xdg'), ('DBUS_STARTER_ADDRESS', 'unix:path=/run/user/1000/bus,guid=41221b84b6edb8a49a5c3e3562363b47'), ('XDG_DATA_DIRS', '/usr/share/mate:/usr/local/share:/usr/share:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/galactic/lib/python3.8/site-packages'), ('LC_NUMERIC', 'fr_FR.UTF-8'), ('MATE_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('LC_PAPER', 'fr_FR.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6003'), ('CMAKE_PREFIX_PATH', '/home/stef/RCAP/robot_car/install/robot_car:/opt/ros/galactic')]), 'shell': False}
+[0.098643] (-) TimerEvent: {}
+[0.124690] (mpu9250driver) StdoutLine: {'line': b'\x1b[35m\x1b[1mScanning dependencies of target mpu9250sensor\x1b[0m\n'}
+[0.137789] (mpu9250driver) StdoutLine: {'line': b'[ 33%] Built target linux_i2c_communicator\n'}
+[0.142548] (mpu9250driver) StdoutLine: {'line': b'[ 50%] \x1b[32mBuilding CXX object lib/mpu9250sensor/CMakeFiles/mpu9250sensor.dir/src/mpu9250sensor.cpp.o\x1b[0m\n'}
+[0.198827] (-) TimerEvent: {}
+[0.299316] (-) TimerEvent: {}
+[0.399782] (-) TimerEvent: {}
+[0.500266] (-) TimerEvent: {}
+[0.600770] (-) TimerEvent: {}
+[0.701257] (-) TimerEvent: {}
+[0.801766] (-) TimerEvent: {}
+[0.902289] (-) TimerEvent: {}
+[1.002650] (-) TimerEvent: {}
+[1.024077] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:\x1b[m\x1b[K In constructor \xe2\x80\x98\x1b[01m\x1b[KMPU9250Sensor::MPU9250Sensor(std::unique_ptr<I2cCommunicator>)\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[1.024394] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:26:27:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[KMAG_MEAS_MODE\x1b[m\x1b[K\xe2\x80\x99 was not declared in this scope; did you mean \xe2\x80\x98\x1b[01m\x1b[KMAGN_MEAS_MODE\x1b[m\x1b[K\xe2\x80\x99?\n'}
+[1.024562] (mpu9250driver) StderrLine: {'line': b'   26 |   result = i2cBus_->write(\x1b[01;31m\x1b[KMAG_MEAS_MODE\x1b[m\x1b[K, 0x00);\n'}
+[1.024722] (mpu9250driver) StderrLine: {'line': b'      |                           \x1b[01;31m\x1b[K^~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[1.024879] (mpu9250driver) StderrLine: {'line': b'      |                           \x1b[32m\x1b[KMAGN_MEAS_MODE\x1b[m\x1b[K\n'}
+[1.026344] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:32:3:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Kmag_asax\x1b[m\x1b[K\xe2\x80\x99 was not declared in this scope; did you mean \xe2\x80\x98\x1b[01m\x1b[Kmagn_asax\x1b[m\x1b[K\xe2\x80\x99?\n'}
+[1.026562] (mpu9250driver) StderrLine: {'line': b'   32 |   \x1b[01;31m\x1b[Kmag_asax\x1b[m\x1b[K = (i2cBus_->read(0x10) - 128) * 0.5 / 128 + 1;\n'}
+[1.026728] (mpu9250driver) StderrLine: {'line': b'      |   \x1b[01;31m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[1.026910] (mpu9250driver) StderrLine: {'line': b'      |   \x1b[32m\x1b[Kmagn_asax\x1b[m\x1b[K\n'}
+[1.027752] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:33:3:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Kmag_asay\x1b[m\x1b[K\xe2\x80\x99 was not declared in this scope; did you mean \xe2\x80\x98\x1b[01m\x1b[Kmagn_asay\x1b[m\x1b[K\xe2\x80\x99?\n'}
+[1.027970] (mpu9250driver) StderrLine: {'line': b'   33 |   \x1b[01;31m\x1b[Kmag_asay\x1b[m\x1b[K = (i2cBus_->read(0x11) - 128) * 0.5 / 128 + 1;\n'}
+[1.028145] (mpu9250driver) StderrLine: {'line': b'      |   \x1b[01;31m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[1.028302] (mpu9250driver) StderrLine: {'line': b'      |   \x1b[32m\x1b[Kmagn_asay\x1b[m\x1b[K\n'}
+[1.029168] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:34:3:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Kmag_asaz\x1b[m\x1b[K\xe2\x80\x99 was not declared in this scope; did you mean \xe2\x80\x98\x1b[01m\x1b[Kmagn_asaz\x1b[m\x1b[K\xe2\x80\x99?\n'}
+[1.029356] (mpu9250driver) StderrLine: {'line': b'   34 |   \x1b[01;31m\x1b[Kmag_asaz\x1b[m\x1b[K = (i2cBus_->read(0x12) - 128) * 0.5 / 128 + 1;\n'}
+[1.029517] (mpu9250driver) StderrLine: {'line': b'      |   \x1b[01;31m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[1.029673] (mpu9250driver) StderrLine: {'line': b'      |   \x1b[32m\x1b[Kmagn_asaz\x1b[m\x1b[K\n'}
+[1.032406] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kdouble MPU9250Sensor::getAccelerationX() const\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[1.032670] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:74:15:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kcomparison is always false due to limited range of data type [\x1b[01;35m\x1b[K-Wtype-limits\x1b[m\x1b[K]\n'}
+[1.033109] (mpu9250driver) StderrLine: {'line': b'   74 |   if (\x1b[01;35m\x1b[Kaccel_x > 32768\x1b[m\x1b[K)\n'}
+[1.033269] (mpu9250driver) StderrLine: {'line': b'      |       \x1b[01;35m\x1b[K~~~~~~~~^~~~~~~\x1b[m\x1b[K\n'}
+[1.033696] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:76:23:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kexpected \xe2\x80\x98\x1b[01m\x1b[K;\x1b[m\x1b[K\xe2\x80\x99 before \xe2\x80\x98\x1b[01m\x1b[K}\x1b[m\x1b[K\xe2\x80\x99 token\n'}
+[1.033887] (mpu9250driver) StderrLine: {'line': b'   76 |       accel_x -= 65536\n'}
+[1.034353] (mpu9250driver) StderrLine: {'line': b'      |                       \x1b[01;31m\x1b[K^\x1b[m\x1b[K\n'}
+[1.034519] (mpu9250driver) StderrLine: {'line': b'      |                       \x1b[32m\x1b[K;\x1b[m\x1b[K\n'}
+[1.035752] (mpu9250driver) StderrLine: {'line': b'   77 |   \x1b[32m\x1b[K}\x1b[m\x1b[K\n'}
+[1.035930] (mpu9250driver) StderrLine: {'line': b'      |   \x1b[32m\x1b[K~\x1b[m\x1b[K                    \n'}
+[1.036093] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kdouble MPU9250Sensor::getAccelerationY() const\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[1.036260] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:89:15:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kcomparison is always false due to limited range of data type [\x1b[01;35m\x1b[K-Wtype-limits\x1b[m\x1b[K]\n'}
+[1.036426] (mpu9250driver) StderrLine: {'line': b'   89 |   if (\x1b[01;35m\x1b[Kaccel_y > 32768\x1b[m\x1b[K)\n'}
+[1.036587] (mpu9250driver) StderrLine: {'line': b'      |       \x1b[01;35m\x1b[K~~~~~~~~^~~~~~~\x1b[m\x1b[K\n'}
+[1.036768] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:91:23:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kexpected \xe2\x80\x98\x1b[01m\x1b[K;\x1b[m\x1b[K\xe2\x80\x99 before \xe2\x80\x98\x1b[01m\x1b[K}\x1b[m\x1b[K\xe2\x80\x99 token\n'}
+[1.036933] (mpu9250driver) StderrLine: {'line': b'   91 |       accel_y -= 65536\n'}
+[1.037091] (mpu9250driver) StderrLine: {'line': b'      |                       \x1b[01;31m\x1b[K^\x1b[m\x1b[K\n'}
+[1.037250] (mpu9250driver) StderrLine: {'line': b'      |                       \x1b[32m\x1b[K;\x1b[m\x1b[K\n'}
+[1.037408] (mpu9250driver) StderrLine: {'line': b'   92 |   \x1b[32m\x1b[K}\x1b[m\x1b[K\n'}
+[1.037587] (mpu9250driver) StderrLine: {'line': b'      |   \x1b[32m\x1b[K~\x1b[m\x1b[K                    \n'}
+[1.037791] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kdouble MPU9250Sensor::getAccelerationZ() const\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[1.038000] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:104:15:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kcomparison is always false due to limited range of data type [\x1b[01;35m\x1b[K-Wtype-limits\x1b[m\x1b[K]\n'}
+[1.038180] (mpu9250driver) StderrLine: {'line': b'  104 |   if (\x1b[01;35m\x1b[Kaccel_z > 32768\x1b[m\x1b[K)\n'}
+[1.038335] (mpu9250driver) StderrLine: {'line': b'      |       \x1b[01;35m\x1b[K~~~~~~~~^~~~~~~\x1b[m\x1b[K\n'}
+[1.038490] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:106:23:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kexpected \xe2\x80\x98\x1b[01m\x1b[K;\x1b[m\x1b[K\xe2\x80\x99 before \xe2\x80\x98\x1b[01m\x1b[K}\x1b[m\x1b[K\xe2\x80\x99 token\n'}
+[1.038675] (mpu9250driver) StderrLine: {'line': b'  106 |       accel_z -= 65536\n'}
+[1.038831] (mpu9250driver) StderrLine: {'line': b'      |                       \x1b[01;31m\x1b[K^\x1b[m\x1b[K\n'}
+[1.038993] (mpu9250driver) StderrLine: {'line': b'      |                       \x1b[32m\x1b[K;\x1b[m\x1b[K\n'}
+[1.039653] (mpu9250driver) StderrLine: {'line': b'  107 |   \x1b[32m\x1b[K}\x1b[m\x1b[K\n'}
+[1.039946] (mpu9250driver) StderrLine: {'line': b'      |   \x1b[32m\x1b[K~\x1b[m\x1b[K                    \n'}
+[1.040237] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kdouble MPU9250Sensor::getAngularVelocityX() const\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[1.040540] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:119:14:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kcomparison is always false due to limited range of data type [\x1b[01;35m\x1b[K-Wtype-limits\x1b[m\x1b[K]\n'}
+[1.040956] (mpu9250driver) StderrLine: {'line': b'  119 |   if (\x1b[01;35m\x1b[Kgyro_x > 32768\x1b[m\x1b[K)\n'}
+[1.041247] (mpu9250driver) StderrLine: {'line': b'      |       \x1b[01;35m\x1b[K~~~~~~~^~~~~~~\x1b[m\x1b[K\n'}
+[1.041553] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:121:22:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kexpected \xe2\x80\x98\x1b[01m\x1b[K;\x1b[m\x1b[K\xe2\x80\x99 before \xe2\x80\x98\x1b[01m\x1b[K}\x1b[m\x1b[K\xe2\x80\x99 token\n'}
+[1.042025] (mpu9250driver) StderrLine: {'line': b'  121 |       gyro_x -= 65536\n'}
+[1.042324] (mpu9250driver) StderrLine: {'line': b'      |                      \x1b[01;31m\x1b[K^\x1b[m\x1b[K\n'}
+[1.042655] (mpu9250driver) StderrLine: {'line': b'      |                      \x1b[32m\x1b[K;\x1b[m\x1b[K\n'}
+[1.042945] (mpu9250driver) StderrLine: {'line': b'  122 |   \x1b[32m\x1b[K}\x1b[m\x1b[K\n'}
+[1.043235] (mpu9250driver) StderrLine: {'line': b'      |   \x1b[32m\x1b[K~\x1b[m\x1b[K                   \n'}
+[1.043550] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kdouble MPU9250Sensor::getAngularVelocityY() const\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[1.043845] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:134:14:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kcomparison is always false due to limited range of data type [\x1b[01;35m\x1b[K-Wtype-limits\x1b[m\x1b[K]\n'}
+[1.044140] (mpu9250driver) StderrLine: {'line': b'  134 |   if (\x1b[01;35m\x1b[Kgyro_y > 32768\x1b[m\x1b[K)\n'}
+[1.044430] (mpu9250driver) StderrLine: {'line': b'      |       \x1b[01;35m\x1b[K~~~~~~~^~~~~~~\x1b[m\x1b[K\n'}
+[1.044750] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:136:22:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kexpected \xe2\x80\x98\x1b[01m\x1b[K;\x1b[m\x1b[K\xe2\x80\x99 before \xe2\x80\x98\x1b[01m\x1b[K}\x1b[m\x1b[K\xe2\x80\x99 token\n'}
+[1.045043] (mpu9250driver) StderrLine: {'line': b'  136 |       gyro_y -= 65536\n'}
+[1.046599] (mpu9250driver) StderrLine: {'line': b'      |                      \x1b[01;31m\x1b[K^\x1b[m\x1b[K\n'}
+[1.046913] (mpu9250driver) StderrLine: {'line': b'      |                      \x1b[32m\x1b[K;\x1b[m\x1b[K\n'}
+[1.047315] (mpu9250driver) StderrLine: {'line': b'  137 |   \x1b[32m\x1b[K}\x1b[m\x1b[K\n'}
+[1.047665] (mpu9250driver) StderrLine: {'line': b'      |   \x1b[32m\x1b[K~\x1b[m\x1b[K                   \n'}
+[1.048068] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kdouble MPU9250Sensor::getAngularVelocityZ() const\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[1.048380] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:149:14:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kcomparison is always false due to limited range of data type [\x1b[01;35m\x1b[K-Wtype-limits\x1b[m\x1b[K]\n'}
+[1.048786] (mpu9250driver) StderrLine: {'line': b'  149 |   if (\x1b[01;35m\x1b[Kgyro_z > 32768\x1b[m\x1b[K)\n'}
+[1.049079] (mpu9250driver) StderrLine: {'line': b'      |       \x1b[01;35m\x1b[K~~~~~~~^~~~~~~\x1b[m\x1b[K\n'}
+[1.049384] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:151:22:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kexpected \xe2\x80\x98\x1b[01m\x1b[K;\x1b[m\x1b[K\xe2\x80\x99 before \xe2\x80\x98\x1b[01m\x1b[K}\x1b[m\x1b[K\xe2\x80\x99 token\n'}
+[1.049680] (mpu9250driver) StderrLine: {'line': b'  151 |       gyro_z -= 65536\n'}
+[1.050048] (mpu9250driver) StderrLine: {'line': b'      |                      \x1b[01;31m\x1b[K^\x1b[m\x1b[K\n'}
+[1.050419] (mpu9250driver) StderrLine: {'line': b'      |                      \x1b[32m\x1b[K;\x1b[m\x1b[K\n'}
+[1.050766] (mpu9250driver) StderrLine: {'line': b'  152 |   \x1b[32m\x1b[K}\x1b[m\x1b[K\n'}
+[1.051114] (mpu9250driver) StderrLine: {'line': b'      |   \x1b[32m\x1b[K~\x1b[m\x1b[K                   \n'}
+[1.052372] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kdouble MPU9250Sensor::getMagneticFluxDensityX() const\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[1.052890] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:161:37:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Kmag_XOUT_L\x1b[m\x1b[K\xe2\x80\x99 was not declared in this scope\n'}
+[1.065225] (mpu9250driver) StderrLine: {'line': b'  161 |   int16_t mag_x_msb = i2cBus_->read(\x1b[01;31m\x1b[Kmag_XOUT_L\x1b[m\x1b[K + 1);\n'}
+[1.065743] (mpu9250driver) StderrLine: {'line': b'      |                                     \x1b[01;31m\x1b[K^~~~~~~~~~\x1b[m\x1b[K\n'}
+[1.065979] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:165:13:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kcomparison is always false due to limited range of data type [\x1b[01;35m\x1b[K-Wtype-limits\x1b[m\x1b[K]\n'}
+[1.066183] (mpu9250driver) StderrLine: {'line': b'  165 |   if (\x1b[01;35m\x1b[Kmag_x > 32768\x1b[m\x1b[K)\n'}
+[1.066383] (mpu9250driver) StderrLine: {'line': b'      |       \x1b[01;35m\x1b[K~~~~~~^~~~~~~\x1b[m\x1b[K\n'}
+[1.066564] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:167:21:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kexpected \xe2\x80\x98\x1b[01m\x1b[K;\x1b[m\x1b[K\xe2\x80\x99 before \xe2\x80\x98\x1b[01m\x1b[K}\x1b[m\x1b[K\xe2\x80\x99 token\n'}
+[1.066765] (mpu9250driver) StderrLine: {'line': b'  167 |       mag_x -= 65536\n'}
+[1.066943] (mpu9250driver) StderrLine: {'line': b'      |                     \x1b[01;31m\x1b[K^\x1b[m\x1b[K\n'}
+[1.067119] (mpu9250driver) StderrLine: {'line': b'      |                     \x1b[32m\x1b[K;\x1b[m\x1b[K\n'}
+[1.067296] (mpu9250driver) StderrLine: {'line': b'  168 |   \x1b[32m\x1b[K}\x1b[m\x1b[K\n'}
+[1.067476] (mpu9250driver) StderrLine: {'line': b'      |   \x1b[32m\x1b[K~\x1b[m\x1b[K                  \n'}
+[1.067653] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:169:58:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Kmax_x_offset_\x1b[m\x1b[K\xe2\x80\x99 was not declared in this scope; did you mean \xe2\x80\x98\x1b[01m\x1b[Kmag_x_offset_\x1b[m\x1b[K\xe2\x80\x99?\n'}
+[1.067856] (mpu9250driver) StderrLine: {'line': b'  169 |   double mag_x_conv = convertRawMagnetometerData(mag_x - \x1b[01;31m\x1b[Kmax_x_offset_\x1b[m\x1b[K);\n'}
+[1.068063] (mpu9250driver) StderrLine: {'line': b'      |                                                          \x1b[01;31m\x1b[K^~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[1.068224] (mpu9250driver) StderrLine: {'line': b'      |                                                          \x1b[32m\x1b[Kmag_x_offset_\x1b[m\x1b[K\n'}
+[1.068676] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:172:23:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Kmag_asax\x1b[m\x1b[K\xe2\x80\x99 was not declared in this scope; did you mean \xe2\x80\x98\x1b[01m\x1b[Kmagn_asax\x1b[m\x1b[K\xe2\x80\x99?\n'}
+[1.068881] (mpu9250driver) StderrLine: {'line': b'  172 |   return mag_x_conv * \x1b[01;31m\x1b[Kmag_asax\x1b[m\x1b[K * mag_x_scale_;\n'}
+[1.069060] (mpu9250driver) StderrLine: {'line': b'      |                       \x1b[01;31m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[1.069243] (mpu9250driver) StderrLine: {'line': b'      |                       \x1b[32m\x1b[Kmagn_asax\x1b[m\x1b[K\n'}
+[1.069426] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kdouble MPU9250Sensor::getMagneticFluxDensityY() const\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[1.069612] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:178:37:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Kmag_YOUT_L\x1b[m\x1b[K\xe2\x80\x99 was not declared in this scope\n'}
+[1.069798] (mpu9250driver) StderrLine: {'line': b'  178 |   int16_t mag_y_msb = i2cBus_->read(\x1b[01;31m\x1b[Kmag_YOUT_L\x1b[m\x1b[K + 1);\n'}
+[1.070055] (mpu9250driver) StderrLine: {'line': b'      |                                     \x1b[01;31m\x1b[K^~~~~~~~~~\x1b[m\x1b[K\n'}
+[1.070242] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:181:13:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kcomparison is always false due to limited range of data type [\x1b[01;35m\x1b[K-Wtype-limits\x1b[m\x1b[K]\n'}
+[1.070428] (mpu9250driver) StderrLine: {'line': b'  181 |   if (\x1b[01;35m\x1b[Kmag_y > 32768\x1b[m\x1b[K)\n'}
+[1.070609] (mpu9250driver) StderrLine: {'line': b'      |       \x1b[01;35m\x1b[K~~~~~~^~~~~~~\x1b[m\x1b[K\n'}
+[1.070791] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:183:21:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kexpected \xe2\x80\x98\x1b[01m\x1b[K;\x1b[m\x1b[K\xe2\x80\x99 before \xe2\x80\x98\x1b[01m\x1b[K}\x1b[m\x1b[K\xe2\x80\x99 token\n'}
+[1.070978] (mpu9250driver) StderrLine: {'line': b'  183 |       mag_y -= 65536\n'}
+[1.071161] (mpu9250driver) StderrLine: {'line': b'      |                     \x1b[01;31m\x1b[K^\x1b[m\x1b[K\n'}
+[1.071344] (mpu9250driver) StderrLine: {'line': b'      |                     \x1b[32m\x1b[K;\x1b[m\x1b[K\n'}
+[1.071535] (mpu9250driver) StderrLine: {'line': b'  184 |   \x1b[32m\x1b[K}\x1b[m\x1b[K\n'}
+[1.071716] (mpu9250driver) StderrLine: {'line': b'      |   \x1b[32m\x1b[K~\x1b[m\x1b[K                  \n'}
+[1.071917] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:185:58:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Kmax_y_offset_\x1b[m\x1b[K\xe2\x80\x99 was not declared in this scope; did you mean \xe2\x80\x98\x1b[01m\x1b[Kmag_y_offset_\x1b[m\x1b[K\xe2\x80\x99?\n'}
+[1.072104] (mpu9250driver) StderrLine: {'line': b'  185 |   double mag_y_conv = convertRawMagnetometerData(mag_y - \x1b[01;31m\x1b[Kmax_y_offset_\x1b[m\x1b[K);\n'}
+[1.072288] (mpu9250driver) StderrLine: {'line': b'      |                                                          \x1b[01;31m\x1b[K^~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[1.072470] (mpu9250driver) StderrLine: {'line': b'      |                                                          \x1b[32m\x1b[Kmag_y_offset_\x1b[m\x1b[K\n'}
+[1.072653] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:188:23:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Kmag_asay\x1b[m\x1b[K\xe2\x80\x99 was not declared in this scope; did you mean \xe2\x80\x98\x1b[01m\x1b[Kmagn_asay\x1b[m\x1b[K\xe2\x80\x99?\n'}
+[1.073039] (mpu9250driver) StderrLine: {'line': b'  188 |   return mag_y_conv * \x1b[01;31m\x1b[Kmag_asay\x1b[m\x1b[K * mag_y_scale_;\n'}
+[1.073452] (mpu9250driver) StderrLine: {'line': b'      |                       \x1b[01;31m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[1.073653] (mpu9250driver) StderrLine: {'line': b'      |                       \x1b[32m\x1b[Kmagn_asay\x1b[m\x1b[K\n'}
+[1.073897] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kdouble MPU9250Sensor::getMagneticFluxDensityZ() const\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[1.074135] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:194:37:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Kmag_ZOUT_L\x1b[m\x1b[K\xe2\x80\x99 was not declared in this scope\n'}
+[1.074318] (mpu9250driver) StderrLine: {'line': b'  194 |   int16_t mag_z_msb = i2cBus_->read(\x1b[01;31m\x1b[Kmag_ZOUT_L\x1b[m\x1b[K + 1);\n'}
+[1.074495] (mpu9250driver) StderrLine: {'line': b'      |                                     \x1b[01;31m\x1b[K^~~~~~~~~~\x1b[m\x1b[K\n'}
+[1.074672] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:197:13:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kcomparison is always false due to limited range of data type [\x1b[01;35m\x1b[K-Wtype-limits\x1b[m\x1b[K]\n'}
+[1.074872] (mpu9250driver) StderrLine: {'line': b'  197 |   if (\x1b[01;35m\x1b[Kmag_z > 32768\x1b[m\x1b[K)\n'}
+[1.075049] (mpu9250driver) StderrLine: {'line': b'      |       \x1b[01;35m\x1b[K~~~~~~^~~~~~~\x1b[m\x1b[K\n'}
+[1.075225] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:199:21:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kexpected \xe2\x80\x98\x1b[01m\x1b[K;\x1b[m\x1b[K\xe2\x80\x99 before \xe2\x80\x98\x1b[01m\x1b[K}\x1b[m\x1b[K\xe2\x80\x99 token\n'}
+[1.075406] (mpu9250driver) StderrLine: {'line': b'  199 |       mag_z -= 65536\n'}
+[1.075582] (mpu9250driver) StderrLine: {'line': b'      |                     \x1b[01;31m\x1b[K^\x1b[m\x1b[K\n'}
+[1.075776] (mpu9250driver) StderrLine: {'line': b'      |                     \x1b[32m\x1b[K;\x1b[m\x1b[K\n'}
+[1.075953] (mpu9250driver) StderrLine: {'line': b'  200 |   \x1b[32m\x1b[K}\x1b[m\x1b[K\n'}
+[1.076130] (mpu9250driver) StderrLine: {'line': b'      |   \x1b[32m\x1b[K~\x1b[m\x1b[K                  \n'}
+[1.076327] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:201:58:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Kmax_z_offset_\x1b[m\x1b[K\xe2\x80\x99 was not declared in this scope; did you mean \xe2\x80\x98\x1b[01m\x1b[Kmag_z_offset_\x1b[m\x1b[K\xe2\x80\x99?\n'}
+[1.076522] (mpu9250driver) StderrLine: {'line': b'  201 |   double mag_z_conv = convertRawMagnetometerData(mag_z - \x1b[01;31m\x1b[Kmax_z_offset_\x1b[m\x1b[K);\n'}
+[1.076759] (mpu9250driver) StderrLine: {'line': b'      |                                                          \x1b[01;31m\x1b[K^~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[1.076966] (mpu9250driver) StderrLine: {'line': b'      |                                                          \x1b[32m\x1b[Kmag_z_offset_\x1b[m\x1b[K\n'}
+[1.077159] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:204:23:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Kmag_asaz\x1b[m\x1b[K\xe2\x80\x99 was not declared in this scope; did you mean \xe2\x80\x98\x1b[01m\x1b[Kmagn_asaz\x1b[m\x1b[K\xe2\x80\x99?\n'}
+[1.077340] (mpu9250driver) StderrLine: {'line': b'  204 |   return mag_z_conv * \x1b[01;31m\x1b[Kmag_asaz\x1b[m\x1b[K * mag_z_scale_;\n'}
+[1.077517] (mpu9250driver) StderrLine: {'line': b'      |                       \x1b[01;31m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[1.077776] (mpu9250driver) StderrLine: {'line': b'      |                       \x1b[32m\x1b[Kmagn_asaz\x1b[m\x1b[K\n'}
+[1.078026] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kvoid MPU9250Sensor::triggerNextMagReading() const\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[1.078238] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:210:10:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kunused variable \xe2\x80\x98\x1b[01m\x1b[Kstatus2\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K-Wunused-variable\x1b[m\x1b[K]\n'}
+[1.078419] (mpu9250driver) StderrLine: {'line': b'  210 |   int8_t \x1b[01;35m\x1b[Kstatus2\x1b[m\x1b[K = i2cBus_->read(STATUS_2);\n'}
+[1.078597] (mpu9250driver) StderrLine: {'line': b'      |          \x1b[01;35m\x1b[K^~~~~~~\x1b[m\x1b[K\n'}
+[1.078790] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kdouble MPU9250Sensor::convertRawMagnetometerData(int16_t) const\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[1.078970] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:223:65:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[KMAX_CONV_mag_FLUX\x1b[m\x1b[K\xe2\x80\x99 was not declared in this scope; did you mean \xe2\x80\x98\x1b[01m\x1b[KMAX_CONV_MAGN_FLUX\x1b[m\x1b[K\xe2\x80\x99?\n'}
+[1.079166] (mpu9250driver) StderrLine: {'line': b'  223 |   const double mag_in_mu_tesla = static_cast<double>(mag_raw) * \x1b[01;31m\x1b[KMAX_CONV_mag_FLUX\x1b[m\x1b[K / MAX_RAW_mag_FLUX;\n'}
+[1.079346] (mpu9250driver) StderrLine: {'line': b'      |                                                                 \x1b[01;31m\x1b[K^~~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[1.079537] (mpu9250driver) StderrLine: {'line': b'      |                                                                 \x1b[32m\x1b[KMAX_CONV_MAGN_FLUX\x1b[m\x1b[K\n'}
+[1.080252] (mpu9250driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/stef/RCAP/mpu9250/lib/mpu9250sensor/src/mpu9250sensor.cpp:223:85:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[KMAX_RAW_mag_FLUX\x1b[m\x1b[K\xe2\x80\x99 was not declared in this scope; did you mean \xe2\x80\x98\x1b[01m\x1b[KMAX_RAW_MAGN_FLUX\x1b[m\x1b[K\xe2\x80\x99?\n'}
+[1.080433] (mpu9250driver) StderrLine: {'line': b'  223 |   const double mag_in_mu_tesla = static_cast<double>(mag_raw) * MAX_CONV_mag_FLUX / \x1b[01;31m\x1b[KMAX_RAW_mag_FLUX\x1b[m\x1b[K;\n'}
+[1.080620] (mpu9250driver) StderrLine: {'line': b'      |                                                                                     \x1b[01;31m\x1b[K^~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[1.080824] (mpu9250driver) StderrLine: {'line': b'      |                                                                                     \x1b[32m\x1b[KMAX_RAW_MAGN_FLUX\x1b[m\x1b[K\n'}
+[1.102825] (-) TimerEvent: {}
+[1.195457] (mpu9250driver) StderrLine: {'line': b'make[2]: *** [lib/mpu9250sensor/CMakeFiles/mpu9250sensor.dir/build.make:63: lib/mpu9250sensor/CMakeFiles/mpu9250sensor.dir/src/mpu9250sensor.cpp.o] Error 1\n'}
+[1.198146] (mpu9250driver) StderrLine: {'line': b'make[1]: *** [CMakeFiles/Makefile2:246: lib/mpu9250sensor/CMakeFiles/mpu9250sensor.dir/all] Error 2\n'}
+[1.198368] (mpu9250driver) StderrLine: {'line': b'make: *** [Makefile:141: all] Error 2\n'}
+[1.201616] (mpu9250driver) CommandEnded: {'returncode': 2}
+[1.203251] (-) TimerEvent: {}
+[1.274842] (mpu9250driver) JobEnded: {'identifier': 'mpu9250driver', 'rc': 2}
+[1.278574] (-) EventReactorShutdown: {}

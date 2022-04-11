@@ -1,0 +1,8 @@
+source;share/mpu9250driver/hook/cmake_prefix_path.ps1
+source;share/mpu9250driver/hook/cmake_prefix_path.dsv
+source;share/mpu9250driver/hook/cmake_prefix_path.sh
+source;share/mpu9250driver/local_setup.bash
+source;share/mpu9250driver/local_setup.dsv
+source;share/mpu9250driver/local_setup.ps1
+source;share/mpu9250driver/local_setup.sh
+source;share/mpu9250driver/local_setup.zsh

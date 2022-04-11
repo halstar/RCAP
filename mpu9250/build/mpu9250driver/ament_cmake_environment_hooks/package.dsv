@@ -1,0 +1,4 @@
+source;share/mpu9250driver/local_setup.bash
+source;share/mpu9250driver/local_setup.dsv
+source;share/mpu9250driver/local_setup.sh
+source;share/mpu9250driver/local_setup.zsh

@@ -1,0 +1,4 @@
+Invoking command in '/home/stef/RCAP/mpu9250/build/mpu9250driver': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/galactic /usr/bin/cmake --build /home/stef/RCAP/mpu9250/build/mpu9250driver -- -j4 -l4
+Invoked command in '/home/stef/RCAP/mpu9250/build/mpu9250driver' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/galactic /usr/bin/cmake --build /home/stef/RCAP/mpu9250/build/mpu9250driver -- -j4 -l4
+Invoking command in '/home/stef/RCAP/mpu9250/build/mpu9250driver': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/galactic /usr/bin/cmake --install /home/stef/RCAP/mpu9250/build/mpu9250driver
+Invoked command in '/home/stef/RCAP/mpu9250/build/mpu9250driver' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/galactic /usr/bin/cmake --install /home/stef/RCAP/mpu9250/build/mpu9250driver

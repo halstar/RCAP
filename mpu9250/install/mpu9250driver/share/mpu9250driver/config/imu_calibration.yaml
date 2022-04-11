@@ -1,0 +1,17 @@
+mpu9250driver:
+  ros__parameters:
+    acceleration_x_offset: 2100
+    acceleration_y_offset: 9930
+    acceleration_z_offset: -3679
+    gyroscope_x_drift_correction: -34
+    gyroscope_x_offset: -71
+    gyroscope_y_drift_correction: -27
+    gyroscope_y_offset: 113
+    gyroscope_z_drift_correction: 122
+    gyroscope_z_offset: 196
+    magnetometer_x_offset: 40
+    magnetometer_x_scale: 1.2417374881964116
+    magnetometer_y_offset: 241
+    magnetometer_y_scale: 0.9000684462696783
+    magnetometer_z_offset: -309
+    magnetometer_z_scale: 0.9228070175438596

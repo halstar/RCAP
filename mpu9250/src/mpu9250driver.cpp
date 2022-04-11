@@ -32,6 +32,11 @@ MPU9250Driver::MPU9250Driver() : Node("mpu9250driver")
                                    this->get_parameter("magnetometer_y_scale" ).as_double(),
                                    this->get_parameter("magnetometer_z_scale" ).as_double());
 
+  RCLCPP_INFO(this->get_logger(), "gyroscope_x_offset: %d / gyroscope_y_offset: %d / gyroscope_z_offset: %f",
+              this->get_parameter("gyroscope_x_offset"   ).as_int(),
+              this->get_parameter("gyroscope_y_offset"   ).as_int(),
+              this->get_parameter("gyroscope_z_offset"   ).as_int());
+
   // Create publisher
   publisher_ = this->create_publisher<sensor_msgs::msg::Imu>("imu", 10);
   std::chrono::duration<int64_t, std::milli> frequency = 1000ms / 250;

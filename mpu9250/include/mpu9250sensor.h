@@ -21,9 +21,9 @@ class MPU9250Sensor {
   double getMagneticFluxDensityY() const;
   double getMagneticFluxDensityZ() const;
   void   triggerNextMagReading  () const;
-  void   setGyroscopeOffset    (double gyro_x_offset , double gyro_y_offset , double gyro_z_offset );
-  void   setAccelerometerOffset(double accel_x_offset, double accel_y_offset, double accel_z_offset);
-  void   setMagnetometerOffset (double mag_x_offset  , double mag_y_offset  , double mag_z_offset  );
+  void   setGyroscopeOffset    (int    gyro_x_offset , int    gyro_y_offset , int    gyro_z_offset );
+  void   setAccelerometerOffset(int    accel_x_offset, int    accel_y_offset, int    accel_z_offset);
+  void   setMagnetometerOffset (int    mag_x_offset  , int    mag_y_offset  , int    mag_z_offset  );
   void   setMagnetometerScale  (double mag_x_scale   , double mag_y_scale   , double mag_z_scale   );
 
  private:
@@ -77,7 +77,6 @@ class MPU9250Sensor {
   // Helper constants
   static constexpr double MAX_RAW_MAG_FLUX   = 32760.0;
   static constexpr double MAX_CONV_MAG_FLUX  = 4912.0;
-  static constexpr double GRAVITY            = 9.81;
   static constexpr double ACCEL_SCALE_FACTOR = 16384.0;
   static constexpr double GYRO_SCALE_FACTOR  = 131.0;
 };
