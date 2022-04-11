@@ -1,3 +1,0 @@
-[35m[1mScanning dependencies of target mpu9250sensor[0m
-[ 33%] Built target linux_i2c_communicator
-[ 50%] [32mBuilding CXX object lib/mpu9250sensor/CMakeFiles/mpu9250sensor.dir/src/mpu9250sensor.cpp.o[0m

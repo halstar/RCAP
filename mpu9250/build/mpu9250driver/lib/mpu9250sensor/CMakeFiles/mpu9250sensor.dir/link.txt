@@ -1,2 +1,0 @@
-/usr/bin/ar qc libmpu9250sensor.a  CMakeFiles/mpu9250sensor.dir/src/mpu9250sensor.cpp.o
-/usr/bin/ranlib libmpu9250sensor.a

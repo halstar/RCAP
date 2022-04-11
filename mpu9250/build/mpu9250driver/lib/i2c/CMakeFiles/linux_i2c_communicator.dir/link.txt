@@ -1,2 +1,0 @@
-/usr/bin/ar qc liblinux_i2c_communicator.a  CMakeFiles/linux_i2c_communicator.dir/src/LinuxI2cCommunicator.cpp.o
-/usr/bin/ranlib liblinux_i2c_communicator.a
