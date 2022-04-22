@@ -32,14 +32,14 @@ MPU9250Driver::MPU9250Driver() : Node("mpu9250driver")
                                    this->get_parameter("magnetometer_y_scale" ).as_double(),
                                    this->get_parameter("magnetometer_z_scale" ).as_double());
 
-  RCLCPP_INFO(this->get_logger(), "gyroscope_x_offset: %d / gyroscope_y_offset: %d / gyroscope_z_offset: %f",
+  RCLCPP_INFO(this->get_logger(), "gyroscope_x_offset: %ld / gyroscope_y_offset: %ld / gyroscope_z_offset: %ld",
               this->get_parameter("gyroscope_x_offset"   ).as_int(),
               this->get_parameter("gyroscope_y_offset"   ).as_int(),
               this->get_parameter("gyroscope_z_offset"   ).as_int());
 
   // Create publisher
   publisher_ = this->create_publisher<sensor_msgs::msg::Imu>("imu", 10);
-  std::chrono::duration<int64_t, std::milli> frequency = 1000ms / 250;
+  std::chrono::duration<int64_t, std::milli> frequency = 1000ms / 1000;
   timer_ = this->create_wall_timer(frequency, std::bind(&MPU9250Driver::handleInput, this));
 }
 
@@ -102,9 +102,17 @@ void MPU9250Driver::computeOrientation(sensor_msgs::msg::Imu& imu_message)
            (sqrt(imu_message.linear_acceleration.y * imu_message.linear_acceleration.y +
                  imu_message.linear_acceleration.z * imu_message.linear_acceleration.z)));
 
-  yaw   = atan2(-magneticFluxDensityY, magneticFluxDensityX);
 
-  RCLCPP_INFO(this->get_logger(), "Roll: %f / Pitch: %f / Yaw: %f", roll * 180.0 / 3.1416, pitch * 180.0 / 3.1416, yaw * 180.0 / 3.1416);
+  double Xh = magneticFluxDensityX * cos(roll) + magneticFluxDensityY * sin(pitch) * sin(roll) + magneticFluxDensityZ * cos(pitch) * sin(roll);
+  double Yh = magneticFluxDensityY * cos(pitch) - magneticFluxDensityZ * sin(pitch);
+
+
+  yaw =  atan2(Yh, Xh);
+//   yaw =  atan2(Yh, Xh);
+
+//  yaw   = atan2(-magneticFluxDensityY, magneticFluxDensityX);
+
+  RCLCPP_INFO(this->get_logger(), "Roll: %4.2f / Pitch: %4.2f / Yaw: %4.2f", roll * 180.0 / 3.1416, pitch * 180.0 / 3.1416, yaw * 180.0 / 3.1416);
 
   // Convert to quaternion
   double cy = cos(yaw   * 0.5);
