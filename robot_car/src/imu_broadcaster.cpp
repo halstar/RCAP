@@ -38,13 +38,10 @@ private:
 
   void handle_message(const sensor_msgs::msg::Imu & msg)
   {
-    RCLCPP_DEBUG(this->get_logger(), "Handling IMU message");
-
     rclcpp::Time now = this->get_clock()->now();
     geometry_msgs::msg::TransformStamped transformStamped;
     
-    // transformStamped.header.stamp    = now;
-     transformStamped.header.stamp   = msg.header.stamp;
+    transformStamped.header.stamp    = msg.header.stamp;
     transformStamped.header.frame_id = "odom";
     transformStamped.child_frame_id  = "base_link"; 
 
@@ -56,6 +53,8 @@ private:
     transformStamped.transform.rotation.y = msg.orientation.y;
     transformStamped.transform.rotation.z = msg.orientation.z;
     transformStamped.transform.rotation.w = msg.orientation.w;
+
+    RCLCPP_DEBUG(this->get_logger(), "%f - x: %f / y: %f / z: %f / w: %f", transformStamped, msg.orientation.x, msg.orientation.y, msg.orientation.z, msg.orientation.w);
 
     tf_broadcaster_->sendTransform(transformStamped);
   }

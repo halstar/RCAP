@@ -62,7 +62,7 @@ class RPLidarScanPublisher : public rclcpp::Node
   private:    
     void init_param()
     {
-        this->get_parameter_or<std::string>("serial_port"     , serial_port     , "/dev/ttyUSB0"); 
+        this->get_parameter_or<std::string>("serial_port"     , serial_port     , "/dev/ttyUSB1"); 
         this->get_parameter_or<int>        ("serial_baudrate" , serial_baudrate , 115200        );
         this->get_parameter_or<std::string>("frame_id"        , frame_id        , "lidar_link"  );
         this->get_parameter_or<bool>       ("inverted"        , inverted        , false         );

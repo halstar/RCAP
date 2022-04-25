@@ -111,7 +111,7 @@
       <xacro:cylinder_inertia m="${wheel_mass}" r="${wheel_radius}" h="${wheel_width}"/>
     </link>
 
-    <joint name="${prefix}_joint" type="continuous">
+    <joint name="${prefix}_joint" type="fixed">
       <parent link="base_link"/>
       <child  link="${prefix}_link"/>
       <origin xyz="${x_reflect*wheel_xoff} ${y_reflect*(base_width/2+wheel_ygap)} ${-wheel_zoff}" rpy="0 0 0"/>
@@ -250,42 +250,6 @@
     <origin xyz="0.02 -0.02 ${base_height/2 + 0.02}"/>
   </joint>
     
-  <gazebo>
-    <plugin name='diff_drive' filename='libgazebo_ros_diff_drive.so'>
-      <ros>
-        <namespace>/</namespace>
-      </ros>
-
-      <num_wheel_pairs>2</num_wheel_pairs>
-
-      <!-- wheels -->
-      <left_joint>wheel_front_left_joint</left_joint>
-      <right_joint>wheel_front_right_joint</right_joint>
-
-      <left_joint>wheel_back_left_joint</left_joint>
-      <right_joint>wheel_back_right_joint</right_joint>
-
-      <!-- kinematics -->
-      <wheel_separation>0.20</wheel_separation>
-      <wheel_diameter>${2*wheel_radius}</wheel_diameter>
-
-      <wheel_separation>0.20</wheel_separation>
-      <wheel_diameter>${2*wheel_radius}</wheel_diameter>
-
-      <!-- limits --> 
-      <max_wheel_torque>20</max_wheel_torque>
-      <max_wheel_acceleration>1.0</max_wheel_acceleration>
-
-      <!-- output -->
-      <publish_odom>true</publish_odom>
-      <publish_odom_tf>true</publish_odom_tf>
-      <publish_wheel_tf>true</publish_wheel_tf>
-
-      <odometry_frame>odom</odometry_frame>
-      <robot_base_frame>base_link</robot_base_frame>
-    </plugin>
-  </gazebo>
-
   <link name="lidar_link">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
