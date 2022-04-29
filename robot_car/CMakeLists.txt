@@ -7,10 +7,13 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_python REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(sensor_msgs REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(rclpy REQUIRED)
 
 add_executable(imu_broadcaster src/imu_broadcaster.cpp)
 ament_target_dependencies(imu_broadcaster PUBLIC rclcpp sensor_msgs tf2 tf2_ros)
@@ -24,6 +27,13 @@ install(TARGETS imu_broadcaster
 install(
   DIRECTORY description launch rviz config world meshes
   DESTINATION share/${PROJECT_NAME}
+)
+
+ament_python_install_package(${PROJECT_NAME})
+
+install(PROGRAMS
+  scripts/vel_forwarder.py
+  DESTINATION lib/${PROJECT_NAME}
 )
 
 ament_package()
