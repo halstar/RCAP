@@ -1,5 +1,8 @@
 import launch
-from launch.substitutions import Command, LaunchConfiguration
+from   launch.substitutions              import Command, LaunchConfiguration
+from   launch.actions                    import IncludeLaunchDescription
+from   launch.launch_description_sources import PythonLaunchDescriptionSource
+from   ament_index_python.packages       import get_package_share_directory
 import launch_ros
 import os
 
@@ -7,7 +10,6 @@ def generate_launch_description():
     robot_car_pkg_share    = launch_ros.substitutions.FindPackageShare(package = 'robot_car').find('robot_car')
     slam_toolbox_pkg_share = launch_ros.substitutions.FindPackageShare(package = 'slam_toolbox').find('slam_toolbox')
     model_path             = os.path.join(robot_car_pkg_share, 'description/robot_car.physical.urdf')
-    world_path             = os.path.join(robot_car_pkg_share, 'world/my_world.sdf'),
 
     robot_state_publisher_node = launch_ros.actions.Node(
         package    = 'robot_state_publisher',
@@ -22,6 +24,10 @@ def generate_launch_description():
         parameters = [os.path.join(slam_toolbox_pkg_share, 'config', 'mapper_params_online_async.yaml'), {'use_sim_time': LaunchConfiguration('use_sim_time')}
         ],
     )
+    rplidar_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([os.path.join(
+           get_package_share_directory('rplidar'), 'launch'), '/rplidar_launch.py'])
+    )
 
     return launch.LaunchDescription([
         launch.actions.DeclareLaunchArgument(name = 'model'       , default_value = model_path, description = 'Absolute path to robot urdf file'),
@@ -29,4 +35,5 @@ def generate_launch_description():
 
         robot_state_publisher_node,
         slam_toolbox_node,
+        rplidar_launch
     ])
