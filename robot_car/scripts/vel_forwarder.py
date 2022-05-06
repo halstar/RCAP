@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 import rclpy
+import threading
+import serial
 
 from rclpy.node        import Node
 from geometry_msgs.msg import Twist
@@ -16,6 +18,17 @@ class VelocityForwarder(Node):
 
         self.get_logger().info('Starting Velocity Forwarder Node');
 
+
+        self.serial_port          = serial.Serial()
+        self.serial_port.port     = '/dev/serial0'
+        self.serial_port.baudrate = 115200
+        self.serial_port.timeout  = 60
+        self.serial_port.open()
+
+
+        self.read_thread = threading.Thread(target = self.read_thread_function, args = ())
+        self.read_thread.start()
+
         self.subscription = self.create_subscription(
             Twist,
             'cmd_vel',
@@ -30,8 +43,29 @@ class VelocityForwarder(Node):
         wheel_rear_left   = (1 / WHEEL_RADIUS) * (msg.linear.x + msg.linear.y - (WHEEL_SEPARATION_WIDTH + WHEEL_SEPARATION_LENGTH) * msg.angular.z)
         wheel_rear_right  = (1 / WHEEL_RADIUS) * (msg.linear.x - msg.linear.y + (WHEEL_SEPARATION_WIDTH + WHEEL_SEPARATION_LENGTH) * msg.angular.z)
 
-        self.get_logger().info('F.L.: {:.2f} - F.R.: {:.2f} - R.L.: {:.2f} - R.R.: {:.2f}'.format(wheel_front_left, wheel_front_right, wheel_rear_left, wheel_rear_right))
+        self.get_logger().info('Sending  - F.L.: {:.2f} - F.R.: {:.2f} - R.L.: {:.2f} - R.R.: {:.2f}'.format(wheel_front_left, wheel_front_right, wheel_rear_left, wheel_rear_right))
 
+        self.serial_port.write(b'CU {:.1f}  {:.1f} {:.1f}  {:.1f}\r'.format(wheel_front_left, wheel_front_right, wheel_rear_left, wheel_rear_right))
+
+
+    def read_thread_function():
+
+      char = None
+      msg  = ''
+
+      while True:
+
+        char = self.serial_port.read(1)
+
+        if char == b'\r':
+          self.get_logger().info('Received - ' + msg)
+          msg = ''
+        elif char == b'\n':
+          pass
+        else:
+          msg += char.decode('utf-8', 'ignore')
+
+      return
 
 def main(args=None):
 
