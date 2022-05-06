@@ -143,7 +143,7 @@ This repository gathers the Raspberry Pi files, a.k.a. the ROS car application (
 - sudo apt-get install ros-galactic-xacro
 
 
-- ros2 launch robot_car display.launch.py
+- ros2 launch rcap rcap.vm.display.launch.py
 - rviz2 -d rviz/urdf_config.rviz
 - ros2 launch slam_toolbox online_async_launch.py
 - ros2 launch nav2_bringup navigation_launch.py
@@ -164,3 +164,4 @@ This repository gathers the Raspberry Pi files, a.k.a. the ROS car application (
 - rqt_graph
 - ros2 run tf2_tools view_frames
 - xdg-open frames.pdf 
+

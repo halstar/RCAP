@@ -27,7 +27,7 @@ public:
         qos_profile.depth),
       qos_profile);
 
-    tf_broadcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(*this);
+    tfBroadcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(*this);
     subscription_   = this->create_subscription<sensor_msgs::msg::Imu>(
       "/imu",
       qos,
@@ -59,7 +59,7 @@ private:
     orientationZList_.push_back(msg.orientation.z);
     orientationWList_.push_back(msg.orientation.w);
 
-    if (orientationXList.size() > 100)
+    if (orientationXList_.size() > 100)
     {
       orientationXList_.pop_front();
       orientationYList_.pop_front();
@@ -85,11 +85,11 @@ private:
 
     RCLCPP_DEBUG(this->get_logger(), "%f - x: %f / y: %f / z: %f / w: %f", transformStamped, msg.orientation.x, msg.orientation.y, msg.orientation.z, msg.orientation.w);
 
-    tf_broadcaster_->sendTransform(transformStamped);
+    tfBroadcaster_->sendTransform(transformStamped);
   }
 
   rclcpp::Subscription<sensor_msgs::msg::Imu>::SharedPtr subscription_;
-  std::unique_ptr<tf2_ros::TransformBroadcaster>         tf_broadcaster_;
+  std::unique_ptr<tf2_ros::TransformBroadcaster>         tfBroadcaster_;
 };
 
 int main(int argc, char * argv[])
