@@ -3,6 +3,7 @@
 import rclpy
 import threading
 import serial
+import time
 
 from rclpy.node        import Node
 from geometry_msgs.msg import Twist
@@ -18,6 +19,7 @@ class VelocityForwarder(Node):
 
         self.get_logger().info('Starting Velocity Forwarder Node');
 
+        self.saved_time_in_ms = time.time() * 1000
 
         self.serial_port          = serial.Serial()
         self.serial_port.port     = '/dev/serial0'
@@ -25,9 +27,10 @@ class VelocityForwarder(Node):
         self.serial_port.timeout  = 60
         self.serial_port.open()
 
-
         self.read_thread = threading.Thread(target = self.read_thread_function, args = ())
         self.read_thread.start()
+
+        self.get_logger().info('Starting writing thread');
 
         self.subscription = self.create_subscription(
             Twist,
@@ -38,17 +41,28 @@ class VelocityForwarder(Node):
 
     def handle_message(self, msg):
 
-        wheel_front_left  = (1 / WHEEL_RADIUS) * (msg.linear.x - msg.linear.y - (WHEEL_SEPARATION_WIDTH + WHEEL_SEPARATION_LENGTH) * msg.angular.z)
-        wheel_front_right = (1 / WHEEL_RADIUS) * (msg.linear.x + msg.linear.y + (WHEEL_SEPARATION_WIDTH + WHEEL_SEPARATION_LENGTH) * msg.angular.z)
-        wheel_rear_left   = (1 / WHEEL_RADIUS) * (msg.linear.x + msg.linear.y - (WHEEL_SEPARATION_WIDTH + WHEEL_SEPARATION_LENGTH) * msg.angular.z)
-        wheel_rear_right  = (1 / WHEEL_RADIUS) * (msg.linear.x - msg.linear.y + (WHEEL_SEPARATION_WIDTH + WHEEL_SEPARATION_LENGTH) * msg.angular.z)
+        current_time_in_ms   = time.time() * 1000
 
-        self.get_logger().info('Sending  - F.L.: {:.2f} - F.R.: {:.2f} - R.L.: {:.2f} - R.R.: {:.2f}'.format(wheel_front_left, wheel_front_right, wheel_rear_left, wheel_rear_right))
+        if current_time_in_ms - self.saved_time_in_ms > 250:
 
-        self.serial_port.write(b'CU {:.1f}  {:.1f} {:.1f}  {:.1f}\r'.format(wheel_front_left, wheel_front_right, wheel_rear_left, wheel_rear_right))
+            self.saved_time_in_ms = current_time_in_ms
+
+            wheel_front_left  = (1 / WHEEL_RADIUS) * (msg.linear.x - msg.linear.y - (WHEEL_SEPARATION_WIDTH + WHEEL_SEPARATION_LENGTH) * msg.angular.z) * 2
+            wheel_front_right = (1 / WHEEL_RADIUS) * (msg.linear.x + msg.linear.y + (WHEEL_SEPARATION_WIDTH + WHEEL_SEPARATION_LENGTH) * msg.angular.z) * 2
+            wheel_rear_left   = (1 / WHEEL_RADIUS) * (msg.linear.x + msg.linear.y - (WHEEL_SEPARATION_WIDTH + WHEEL_SEPARATION_LENGTH) * msg.angular.z) * 2                
+            wheel_rear_right  = (1 / WHEEL_RADIUS) * (msg.linear.x - msg.linear.y + (WHEEL_SEPARATION_WIDTH + WHEEL_SEPARATION_LENGTH) * msg.angular.z) * 2
+
+            command_string = 'C{:.0f} {:.0f} {:.0f} {:.0f}\r'.format(wheel_front_right, wheel_front_left, wheel_rear_right, wheel_rear_left)
+            command_bytes  = bytes(command_string, encoding = 'ascii')
+    
+            self.serial_port.write(command_bytes)
+
+            self.get_logger().info('Sending : ' + str(command_bytes))
 
 
-    def read_thread_function():
+    def read_thread_function(self):
+
+      self.get_logger().info('Starting reading thread');
 
       char = None
       msg  = ''
@@ -58,12 +72,12 @@ class VelocityForwarder(Node):
         char = self.serial_port.read(1)
 
         if char == b'\r':
-          self.get_logger().info('Received - ' + msg)
-          msg = ''
+            self.get_logger().info('Received: ' + msg)
+            msg = ''
         elif char == b'\n':
-          pass
+            pass
         else:
-          msg += char.decode('utf-8', 'ignore')
+            msg += char.decode('utf-8', 'ignore')
 
       return
 
