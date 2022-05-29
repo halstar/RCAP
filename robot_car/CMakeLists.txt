@@ -32,7 +32,7 @@ install(
 ament_python_install_package(${PROJECT_NAME})
 
 install(PROGRAMS
-  scripts/vel_forwarder.py
+  scripts/drive_controller.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

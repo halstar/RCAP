@@ -97,7 +97,7 @@ This repository gathers the Raspberry Pi files, a.k.a. the ROS car application (
 - sudo apt-get update
 - sudo apt-get install python3-rospkg
 - sudo apt-get install ros-galactic-desktop
-
+- sudo apt-get install ros-galactic-teleop-twist-keyboard
 
 - echo "source /opt/ros/galactic/setup.bash" >> ~/.bashrc
 - source ~/.bashrc
@@ -160,6 +160,7 @@ This repository gathers the Raspberry Pi files, a.k.a. the ROS car application (
 
 - ros2 run joint_state_publisher_gui joint_state_publisher_gui description/robot_car.urdf
 - ros2 run tf2_ros static_transform_publisher 0 0 0 3.14 0 0 base_link lidar_link
+- ros2 run teleop_twist_keyboard teleop_twist_keyboard
 
 - rqt_graph
 - ros2 run tf2_tools view_frames

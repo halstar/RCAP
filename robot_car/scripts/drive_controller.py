@@ -12,12 +12,12 @@ WHEEL_RADIUS            = 0.040
 WHEEL_SEPARATION_WIDTH  = 0.195
 WHEEL_SEPARATION_LENGTH = 0.175
 
-class VelocityForwarder(Node):
+class DriveController(Node):
 
     def __init__(self):
-        super().__init__('vel_forwarder')
+        super().__init__('drive_controller')
 
-        self.get_logger().info('Starting Velocity Forwarder Node');
+        self.get_logger().info('Starting Drive Controller Node');
 
         self.saved_time_in_ms = time.time() * 1000
 
@@ -85,11 +85,11 @@ def main(args=None):
 
     rclpy.init(args=args)
 
-    vel_forwarder = VelocityForwarder()
+    drive_controller = DriveController()
 
-    rclpy.spin(vel_forwarder)
+    rclpy.spin(drive_controller)
 
-    vel_forwarder.destroy_node()
+    drive_controller.destroy_node()
 
     rclpy.shutdown()
 
