@@ -111,7 +111,7 @@
       <xacro:cylinder_inertia m="${wheel_mass}" r="${wheel_radius}" h="${wheel_width}"/>
     </link>
 
-    <joint name="${prefix}_joint" type="continuous">
+    <joint name="${prefix}_joint" type="fixed">
       <parent link="base_link"/>
       <child  link="${prefix}_link"/>
       <origin xyz="${x_reflect*wheel_xoff} ${y_reflect*(base_width/2+wheel_ygap)} ${-wheel_zoff}" rpy="0 0 0"/>

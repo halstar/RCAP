@@ -4,13 +4,20 @@ import rclpy
 import threading
 import serial
 import time
+import math
+import tf_transformations
 
 from rclpy.node        import Node
 from geometry_msgs.msg import Twist
+from geometry_msgs.msg import TransformStamped
+from tf2_ros           import TransformBroadcaster
+
 
 WHEEL_RADIUS            = 0.040
 WHEEL_SEPARATION_WIDTH  = 0.195
 WHEEL_SEPARATION_LENGTH = 0.175
+SPEED_TO_ANGLE_RATIO    = 15.50
+
 
 class DriveController(Node):
 
@@ -39,6 +46,10 @@ class DriveController(Node):
             1)
         self.subscription  # prevent unused variable warning
 
+        self.broadcaster  = TransformBroadcaster(self)
+
+        return
+
     def handle_message(self, msg):
 
         current_time_in_ms   = time.time() * 1000
@@ -59,27 +70,77 @@ class DriveController(Node):
 
             self.get_logger().info('Sending : ' + str(command_bytes))
 
+            self.wheel_front_left_rotation  = 0.0
+            self.wheel_front_right_rotation = 0.0
+            self.wwheel_rear_left_rotation  = 0.0
+            self.wwheel_rear_right_rotation = 0.0
+
+        return
+
+
+    def broadcast_wheels_tf(self, wheel_front_left_speed, wheel_front_right_speed, wheel_rear_left_speed, wheel_rear_right_speed):
+
+        transform_stamped = TransformStamped()
+
+        # Common parameters
+        transform_stamped.header.stamp    = self.get_clock().now().to_msg()
+        transform_stamped.header.frame_id = 'base_link'
+
+        transform_stamped.transform.translation.x = 0.0
+        transform_stamped.transform.translation.y = 0.0
+        transform_stamped.transform.translation.z = 0.0
+
+        transform_stamped.transform.rotation.x = 0.0
+        transform_stamped.transform.rotation.y = 0.0
+
+        # Specific parameters
+        self.wheel_front_left_rotation        += wheel_front_left_speed / SPEED_TO_ANGLE_RATIO
+        transform_stamped.child_frame_id       = 'wheel_front_left_link'        
+        transform_stamped.transform.rotation.z = self.wheel_front_left_rotation % math.pi
+        self.broadcaster.sendTransform(transform_stamped)
+
+        self.get_logger().info('Broadcasting: ' + str(transform_stamped.transform.rotation.z))
+
+
+        self.wheel_front_right_rotation       += wheel_front_right_speed / SPEED_TO_ANGLE_RATIO
+        transform_stamped.child_frame_id       = 'wheel_front_right_link'
+        transform_stamped.transform.rotation.z = self.wheel_front_right_rotation % math.pi
+        self.broadcaster.sendTransform(transform_stamped)
+
+        self.wwheel_rear_left_rotation        += wheel_rear_left_speed / SPEED_TO_ANGLE_RATIO
+        transform_stamped.child_frame_id       = 'wheel_rear_left_link'
+        transform_stamped.transform.rotation.z = self.wwheel_rear_left_rotation % math.pi
+        self.broadcaster.sendTransform(transform_stamped)
+
+        self.wwheel_rear_right_rotation       += wheel_rear_right_speed / SPEED_TO_ANGLE_RATIO
+        transform_stamped.child_frame_id       = 'wheel_rear_right_link'
+        transform_stamped.transform.rotation.z = self.wwheel_rear_right_rotation % math.pi
+        self.broadcaster.sendTransform(transform_stamped)
+
+        return
 
     def read_thread_function(self):
 
-      self.get_logger().info('Starting reading thread');
+        self.get_logger().info('Starting reading thread');
 
-      char = None
-      msg  = ''
+        char = None
+        msg  = ''
 
-      while True:
+        while True:
 
-        char = self.serial_port.read(1)
+            char = self.serial_port.read(1)
 
         if char == b'\r':
             self.get_logger().info('Received: ' + msg)
+            split_msg = msg.split()
+            broadcast_wheels_tf(int(split_msg[0][1:]), int(split_msg[1]), int(split_msg[2]), int(split_msg[3]))
             msg = ''
         elif char == b'\n':
             pass
         else:
             msg += char.decode('utf-8', 'ignore')
 
-      return
+        return
 
 def main(args=None):
 
