@@ -48,6 +48,11 @@ class DriveController(Node):
 
         self.broadcaster  = TransformBroadcaster(self)
 
+        self.wheel_front_left_rotation  = 0.0
+        self.wheel_front_right_rotation = 0.0
+        self.wwheel_rear_left_rotation  = 0.0
+        self.wwheel_rear_right_rotation = 0.0
+
         return
 
     def handle_message(self, msg):
@@ -70,18 +75,13 @@ class DriveController(Node):
 
             self.get_logger().info('Sending : ' + str(command_bytes))
 
-            self.wheel_front_left_rotation  = 0.0
-            self.wheel_front_right_rotation = 0.0
-            self.wwheel_rear_left_rotation  = 0.0
-            self.wwheel_rear_right_rotation = 0.0
-
         return
 
 
     def broadcast_wheels_tf(self, wheel_front_left_speed, wheel_front_right_speed, wheel_rear_left_speed, wheel_rear_right_speed):
 
         transform_stamped = TransformStamped()
-
+        
         # Common parameters
         transform_stamped.header.stamp    = self.get_clock().now().to_msg()
         transform_stamped.header.frame_id = 'base_link'
@@ -98,9 +98,6 @@ class DriveController(Node):
         transform_stamped.child_frame_id       = 'wheel_front_left_link'        
         transform_stamped.transform.rotation.z = self.wheel_front_left_rotation % math.pi
         self.broadcaster.sendTransform(transform_stamped)
-
-        self.get_logger().info('Broadcasting: ' + str(transform_stamped.transform.rotation.z))
-
 
         self.wheel_front_right_rotation       += wheel_front_right_speed / SPEED_TO_ANGLE_RATIO
         transform_stamped.child_frame_id       = 'wheel_front_right_link'
@@ -130,15 +127,16 @@ class DriveController(Node):
 
             char = self.serial_port.read(1)
 
-        if char == b'\r':
-            self.get_logger().info('Received: ' + msg)
-            split_msg = msg.split()
-            broadcast_wheels_tf(int(split_msg[0][1:]), int(split_msg[1]), int(split_msg[2]), int(split_msg[3]))
-            msg = ''
-        elif char == b'\n':
-            pass
-        else:
-            msg += char.decode('utf-8', 'ignore')
+            if char == b'\r':
+                self.get_logger().info('Received: ' + msg)
+                split_msg = msg[1:].split()
+                self.broadcast_wheels_tf(int(split_msg[0]), int(split_msg[1]), int(split_msg[2]), int(split_msg[3]))
+                msg = ''
+            elif char == b'\n':
+                pass
+            else:
+
+                msg += char.decode('utf-8', 'ignore')
 
         return
 
