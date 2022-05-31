@@ -5,12 +5,10 @@ import threading
 import serial
 import time
 import math
-import tf_transformations
 
 from rclpy.node        import Node
+from sensor_msgs.msg   import JointState
 from geometry_msgs.msg import Twist
-from geometry_msgs.msg import TransformStamped
-from tf2_ros           import TransformBroadcaster
 
 
 WHEEL_RADIUS            = 0.040
@@ -39,14 +37,10 @@ class DriveController(Node):
 
         self.get_logger().info('Starting writing thread');
 
-        self.subscription = self.create_subscription(
-            Twist,
-            'cmd_vel',
-            self.handle_message,
-            1)
-        self.subscription  # prevent unused variable warning
+        self.subscription = self.create_subscription(Twist, 'cmd_vel', self.handle_message, 1)
+        self.subscription  # Prevent unused variable warning
 
-        self.broadcaster  = TransformBroadcaster(self)
+        self.publisher = self.create_publisher(JointState, 'joint_states', 1)
 
         self.wheel_front_left_rotation  = 0.0
         self.wheel_front_right_rotation = 0.0
@@ -78,41 +72,20 @@ class DriveController(Node):
         return
 
 
-    def broadcast_wheels_tf(self, wheel_front_left_speed, wheel_front_right_speed, wheel_rear_left_speed, wheel_rear_right_speed):
+    def publish_wheels_state(self, wheel_front_left_speed, wheel_front_right_speed, wheel_rear_left_speed, wheel_rear_right_speed):
 
-        transform_stamped = TransformStamped()
+        self.wheel_front_left_rotation  += wheel_front_left_speed  / SPEED_TO_ANGLE_RATIO
+        self.wheel_front_right_rotation += wheel_front_right_speed / SPEED_TO_ANGLE_RATIO
+        self.wwheel_rear_left_rotation  += wheel_rear_left_speed   / SPEED_TO_ANGLE_RATIO
+        self.wwheel_rear_right_rotation += wheel_rear_right_speed  / SPEED_TO_ANGLE_RATIO
+
+        joint_states = JointState()
         
-        # Common parameters
-        transform_stamped.header.stamp    = self.get_clock().now().to_msg()
-        transform_stamped.header.frame_id = 'base_link'
+        joint_states.header.stamp = self.get_clock().now().to_msg()
+        joint_states.name         = ['wheel_front_left_link'                 , 'wheel_front_right_link'                 , 'wheel_front_right_link'                , 'wheel_rear_left_link'                   ]
+        joint_states.position     = [self.wheel_front_left_rotation % math.pi, self.wheel_front_right_rotation % math.pi, self.wwheel_rear_left_rotation % math.pi, self.wwheel_rear_right_rotation % math.pi]
 
-        transform_stamped.transform.translation.x = 0.0
-        transform_stamped.transform.translation.y = 0.0
-        transform_stamped.transform.translation.z = 0.0
-
-        transform_stamped.transform.rotation.x = 0.0
-        transform_stamped.transform.rotation.y = 0.0
-
-        # Specific parameters
-        self.wheel_front_left_rotation        += wheel_front_left_speed / SPEED_TO_ANGLE_RATIO
-        transform_stamped.child_frame_id       = 'wheel_front_left_link'        
-        transform_stamped.transform.rotation.z = self.wheel_front_left_rotation % math.pi
-        self.broadcaster.sendTransform(transform_stamped)
-
-        self.wheel_front_right_rotation       += wheel_front_right_speed / SPEED_TO_ANGLE_RATIO
-        transform_stamped.child_frame_id       = 'wheel_front_right_link'
-        transform_stamped.transform.rotation.z = self.wheel_front_right_rotation % math.pi
-        self.broadcaster.sendTransform(transform_stamped)
-
-        self.wwheel_rear_left_rotation        += wheel_rear_left_speed / SPEED_TO_ANGLE_RATIO
-        transform_stamped.child_frame_id       = 'wheel_rear_left_link'
-        transform_stamped.transform.rotation.z = self.wwheel_rear_left_rotation % math.pi
-        self.broadcaster.sendTransform(transform_stamped)
-
-        self.wwheel_rear_right_rotation       += wheel_rear_right_speed / SPEED_TO_ANGLE_RATIO
-        transform_stamped.child_frame_id       = 'wheel_rear_right_link'
-        transform_stamped.transform.rotation.z = self.wwheel_rear_right_rotation % math.pi
-        self.broadcaster.sendTransform(transform_stamped)
+        self.publisher.publish(joint_states)
 
         return
 
@@ -130,7 +103,7 @@ class DriveController(Node):
             if char == b'\r':
                 self.get_logger().info('Received: ' + msg)
                 split_msg = msg[1:].split()
-                self.broadcast_wheels_tf(int(split_msg[0]), int(split_msg[1]), int(split_msg[2]), int(split_msg[3]))
+                self.publish_wheels_state(int(split_msg[0]), int(split_msg[1]), int(split_msg[2]), int(split_msg[3]))
                 msg = ''
             elif char == b'\n':
                 pass

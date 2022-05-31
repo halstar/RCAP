@@ -14,6 +14,7 @@ This repository gathers the Raspberry Pi files, a.k.a. the ROS car application (
 - sudo apt-get install i2c-tools libi2c-dev smbus
 - sudo apt-get install curl gnupg2 lsb-release
 - sudo apt-get install libpython3-dev python3-pip
+- sudo pip3    install transforms3d
 
 ## Setup a local network between the robot car and local Windows PC
 
@@ -98,6 +99,7 @@ This repository gathers the Raspberry Pi files, a.k.a. the ROS car application (
 - sudo apt-get install python3-rospkg
 - sudo apt-get install ros-galactic-desktop
 - sudo apt-get install ros-galactic-teleop-twist-keyboard
+- sudo apt-get install ros-galactic-tf-transformations
 
 - echo "source /opt/ros/galactic/setup.bash" >> ~/.bashrc
 - source ~/.bashrc
