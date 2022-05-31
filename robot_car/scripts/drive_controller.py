@@ -44,8 +44,8 @@ class DriveController(Node):
 
         self.wheel_front_left_rotation  = 0.0
         self.wheel_front_right_rotation = 0.0
-        self.wwheel_rear_left_rotation  = 0.0
-        self.wwheel_rear_right_rotation = 0.0
+        self.wheel_rear_left_rotation   = 0.0
+        self.wheel_rear_right_rotation  = 0.0
 
         return
 
@@ -76,14 +76,14 @@ class DriveController(Node):
 
         self.wheel_front_left_rotation  += wheel_front_left_speed  / SPEED_TO_ANGLE_RATIO
         self.wheel_front_right_rotation += wheel_front_right_speed / SPEED_TO_ANGLE_RATIO
-        self.wwheel_rear_left_rotation  += wheel_rear_left_speed   / SPEED_TO_ANGLE_RATIO
-        self.wwheel_rear_right_rotation += wheel_rear_right_speed  / SPEED_TO_ANGLE_RATIO
+        self.wheel_rear_left_rotation   += wheel_rear_left_speed   / SPEED_TO_ANGLE_RATIO
+        self.wheel_rear_right_rotation  += wheel_rear_right_speed  / SPEED_TO_ANGLE_RATIO
 
         joint_states = JointState()
         
         joint_states.header.stamp = self.get_clock().now().to_msg()
         joint_states.name         = ['wheel_front_left_link'                 , 'wheel_front_right_link'                 , 'wheel_front_right_link'                , 'wheel_rear_left_link'                   ]
-        joint_states.position     = [self.wheel_front_left_rotation % math.pi, self.wheel_front_right_rotation % math.pi, self.wwheel_rear_left_rotation % math.pi, self.wwheel_rear_right_rotation % math.pi]
+        joint_states.position     = [self.wheel_front_left_rotation % math.pi, self.wheel_front_right_rotation % math.pi, self.wheel_rear_left_rotation % math.pi, self.wheel_rear_right % math.pi]
 
         self.publisher.publish(joint_states)
 
