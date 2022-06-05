@@ -69,6 +69,9 @@ class DriveController(Node):
 
         return
 
+    def get_rotation_in_rad(self, wheel_rotation):
+
+        return wheel_rotation % (2 * math.pi) - math.pi
 
     def publish_wheels_state(self, wheel_front_left_speed, wheel_front_right_speed, wheel_rear_left_speed, wheel_rear_right_speed):
 
@@ -80,8 +83,14 @@ class DriveController(Node):
         joint_states = JointState()
         
         joint_states.header.stamp = self.get_clock().now().to_msg()
-        joint_states.name         = ['wheel_front_left_joint'                , 'wheel_front_right_joint'                , 'wheel_back_left_joint'                , 'wheel_back_right_joint'                ]
-        joint_states.position     = [self.wheel_front_left_rotation % math.pi, self.wheel_front_right_rotation % math.pi, self.wheel_rear_left_rotation % math.pi, self.wheel_rear_right_rotation % math.pi]
+        joint_states.name         = ['wheel_front_left_joint' ,
+                                     'wheel_front_right_joint',
+                                     'wheel_back_left_joint'  ,
+                                     'wheel_back_right_joint']
+        joint_states.position     = [self.get_rotation_in_rad(self.wheel_front_left_rotation ),
+                                     self.get_rotation_in_rad(self.wheel_front_right_rotation),
+                                     self.get_rotation_in_rad(self.wheel_rear_left_rotation  ),
+                                     self.get_rotation_in_rad(self.wheel_rear_right_rotation )]
 
         self.publisher.publish(joint_states)
 

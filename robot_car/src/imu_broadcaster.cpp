@@ -59,7 +59,7 @@ private:
     orientationZList_.push_back(msg.orientation.z);
     orientationWList_.push_back(msg.orientation.w);
 
-    if (orientationXList_.size() > 100)
+    if (orientationXList_.size() > 60)
     {
       orientationXList_.pop_front();
       orientationYList_.pop_front();
