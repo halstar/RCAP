@@ -108,9 +108,12 @@ class DriveController(Node):
             char = self.serial_port.read(1)
 
             if char == b'\r':
-                self.get_logger().info('Received: ' + msg)
+                self.get_logger().info('Received: ' + msg)                
                 split_msg = msg[1:].split()
-                self.publish_wheels_state(int(split_msg[1]), int(split_msg[0]), int(split_msg[3]), int(split_msg[2]))
+                if msg[0] == 'S' and len(split_msg) == 4:
+                    self.publish_wheels_state(int(split_msg[1]), int(split_msg[0]), int(split_msg[3]), int(split_msg[2]))
+                else:
+                    self.get_logger().info('Discarding malformed message')
                 msg = ''
             elif char == b'\n':
                 pass
@@ -126,12 +129,16 @@ def main(args=None):
 
     drive_controller = DriveController()
 
-    rclpy.spin(drive_controller)
-
-    drive_controller.destroy_node()
-
-    rclpy.shutdown()
-
+    try:
+         rclpy.spin(drive_controller)
+    except KeyboardInterrupt:
+         print('Stopped by keyboard interrupt')
+    except BaseException:
+         print('Stopped by exception')
+         raise
+    finally:
+         drive_controller.destroy_node()
+         rclpy.shutdown() 
 
 if __name__ == '__main__':
     main()
