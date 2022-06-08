@@ -32,11 +32,6 @@ class DriveController(Node):
         self.serial_port.timeout  = 60
         self.serial_port.open()
 
-        self.read_thread = threading.Thread(target = self.read_thread_function, args = ())
-        self.read_thread.start()
-
-        self.get_logger().info('Starting writing thread');
-
         self.subscription = self.create_subscription(Twist, 'cmd_vel', self.handle_message, 1)
         self.subscription  # Prevent unused variable warning
 
@@ -46,6 +41,9 @@ class DriveController(Node):
         self.wheel_front_right_rotation = 0.0
         self.wheel_rear_left_rotation   = 0.0
         self.wheel_rear_right_rotation  = 0.0
+        
+        self.read_thread = threading.Thread(target = self.read_thread_function, args = ())
+        self.read_thread.start()
 
         return
 
@@ -71,6 +69,9 @@ class DriveController(Node):
 
         return
 
+    def get_rotation_in_rad(self, wheel_rotation):
+
+        return wheel_rotation % (2 * math.pi) - math.pi
 
     def publish_wheels_state(self, wheel_front_left_speed, wheel_front_right_speed, wheel_rear_left_speed, wheel_rear_right_speed):
 
@@ -82,8 +83,14 @@ class DriveController(Node):
         joint_states = JointState()
         
         joint_states.header.stamp = self.get_clock().now().to_msg()
-        joint_states.name         = ['wheel_front_left_link'                 , 'wheel_front_right_link'                 , 'wheel_front_right_link'                , 'wheel_rear_left_link'                   ]
-        joint_states.position     = [self.wheel_front_left_rotation % math.pi, self.wheel_front_right_rotation % math.pi, self.wheel_rear_left_rotation % math.pi, self.wheel_rear_right % math.pi]
+        joint_states.name         = ['wheel_front_left_joint' ,
+                                     'wheel_front_right_joint',
+                                     'wheel_back_left_joint'  ,
+                                     'wheel_back_right_joint']
+        joint_states.position     = [self.get_rotation_in_rad(self.wheel_front_left_rotation ),
+                                     self.get_rotation_in_rad(self.wheel_front_right_rotation),
+                                     self.get_rotation_in_rad(self.wheel_rear_left_rotation  ),
+                                     self.get_rotation_in_rad(self.wheel_rear_right_rotation )]
 
         self.publisher.publish(joint_states)
 
@@ -101,9 +108,12 @@ class DriveController(Node):
             char = self.serial_port.read(1)
 
             if char == b'\r':
-                self.get_logger().info('Received: ' + msg)
+                self.get_logger().info('Received: ' + msg)                
                 split_msg = msg[1:].split()
-                self.publish_wheels_state(int(split_msg[0]), int(split_msg[1]), int(split_msg[2]), int(split_msg[3]))
+                if msg[0] == 'S' and len(split_msg) == 4:
+                    self.publish_wheels_state(int(split_msg[1]), int(split_msg[0]), int(split_msg[3]), int(split_msg[2]))
+                else:
+                    self.get_logger().info('Discarding malformed message')
                 msg = ''
             elif char == b'\n':
                 pass
@@ -119,12 +129,17 @@ def main(args=None):
 
     drive_controller = DriveController()
 
-    rclpy.spin(drive_controller)
-
-    drive_controller.destroy_node()
-
-    rclpy.shutdown()
-
+    try:
+         rclpy.spin(drive_controller)
+    except KeyboardInterrupt:
+         print('Stopped by keyboard interrupt')
+    except BaseException:
+         print('Stopped by exception')
+         raise
+    finally:
+         drive_controller.destroy_node()
+         rclpy.shutdown() 
 
 if __name__ == '__main__':
     main()
+

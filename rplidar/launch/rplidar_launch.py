@@ -5,7 +5,7 @@ from launch_ros.actions   import Node
 
 
 def generate_launch_description():
-    serial_port      = LaunchConfiguration('serial_port'     , default='/dev/ttyUSB1')
+    serial_port      = LaunchConfiguration('serial_port'     , default='/dev/ttyUSB0')
     serial_baudrate  = LaunchConfiguration('serial_baudrate' , default='115200')
     frame_id         = LaunchConfiguration('frame_id'        , default='lidar_link')
     inverted         = LaunchConfiguration('inverted'        , default='False')
