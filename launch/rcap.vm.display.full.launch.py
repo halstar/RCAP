@@ -4,8 +4,8 @@ import launch_ros
 import os
 
 def generate_launch_description():
-    robot_car_pkg_share = launch_ros.substitutions.FindPackageShare(package = 'robot_car').find('robot_car')
-    rviz_config_path    = os.path.join(robot_car_pkg_share, 'rviz/urdf_config.physical.rviz')
+    rcap_pkg_share   = launch_ros.substitutions.FindPackageShare(package = 'rcap').find('rcap')
+    rviz_config_path = os.path.join(rcap_pkg_share, 'rviz/config.physical.rviz')
 
     rviz_node = launch_ros.actions.Node(
         package    = 'rviz2',

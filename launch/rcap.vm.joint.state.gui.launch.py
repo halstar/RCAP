@@ -5,8 +5,9 @@ import os
 
 def generate_launch_description():
     robot_car_pkg_share = launch_ros.substitutions.FindPackageShare(package = 'robot_car').find('robot_car')
+    rcap_pkg_share      = launch_ros.substitutions.FindPackageShare(package = 'rcap'     ).find('rcap')
     model_path          = os.path.join(robot_car_pkg_share, 'description/robot_car.vm.joint.state.gui.urdf')
-    rviz_config_path    = os.path.join(robot_car_pkg_share, 'rviz/urdf_config.joint.state.gui.rviz')
+    rviz_config_path    = os.path.join(rcap_pkg_share     , 'rviz/config.joint.state.gui.rviz')
 
     robot_state_publisher_node = launch_ros.actions.Node(
         package    = 'robot_state_publisher',
