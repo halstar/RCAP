@@ -146,7 +146,7 @@ This repository gathers the Raspberry Pi files, a.k.a. the ROS car application (
 
 
 - ros2 launch rcap rcap.vm.display.launch.py
-- rviz2 -d rviz/urdf_config.rviz
+- rviz2 -d config.simulation.rviz
 - ros2 launch slam_toolbox online_async_launch.py
 - ros2 launch nav2_bringup navigation_launch.py
 - ros2 launch nav2_bringup navigation_launch.py params_file:=/home/stef/RCAP/robot_car/config/nav2_params.yaml

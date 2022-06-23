@@ -25,7 +25,7 @@ install(TARGETS imu_broadcaster
 )
 
 install(
-  DIRECTORY description launch rviz config world meshes
+  DIRECTORY description launch config world meshes
   DESTINATION share/${PROJECT_NAME}
 )
 
