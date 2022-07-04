@@ -74,7 +74,7 @@ class DriveController(Node):
     
             self.serial_port.write(command_bytes)
 
-            self.get_logger().info('Sending : ' + str(command_bytes))
+            self.get_logger().debug('Sending : ' + str(command_bytes))
 
         return
 
@@ -153,7 +153,7 @@ class DriveController(Node):
             char = self.serial_port.read(1)
 
             if char == b'\r':
-                self.get_logger().info('Received: ' + msg)                
+                self.get_logger().debug('Received: ' + msg)                
                 split_msg = msg[1:].split()
                 if msg[0] == 'S' and len(split_msg) == 4:
                     self.publish_wheels_state(int(split_msg[1]), int(split_msg[0]), int(split_msg[3]), int(split_msg[2]))
