@@ -28,7 +28,7 @@ public:
       qos_profile);
 
     tfBroadcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(*this);
-    subscription_   = this->create_subscription<sensor_msgs::msg::Imu>(
+    subscription_  = this->create_subscription<sensor_msgs::msg::Imu>(
       "/imu",
       qos,
       std::bind(&FramePublisher::handle_message, this, _1));
