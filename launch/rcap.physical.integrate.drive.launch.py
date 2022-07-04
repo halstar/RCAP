@@ -16,7 +16,7 @@ def generate_launch_description():
         parameters = [{'robot_description': Command(['xacro ', LaunchConfiguration('model')])}, {'use_sim_time': LaunchConfiguration('use_sim_time')}]
     )
 
-    driveController_launch = IncludeLaunchDescription(
+    drive_controller_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(
            get_package_share_directory('robot_car'), 'launch'), '/drive_controller_launch.py'])
     )
@@ -26,5 +26,5 @@ def generate_launch_description():
         launch.actions.DeclareLaunchArgument(name = 'use_sim_time', default_value = 'False'   , description = 'Flag to enable use_sim_time'     ),
 
         robot_state_publisher_node,
-        driveController_launch
+        drive_controller_launch
     ])
