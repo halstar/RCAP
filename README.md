@@ -99,7 +99,7 @@ This repository gathers the Raspberry Pi files, a.k.a. the ROS car application (
 - sudo apt-get install python3-rospkg
 - sudo apt-get install ros-galactic-desktop
 - sudo apt-get install ros-galactic-teleop-twist-keyboard
-- sudo apt-get install ros-galactic-tf-transformations
+- sudo apt-get install ros-galactic-tf2-tools ros-galactic-tf-transformations
 
 - echo "source /opt/ros/galactic/setup.bash" >> ~/.bashrc
 - source ~/.bashrc

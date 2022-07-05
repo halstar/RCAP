@@ -5,11 +5,13 @@ import threading
 import serial
 import time
 import math
+import tf_transformations
 
 from rclpy.node        import Node
 from sensor_msgs.msg   import JointState
-from geometry_msgs.msg import Twist
-
+from geometry_msgs.msg import Twist, TransformStamped
+from nav_msgs.msg      import Odometry
+from tf2_ros           import TransformBroadcaster
 
 WHEEL_RADIUS            = 0.040
 WHEEL_SEPARATION_WIDTH  = 0.195
@@ -38,8 +40,8 @@ class DriveController(Node):
 
         self.publisher = self.create_publisher(JointState, 'joint_states', 1)
 
-        self.odom_publisher   = self.create_publisher("odom", Odometry, queue_size=50)
-        self.odom_broadcaster = tf.TransformBroadcaster()
+        self.odom_publisher   = self.create_publisher(Odometry, 'odom', 50)
+        self.odom_broadcaster = TransformBroadcaster(self)
 
         self.wheel_front_left_rotation  = 0.0
         self.wheel_front_right_rotation = 0.0
@@ -74,7 +76,7 @@ class DriveController(Node):
     
             self.serial_port.write(command_bytes)
 
-            self.get_logger().debug('Sending : ' + str(command_bytes))
+            self.get_logger().info('Sending : ' + str(command_bytes))
 
         return
 
@@ -111,33 +113,47 @@ class DriveController(Node):
         linear_y_velocity  = (-wheel_front_left_speed + wheel_front_right_speed + wheel_rear_left_speed - wheel_rear_right_speed) * (WHEEL_RADIUS / 4)
         angular_z_velocity = (-wheel_front_left_speed + wheel_front_right_speed - wheel_rear_left_speed + wheel_rear_right_speed) * (WHEEL_RADIUS / (4 * (WHEEL_SEPARATION_WIDTH + WHEEL_SEPARATION_LENGTH)))
 
-        current_time_rx_in_s = time.time()
-        delta_time_in_s      = current_time_rx_in_s - self.saved_time_rx_in_ms
+        current_time_rx_in_s    = time.time()
+        delta_time_in_s         = current_time_rx_in_s - self.saved_time_rx_in_s
+        self.saved_time_rx_in_s = current_time_rx_in_s
 
-        delta_x = (linear_x_velocity  * cos(angular_z_velocity) - linear_y_velocity * sin(angular_z_velocity)) * delta_time_in_s
-        delta_y = (linear_x_velocity  * sin(angular_z_velocity) + linear_y_velocity * cos(angular_z_velocity)) * delta_time_in_s
+        delta_x = (linear_x_velocity  * math.cos(angular_z_velocity) - linear_y_velocity * math.sin(angular_z_velocity)) * delta_time_in_s
+        delta_y = (linear_x_velocity  * math.sin(angular_z_velocity) + linear_y_velocity * math.cos(angular_z_velocity)) * delta_time_in_s
         delta_z = angular_z_velocity * delta_time_in_s
 
         self.linear_x_position  += delta_x
         self.linear_y_position  += delta_y
         self.angular_z_position += delta_z
 
-        odom_quat = tf.transformations.quaternion_from_euler(0, 0, angular_z_velocity)
+        quaternion = tf_transformations.quaternion_from_euler(0, 0, angular_z_velocity)
 
-        self.odom_broadcaster.sendTransform((self.linear_x_position, self.linear_y_position, 0.),
-                                            odom_quat,
-                                            current_time_rx_in_s,
-                                            "base_link",
-                                            "odom")
+        self.get_logger().debug('Sending transform')
+
+        odom_transform                 = TransformStamped()
+        odom_transform.header.frame_id = 'odom'
+        odom_transform.child_frame_id  = 'base_link'
+
+        odom_transform.header.stamp            = self.get_clock().now().to_msg()
+        odom_transform.transform.translation.x = self.linear_x_position
+        odom_transform.transform.translation.y = self.linear_y_position
+        odom_transform.transform.translation.z = 0.0
+        odom_transform.transform.rotation.x    = 0.0
+        odom_transform.transform.rotation.y    = 0.0
+        odom_transform.transform.rotation.z    = 0.0
+        odom_transform.transform.rotation.w    = 0.0
+
+        self.odom_broadcaster.sendTransform(odom_transform)
 
         odometry = Odometry()
 
         odometry.header.frame_id = "odom"
         odometry.header.stamp    = self.get_clock().now().to_msg()
-        odometry.pose.pose       = Pose(Point(self.linear_x_position, self.linear_y_position, 0.), Quaternion(*odom_quat))
+        odometry.pose.pose       = Pose(Point(self.linear_x_position, self.linear_y_position, 0.), Quaternion(*quaternion))
 
         odometry.child_frame_id  = "base_link"
         odometry.twist.twist     = Twist(Vector3(linear_x_velocity, linear_y_velocity, 0), Vector3(0, 0, angular_z_velocity))
+
+        self.get_logger().debug('Publishing odometry')
 
         self.odom_publisher.publish(odometry)
 
@@ -153,7 +169,7 @@ class DriveController(Node):
             char = self.serial_port.read(1)
 
             if char == b'\r':
-                self.get_logger().debug('Received: ' + msg)                
+                self.get_logger().info('Received: ' + msg)                
                 split_msg = msg[1:].split()
                 if msg[0] == 'S' and len(split_msg) == 4:
                     self.publish_wheels_state(int(split_msg[1]), int(split_msg[0]), int(split_msg[3]), int(split_msg[2]))
