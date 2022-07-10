@@ -66,7 +66,7 @@ class RPLidarScanPublisher : public rclcpp::Node
         this->get_parameter_or<int>        ("serial_baudrate" , serial_baudrate , 115200        );
         this->get_parameter_or<std::string>("frame_id"        , frame_id        , "lidar_link"  );
         this->get_parameter_or<bool>       ("inverted"        , inverted        , false         );
-        this->get_parameter_or<bool>       ("angle_compensate", angle_compensate, false         );
+        this->get_parameter_or<bool>       ("angle_compensate", angle_compensate, true          );
         this->get_parameter_or<std::string>("scan_mode"       , scan_mode       , ""            );
     }
 

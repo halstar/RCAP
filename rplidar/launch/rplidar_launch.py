@@ -9,7 +9,7 @@ def generate_launch_description():
     serial_baudrate  = LaunchConfiguration('serial_baudrate' , default='115200')
     frame_id         = LaunchConfiguration('frame_id'        , default='lidar_link')
     inverted         = LaunchConfiguration('inverted'        , default='False')
-    angle_compensate = LaunchConfiguration('angle_compensate', default='true')
+    angle_compensate = LaunchConfiguration('angle_compensate', default='True')
 
     return LaunchDescription([
 

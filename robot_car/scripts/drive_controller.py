@@ -76,7 +76,7 @@ class DriveController(Node):
     
             self.serial_port.write(command_bytes)
 
-            self.get_logger().info('Sending : ' + str(command_bytes))
+            self.get_logger().debug('Sending : ' + str(command_bytes))
 
         return
 
@@ -126,7 +126,7 @@ class DriveController(Node):
         self.angular_z_position += delta_z
 
         tf_quat  = tf_transformations.quaternion_from_euler(0, 0, self.angular_z_position)
-        msg_quat = Quaternion(tf_quat[0], tf_quat[1], tf_quat[2], tf_quat[3])
+        msg_quat = Quaternion(x=tf_quat[0], y=tf_quat[1], z=tf_quat[2], w=tf_quat[3])
 
         odom_transform                 = TransformStamped()
         odom_transform.header.frame_id = 'odom'
@@ -172,7 +172,7 @@ class DriveController(Node):
             char = self.serial_port.read(1)
 
             if char == b'\r':
-                self.get_logger().info('Received: ' + msg)                
+                self.get_logger().debug('Received: ' + msg)                
                 split_msg = msg[1:].split()
                 if msg[0] == 'S' and len(split_msg) == 4:
                     self.publish_wheels_state(int(split_msg[1]), int(split_msg[0]), int(split_msg[3]), int(split_msg[2]))
