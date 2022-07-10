@@ -117,18 +117,16 @@ class DriveController(Node):
         delta_time_in_s         = current_time_rx_in_s - self.saved_time_rx_in_s
         self.saved_time_rx_in_s = current_time_rx_in_s
 
-        delta_x = (linear_x_velocity * math.cos(angular_z_velocity) - linear_y_velocity * math.sin(angular_z_velocity)) * delta_time_in_s
-        delta_y = (linear_x_velocity * math.sin(angular_z_velocity) + linear_y_velocity * math.cos(angular_z_velocity)) * delta_time_in_s
-        delta_z = angular_z_velocity * delta_time_in_s
+        delta_x = delta_time_in_s * (linear_x_velocity * math.cos(self.angular_z_position) - linear_y_velocity * math.sin(self.angular_z_position))
+        delta_y = delta_time_in_s * (linear_x_velocity * math.sin(self.angular_z_position) + linear_y_velocity * math.cos(self.angular_z_position))
+        delta_z = delta_time_in_s *  angular_z_velocity
 
         self.linear_x_position  += delta_x
         self.linear_y_position  += delta_y
         self.angular_z_position += delta_z
 
-        tf_quat  = tf_transformations.quaternion_from_euler(0, 0, angular_z_velocity)
-        msg_quat = Quaternion(x=tf_quat[0], y=tf_quat[1], z=tf_quat[2], w=tf_quat[3])
-
-        self.get_logger().debug('Sending transform')
+        tf_quat  = tf_transformations.quaternion_from_euler(0, 0, self.angular_z_position)
+        msg_quat = Quaternion(tf_quat[0], tf_quat[1], tf_quat[2], tf_quat[3])
 
         odom_transform                 = TransformStamped()
         odom_transform.header.frame_id = 'odom'
@@ -140,10 +138,11 @@ class DriveController(Node):
         odom_transform.transform.translation.z = 0.0
         odom_transform.transform.rotation      = msg_quat
 
+        self.get_logger().debug('Sending transform')
+
         self.odom_broadcaster.sendTransform(odom_transform)
 
-        odometry = Odometry()
-
+        odometry                 = Odometry()
         odometry.header.frame_id = "odom"
         odometry.child_frame_id  = "base_link"
         odometry.header.stamp    = self.get_clock().now().to_msg()
