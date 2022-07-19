@@ -17,7 +17,11 @@ WHEEL_RADIUS            = 0.040
 WHEEL_SEPARATION_WIDTH  = 0.195
 WHEEL_SEPARATION_LENGTH = 0.175
 SPEED_TO_ANGLE_RATIO    = 15.50
+SPEED_TO_ODOM_RATIO     =  0.45
 
+X_SPEED_FACTOR = 2.10
+Y_SPEED_FACTOR = 3.00
+Z_SPEED_FACTOR = 1.15
 
 class DriveController(Node):
 
@@ -28,6 +32,14 @@ class DriveController(Node):
 
         self.saved_time_tx_in_ms = time.time() * 1000
         self.saved_time_rx_in_s  = time.time()
+
+        self.start_time = 0.0
+
+        self.last_command_bytes           = 0
+        self.last_wheel_front_left_speed  = 0
+        self.last_wheel_front_right_speed = 0
+        self.last_wheel_rear_left_speed   = 0
+        self.last_wheel_rear_right_speed  = 0
 
         self.serial_port          = serial.Serial()
         self.serial_port.port     = '/dev/serial0'
@@ -55,28 +67,40 @@ class DriveController(Node):
         self.read_thread = threading.Thread(target = self.read_thread_function, args = ())
         self.read_thread.start()
 
-
         return
 
     def handle_message(self, msg):
 
-        current_time_in_ms = time.time() * 1000
+        msg.linear.x  *= X_SPEED_FACTOR
+        msg.linear.y  *= Y_SPEED_FACTOR
+        msg.angular.z *= Z_SPEED_FACTOR
 
-        if current_time_in_ms - self.saved_time_tx_in_ms > 250:
+        self.get_logger().debug('Handling message @ ' + str(time.time()))
 
-            self.saved_time_tx_in_ms = current_time_in_ms
+#        if self.start_time == 0.0:
 
-            wheel_front_left  = (1 / WHEEL_RADIUS) * (msg.linear.x - msg.linear.y - (WHEEL_SEPARATION_WIDTH + WHEEL_SEPARATION_LENGTH) * msg.angular.z) 
-            wheel_front_right = (1 / WHEEL_RADIUS) * (msg.linear.x + msg.linear.y + (WHEEL_SEPARATION_WIDTH + WHEEL_SEPARATION_LENGTH) * msg.angular.z)
-            wheel_rear_left   = (1 / WHEEL_RADIUS) * (msg.linear.x + msg.linear.y - (WHEEL_SEPARATION_WIDTH + WHEEL_SEPARATION_LENGTH) * msg.angular.z)                
-            wheel_rear_right  = (1 / WHEEL_RADIUS) * (msg.linear.x - msg.linear.y + (WHEEL_SEPARATION_WIDTH + WHEEL_SEPARATION_LENGTH) * msg.angular.z)
+#            self.start_time = time.time()
 
-            command_string = 'C{:.0f} {:.0f} {:.0f} {:.0f}\r'.format(wheel_front_right, wheel_front_left, wheel_rear_right, wheel_rear_left)
-            command_bytes  = bytes(command_string, encoding = 'ascii')
-    
-            self.serial_port.write(command_bytes)
+        wheel_front_left  = (1 / WHEEL_RADIUS) * (msg.linear.x - msg.linear.y - (WHEEL_SEPARATION_WIDTH + WHEEL_SEPARATION_LENGTH) * msg.angular.z)
+        wheel_front_right = (1 / WHEEL_RADIUS) * (msg.linear.x + msg.linear.y + (WHEEL_SEPARATION_WIDTH + WHEEL_SEPARATION_LENGTH) * msg.angular.z)
+        wheel_rear_left   = (1 / WHEEL_RADIUS) * (msg.linear.x + msg.linear.y - (WHEEL_SEPARATION_WIDTH + WHEEL_SEPARATION_LENGTH) * msg.angular.z)
+        wheel_rear_right  = (1 / WHEEL_RADIUS) * (msg.linear.x - msg.linear.y + (WHEEL_SEPARATION_WIDTH + WHEEL_SEPARATION_LENGTH) * msg.angular.z)
 
-            self.get_logger().debug('Sending : ' + str(command_bytes))
+        command_string = 'C{:.0f} {:.0f} {:.0f} {:.0f}\r'.format(wheel_front_right, wheel_front_left, wheel_rear_right, wheel_rear_left)
+
+        command_bytes  = bytes(command_string, encoding = 'ascii')
+        self.serial_port.write(command_bytes)
+
+        if command_bytes != self.last_command_bytes:
+            self.get_logger().info('Sending : ' + str(command_bytes))
+            self.last_command_bytes = command_bytes
+
+#        elif time.time() - self.start_time > 3.0:
+
+#            command_string = 'C0 0 0 0\r'
+#            command_bytes  = bytes(command_string, encoding = 'ascii')
+#            self.serial_port.write(command_bytes)
+#            self.get_logger().info('Sending : ' + str(command_bytes))
 
         return
 
@@ -108,6 +132,27 @@ class DriveController(Node):
         return
 
     def publish_odom(self, wheel_front_left_speed, wheel_front_right_speed, wheel_rear_left_speed, wheel_rear_right_speed):
+
+        wheel_front_left_speed  *= SPEED_TO_ODOM_RATIO
+        wheel_front_right_speed *= SPEED_TO_ODOM_RATIO
+        wheel_rear_left_speed   *= SPEED_TO_ODOM_RATIO
+        wheel_rear_right_speed  *= SPEED_TO_ODOM_RATIO
+
+        if (wheel_front_left_speed  != self.last_wheel_front_left_speed  
+        or wheel_front_right_speed != self.last_wheel_front_right_speed
+        or wheel_rear_left_speed   != self.last_wheel_rear_left_speed  
+        or wheel_rear_right_speed  != self.last_wheel_rear_right_speed):
+
+            self.get_logger().info('Received: {} {} {} {}'.format(int(wheel_front_left_speed ),
+                                                                  int(wheel_front_right_speed),
+                                                                  int(wheel_rear_left_speed  ),
+                                                                  int(wheel_rear_right_speed )))
+
+            self.last_wheel_front_left_speed  = wheel_front_left_speed
+            self.last_wheel_front_right_speed = wheel_front_right_speed
+            self.last_wheel_rear_left_speed   = wheel_rear_left_speed
+            self.last_wheel_rear_right_speed  = wheel_rear_right_speed
+
 
         linear_x_velocity  = ( wheel_front_left_speed + wheel_front_right_speed + wheel_rear_left_speed + wheel_rear_right_speed) * (WHEEL_RADIUS / 4)
         linear_y_velocity  = (-wheel_front_left_speed + wheel_front_right_speed + wheel_rear_left_speed - wheel_rear_right_speed) * (WHEEL_RADIUS / 4)
@@ -172,7 +217,6 @@ class DriveController(Node):
             char = self.serial_port.read(1)
 
             if char == b'\r':
-                self.get_logger().debug('Received: ' + msg)                
                 split_msg = msg[1:].split()
                 if msg[0] == 'S' and len(split_msg) == 4:
                     self.publish_wheels_state(int(split_msg[1]), int(split_msg[0]), int(split_msg[3]), int(split_msg[2]))
