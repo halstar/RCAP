@@ -13,15 +13,15 @@ from geometry_msgs.msg import Twist, TransformStamped, Quaternion
 from nav_msgs.msg      import Odometry
 from tf2_ros           import TransformBroadcaster
 
-WHEEL_RADIUS            = 0.040
-WHEEL_SEPARATION_WIDTH  = 0.195
-WHEEL_SEPARATION_LENGTH = 0.175
-SPEED_TO_ANGLE_RATIO    = 15.50
-SPEED_TO_ODOM_RATIO     =  0.45
+SPEED_TO_ANGLE_RATIO = 15.50
 
-X_SPEED_FACTOR = 2.10
-Y_SPEED_FACTOR = 3.00
-Z_SPEED_FACTOR = 1.15
+X_SPEED_FACTOR_CMD_VEL = 57.00
+Y_SPEED_FACTOR_CMD_VEL = 60.00
+Z_SPEED_FACTOR_CMD_VEL = 10.50
+
+X_SPEED_FACTOR_ODOM = 0.0019
+Y_SPEED_FACTOR_ODOM = 0.0018
+Z_SPEED_FACTOR_ODOM = 0.0103
 
 class DriveController(Node):
 
@@ -71,9 +71,9 @@ class DriveController(Node):
 
     def handle_message(self, msg):
 
-        msg.linear.x  *= X_SPEED_FACTOR
-        msg.linear.y  *= Y_SPEED_FACTOR
-        msg.angular.z *= Z_SPEED_FACTOR
+        msg.linear.x  *= X_SPEED_FACTOR_CMD_VEL
+        msg.linear.y  *= Y_SPEED_FACTOR_CMD_VEL
+        msg.angular.z *= Z_SPEED_FACTOR_CMD_VEL
 
         self.get_logger().debug('Handling message @ ' + str(time.time()))
 
@@ -81,18 +81,17 @@ class DriveController(Node):
 
 #            self.start_time = time.time()
 
-        wheel_front_left  = (1 / WHEEL_RADIUS) * (msg.linear.x - msg.linear.y - (WHEEL_SEPARATION_WIDTH + WHEEL_SEPARATION_LENGTH) * msg.angular.z)
-        wheel_front_right = (1 / WHEEL_RADIUS) * (msg.linear.x + msg.linear.y + (WHEEL_SEPARATION_WIDTH + WHEEL_SEPARATION_LENGTH) * msg.angular.z)
-        wheel_rear_left   = (1 / WHEEL_RADIUS) * (msg.linear.x + msg.linear.y - (WHEEL_SEPARATION_WIDTH + WHEEL_SEPARATION_LENGTH) * msg.angular.z)
-        wheel_rear_right  = (1 / WHEEL_RADIUS) * (msg.linear.x - msg.linear.y + (WHEEL_SEPARATION_WIDTH + WHEEL_SEPARATION_LENGTH) * msg.angular.z)
+        wheel_front_left  = msg.linear.x - msg.linear.y - msg.angular.z
+        wheel_front_right = msg.linear.x + msg.linear.y + msg.angular.z
+        wheel_rear_left   = msg.linear.x + msg.linear.y - msg.angular.z
+        wheel_rear_right  = msg.linear.x - msg.linear.y + msg.angular.z
 
         command_string = 'C{:.0f} {:.0f} {:.0f} {:.0f}\r'.format(wheel_front_right, wheel_front_left, wheel_rear_right, wheel_rear_left)
-
         command_bytes  = bytes(command_string, encoding = 'ascii')
-        self.serial_port.write(command_bytes)
 
         if command_bytes != self.last_command_bytes:
             self.get_logger().info('Sending : ' + str(command_bytes))
+            self.serial_port.write   (command_bytes)
             self.last_command_bytes = command_bytes
 
 #        elif time.time() - self.start_time > 3.0:
@@ -133,30 +132,30 @@ class DriveController(Node):
 
     def publish_odom(self, wheel_front_left_speed, wheel_front_right_speed, wheel_rear_left_speed, wheel_rear_right_speed):
 
-        wheel_front_left_speed  *= SPEED_TO_ODOM_RATIO
-        wheel_front_right_speed *= SPEED_TO_ODOM_RATIO
-        wheel_rear_left_speed   *= SPEED_TO_ODOM_RATIO
-        wheel_rear_right_speed  *= SPEED_TO_ODOM_RATIO
+        linear_x_velocity  = wheel_front_left_speed + wheel_front_right_speed + wheel_rear_left_speed + wheel_rear_right_speed
+        linear_y_velocity  = -wheel_front_left_speed + wheel_front_right_speed + wheel_rear_left_speed - wheel_rear_right_speed
+        angular_z_velocity = -wheel_front_left_speed + wheel_front_right_speed - wheel_rear_left_speed + wheel_rear_right_speed
 
-        if (wheel_front_left_speed  != self.last_wheel_front_left_speed  
-        or wheel_front_right_speed != self.last_wheel_front_right_speed
-        or wheel_rear_left_speed   != self.last_wheel_rear_left_speed  
-        or wheel_rear_right_speed  != self.last_wheel_rear_right_speed):
+        linear_x_velocity  *= X_SPEED_FACTOR_ODOM
+        linear_y_velocity  *= Y_SPEED_FACTOR_ODOM
+        angular_z_velocity *= Z_SPEED_FACTOR_ODOM
+
+        if (wheel_front_left_speed  != self.last_wheel_front_left_speed
+         or wheel_front_right_speed != self.last_wheel_front_right_speed
+         or wheel_rear_left_speed   != self.last_wheel_rear_left_speed
+         or wheel_rear_right_speed  != self.last_wheel_rear_right_speed):
 
             self.get_logger().info('Received: {} {} {} {}'.format(int(wheel_front_left_speed ),
                                                                   int(wheel_front_right_speed),
                                                                   int(wheel_rear_left_speed  ),
                                                                   int(wheel_rear_right_speed )))
 
+            self.get_logger().info('X: :{:.2f} / Y: {:.2f} / Z: {:.2f}'.format(linear_x_velocity, linear_y_velocity, angular_z_velocity))
+
             self.last_wheel_front_left_speed  = wheel_front_left_speed
             self.last_wheel_front_right_speed = wheel_front_right_speed
             self.last_wheel_rear_left_speed   = wheel_rear_left_speed
             self.last_wheel_rear_right_speed  = wheel_rear_right_speed
-
-
-        linear_x_velocity  = ( wheel_front_left_speed + wheel_front_right_speed + wheel_rear_left_speed + wheel_rear_right_speed) * (WHEEL_RADIUS / 4)
-        linear_y_velocity  = (-wheel_front_left_speed + wheel_front_right_speed + wheel_rear_left_speed - wheel_rear_right_speed) * (WHEEL_RADIUS / 4)
-        angular_z_velocity = (-wheel_front_left_speed + wheel_front_right_speed - wheel_rear_left_speed + wheel_rear_right_speed) * (WHEEL_RADIUS / (4 * (WHEEL_SEPARATION_WIDTH + WHEEL_SEPARATION_LENGTH)))
 
         current_time_rx_in_s    = time.time()
         delta_time_in_s         = current_time_rx_in_s - self.saved_time_rx_in_s
@@ -221,6 +220,7 @@ class DriveController(Node):
                 if msg[0] == 'S' and len(split_msg) == 4:
                     self.publish_wheels_state(int(split_msg[1]), int(split_msg[0]), int(split_msg[3]), int(split_msg[2]))
                     self.publish_odom        (int(split_msg[1]), int(split_msg[0]), int(split_msg[3]), int(split_msg[2]))
+                    pass
                 else:
                     self.get_logger().info('Discarding malformed message')
                 msg = ''
@@ -251,4 +251,5 @@ def main(args=None):
 
 if __name__ == '__main__':
     main()
+
 
