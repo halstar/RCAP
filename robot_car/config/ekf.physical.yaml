@@ -13,7 +13,7 @@ ekf_filter_node:
         two_d_mode: true
 
 # Whether to publish the acceleration state. Defaults to false if unspecified.
-        publish_acceleration: true
+        publish_acceleration: false
 
 # Whether to broadcast the transformation over the /tf topic. Defaultsto true if unspecified.
         publish_tf: true
@@ -30,9 +30,9 @@ ekf_filter_node:
         map_frame: map              # Defaults to "map" if unspecified
         odom_frame: odom            # Defaults to "odom" if unspecified
         base_link_frame: base_link  # Defaults to "base_link" ifunspecified
-        world_frame: odom           # Defaults to the value ofodom_frame if unspecified
+        world_frame: odom           # Defaults to the value of odom_frame if unspecified
 
-        odom0: demo/odom
+        odom0: odom
         odom0_config: [true,  true,  true,
                        false, false, false,
                        false, false, false,
