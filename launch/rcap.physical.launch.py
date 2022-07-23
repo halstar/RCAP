@@ -16,19 +16,27 @@ def generate_launch_description():
         executable = 'robot_state_publisher',
         parameters = [{'robot_description': Command(['xacro ', LaunchConfiguration('model')])}, {'use_sim_time': LaunchConfiguration('use_sim_time')}]
     )
-    robot_localization_node = launch_ros.actions.Node(
-        package    = 'robot_localization',
-        executable = 'ekf_node',
-        name       = 'ekf_filter_node',
-        output     = 'screen',
-        parameters = [os.path.join(robot_car_pkg_share, 'config/ekf.physical.yaml'), {'use_sim_time': LaunchConfiguration('use_sim_time')}]
-    )    
+#    robot_localization_node = launch_ros.actions.Node(
+#        package    = 'robot_localization',
+#        executable = 'ekf_node',
+#        name       = 'ekf_filter_node',
+#        output     = 'screen',
+#        parameters = [os.path.join(robot_car_pkg_share, 'config/ekf.physical.yaml'), {'use_sim_time': LaunchConfiguration('use_sim_time')}]
+#    )    
     slam_toolbox_node = launch_ros.actions.Node(
         package    = 'slam_toolbox',
         executable = 'async_slam_toolbox_node',
         name       = 'slam_toolbox',
         output     = 'screen',
         parameters = [os.path.join(slam_toolbox_pkg_share, 'config', 'mapper_params_online_async.yaml'), {'use_sim_time': LaunchConfiguration('use_sim_time')}
+        ],
+    )
+    nav2_bringup_node = launch_ros.actions.Node(
+        package    = 'nav2_bringup',
+        executable = 'navigation_launch',
+        name       = 'nav2_bringup',
+        output     = 'screen',
+        parameters = [os.path.join(robot_car_pkg_share, 'config', 'nav2_params.yaml'), {'use_sim_time': LaunchConfiguration('use_sim_time')}
         ],
     )
     drive_controller_launch = IncludeLaunchDescription(
@@ -49,8 +57,9 @@ def generate_launch_description():
         launch.actions.DeclareLaunchArgument(name = 'use_sim_time', default_value = 'False'   , description = 'Flag to enable use_sim_time'     ),
 
         robot_state_publisher_node,
-        robot_localization_node,
+#        robot_localization_node,
         slam_toolbox_node,
+        nav2_bringup_node,
         drive_controller_launch,
         mpu9250_launch,
         rplidar_launch

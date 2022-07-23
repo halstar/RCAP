@@ -15,7 +15,7 @@ ekf_filter_node:
 # Whether to publish the acceleration state. Defaults to false if unspecified.
         publish_acceleration: true
 
-# Whether to broadcast the transformation over the /tf topic. Defaultsto true if unspecified.
+# Whether to broadcast the transformation over the /tf topic. Defaults to true if unspecified.
         publish_tf: true
 
 # 1. Set the map_frame, odom_frame, and base_link frames to the appropriate frame names for your system.
@@ -29,8 +29,8 @@ ekf_filter_node:
 #         from robot_localization! However, that instance should *not* fuse the global data.
         map_frame: map              # Defaults to "map" if unspecified
         odom_frame: odom            # Defaults to "odom" if unspecified
-        base_link_frame: base_link  # Defaults to "base_link" ifunspecified
-        world_frame: odom           # Defaults to the value ofodom_frame if unspecified
+        base_link_frame: base_link  # Defaults to "base_link" if unspecified
+        world_frame: odom           # Defaults to the value of odom_frame if unspecified
 
         odom0: odom
         odom0_config: [true,  true,  true,
