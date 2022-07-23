@@ -31,14 +31,6 @@ def generate_launch_description():
         parameters = [os.path.join(slam_toolbox_pkg_share, 'config', 'mapper_params_online_async.yaml'), {'use_sim_time': LaunchConfiguration('use_sim_time')}
         ],
     )
-    nav2_bringup_node = launch_ros.actions.Node(
-        package    = 'nav2_bringup',
-        executable = 'navigation_launch',
-        name       = 'nav2_bringup',
-        output     = 'screen',
-        parameters = [os.path.join(robot_car_pkg_share, 'config', 'nav2_params.yaml'), {'use_sim_time': LaunchConfiguration('use_sim_time')}
-        ],
-    )
     drive_controller_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(
            get_package_share_directory('robot_car'), 'launch'), '/drive_controller_launch.py'])
@@ -59,7 +51,6 @@ def generate_launch_description():
         robot_state_publisher_node,
 #        robot_localization_node,
         slam_toolbox_node,
-        nav2_bringup_node,
         drive_controller_launch,
         mpu9250_launch,
         rplidar_launch
