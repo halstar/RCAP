@@ -90,7 +90,7 @@ class DriveController(Node):
         command_bytes  = bytes(command_string, encoding = 'ascii')
 
         if command_bytes != self.last_command_bytes:
-            self.get_logger().info('Sending : ' + str(command_bytes))
+            self.get_logger().debug('Sending : ' + str(command_bytes))
             self.serial_port.write   (command_bytes)
             self.last_command_bytes = command_bytes
 
@@ -145,12 +145,12 @@ class DriveController(Node):
          or wheel_rear_left_speed   != self.last_wheel_rear_left_speed
          or wheel_rear_right_speed  != self.last_wheel_rear_right_speed):
 
-            self.get_logger().info('Received: {} {} {} {}'.format(int(wheel_front_left_speed ),
-                                                                  int(wheel_front_right_speed),
-                                                                  int(wheel_rear_left_speed  ),
-                                                                  int(wheel_rear_right_speed )))
+            self.get_logger().debug('Received: {} {} {} {}'.format(int(wheel_front_left_speed ),
+                                                                   int(wheel_front_right_speed),
+                                                                   int(wheel_rear_left_speed  ),
+                                                                   int(wheel_rear_right_speed )))
 
-            self.get_logger().info('X: :{:.2f} / Y: {:.2f} / Z: {:.2f}'.format(linear_x_velocity, linear_y_velocity, angular_z_velocity))
+            self.get_logger().debug('X: :{:.2f} / Y: {:.2f} / Z: {:.2f}'.format(linear_x_velocity, linear_y_velocity, angular_z_velocity))
 
             self.last_wheel_front_left_speed  = wheel_front_left_speed
             self.last_wheel_front_right_speed = wheel_front_right_speed
