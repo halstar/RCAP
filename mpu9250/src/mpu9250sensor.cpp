@@ -13,30 +13,30 @@ MPU9250Sensor::MPU9250Sensor(std::unique_ptr<I2cCommunicator> i2cBus) : i2cBus_(
   initImuI2c();
 
   // Wake up sensor
-  int result = i2cBus_->write(PWR_MGMT_1, 0);
+  (void)i2cBus_->write(PWR_MGMT_1, 0);
 
   // Disable I2C master interface
-  result = i2cBus_->write(MPU9250_USER_CTRL, 0x00);
+  (void)i2cBus_->write(MPU9250_USER_CTRL, 0x00);
   // Enable bypass mode for magnetometer
-  result = i2cBus_->write(MPU9250_BYPASS_ADDR, 0x02);
+  (void)i2cBus_->write(MPU9250_BYPASS_ADDR, 0x02);
 
   // Set magnetometer to 100 Hz continuous measurement mode
   initMagnI2c();
 
-  result = i2cBus_->write(MAG_MEAS_MODE, 0x00);
+  (void)i2cBus_->write(MAG_MEAS_MODE, 0x00);
   std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
-  result = i2cBus_->write(MAG_MEAS_MODE, FUSE_ROM_ACCESS_MODE);
+  (void)i2cBus_->write(MAG_MEAS_MODE, FUSE_ROM_ACCESS_MODE);
   std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
   mag_asax = (i2cBus_->read(0x10) - 128) * 0.5 / 128 + 1;
   mag_asay = (i2cBus_->read(0x11) - 128) * 0.5 / 128 + 1;
   mag_asaz = (i2cBus_->read(0x12) - 128) * 0.5 / 128 + 1;
 
-  result = i2cBus_->write(MAG_MEAS_MODE, 0x00);
+  (void)i2cBus_->write(MAG_MEAS_MODE, 0x00);
   std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
-  result = i2cBus_->write(MAG_MEAS_MODE, 0x16);
+  (void)i2cBus_->write(MAG_MEAS_MODE, 0x16);
   std::this_thread::sleep_for(std::chrono::milliseconds(100));
   initImuI2c();
 
@@ -155,7 +155,7 @@ double MPU9250Sensor::getMagneticFluxDensityZ() const
 void MPU9250Sensor::triggerNextMagReading() const
 {
   initMagnI2c();
-  int8_t status2 = i2cBus_->read(STATUS_2);
+  (void)i2cBus_->read(STATUS_2);
   initImuI2c();
 
   return;

@@ -83,7 +83,7 @@ private:
     transformStamped.transform.rotation.z = average(orientationZList_);
     transformStamped.transform.rotation.w = average(orientationWList_);
 
-    RCLCPP_DEBUG(this->get_logger(), "%f - x: %f / y: %f / z: %f / w: %f", transformStamped, msg.orientation.x, msg.orientation.y, msg.orientation.z, msg.orientation.w);
+    RCLCPP_DEBUG(this->get_logger(), "%u - x: %f / y: %f / z: %f / w: %f", transformStamped.header.stamp.sec, msg.orientation.x, msg.orientation.y, msg.orientation.z, msg.orientation.w);
 
     tfBroadcaster_->sendTransform(transformStamped);
   }
