@@ -257,7 +257,6 @@ typedef struct _rplidar_response_hq_capsule_measurement_nodes_t{
 
 typedef struct _rplidar_response_get_lidar_conf{
     _u32 type;
-    _u8  payload[0];
 }__attribute__((packed)) rplidar_response_get_lidar_conf_t;
 
 typedef struct _rplidar_response_set_lidar_conf{
