@@ -182,9 +182,10 @@ class DriveController(Node):
         odom_transform.transform.translation.z = 0.0
         odom_transform.transform.rotation      = msg_quat
 
-        self.get_logger().debug('Sending transform')
-
-        self.odom_broadcaster.sendTransform(odom_transform)
+        # Publish odom transform only when localization node is not used.
+        # When localization node is running, it publishes that transform.
+        # self.get_logger().debug('Sending transform')
+        # self.odom_broadcaster.sendTransform(odom_transform)
 
         odometry                 = Odometry()
         odometry.header.frame_id = "odom"
