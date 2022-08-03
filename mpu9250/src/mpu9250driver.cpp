@@ -110,18 +110,59 @@ void MPU9250Driver::computeOrientation(sensor_msgs::msg::Imu& imu_message)
 
   RCLCPP_DEBUG(this->get_logger(), "Roll: %4.2f / Pitch: %4.2f / Yaw: %4.2f", roll * 180.0 / 3.1416, pitch * 180.0 / 3.1416, yaw * 180.0 / 3.1416);
 
+  double averageRoll, averagePitch, averageYaw;
+
+  computeAverages(roll, pitch, yaw, &averageRoll, &averagePitch, &averageYaw);
+
   // Convert to quaternion
-  double cy = cos(yaw   * 0.5);
-  double sy = sin(yaw   * 0.5);
-  double cp = cos(pitch * 0.5);
-  double sp = sin(pitch * 0.5);
-  double cr = cos(roll  * 0.5);
-  double sr = sin(roll  * 0.5);
+  double cy = cos(averageYaw   * 0.5);
+  double sy = sin(averageYaw   * 0.5);
+  double cp = cos(averagePitch * 0.5);
+  double sp = sin(averagePitch * 0.5);
+  double cr = cos(averageRoll  * 0.5);
+  double sr = sin(averageRoll  * 0.5);
 
   imu_message.orientation.x = cy * cp * sr - sy * sp * cr;
   imu_message.orientation.y = sy * cp * sr + cy * sp * cr;
   imu_message.orientation.z = sy * cp * cr - cy * sp * sr;
   imu_message.orientation.w = cy * cp * cr + sy * sp * sr;
+
+  return;
+}
+
+void MPU9250Driver::computeAverages(double roll, double pitch, double yaw, double *averageRoll, double *averagePitch, double *averageYaw)
+{
+    averageRoll_.push_back (roll );
+    averagePitch_.push_back(pitch);
+    averageYaw_.push_back  (yaw  );
+    
+    if (averageRoll_.size() > 30)
+    {
+        averageRoll_.pop_front ();
+        averagePitch_.pop_front();
+        averageYaw_.pop_front  ();
+    }
+
+    float sum = 0;
+    for (std::list<double>::iterator p = averageRoll_.begin(); p != averageRoll_.end(); ++p)
+    {
+        sum += (double)*p;
+    }
+    *averageRoll = sum / averageRoll_.size();
+
+    sum = 0;
+    for (std::list<double>::iterator p = averagePitch_.begin(); p != averagePitch_.end(); ++p)
+    {
+        sum += (double)*p;
+    }
+    *averagePitch = sum / averagePitch_.size();
+
+    sum = 0;
+    for (std::list<double>::iterator p = averageYaw_.begin(); p != averageYaw_.end(); ++p)
+    {
+        sum += (double)*p;
+    }
+    *averageYaw = sum / averageYaw_.size();
 
   return;
 }

@@ -172,18 +172,19 @@ class DriveController(Node):
         tf_quat  = tf_transformations.quaternion_from_euler(0, 0, self.angular_z_position)
         msg_quat = Quaternion(x=tf_quat[0], y=tf_quat[1], z=tf_quat[2], w=tf_quat[3])
 
-        odom_transform                 = TransformStamped()
-        odom_transform.header.frame_id = 'odom'
-        odom_transform.child_frame_id  = 'base_link'
-        odom_transform.header.stamp    = self.get_clock().now().to_msg()
-
-        odom_transform.transform.translation.x = self.linear_x_position
-        odom_transform.transform.translation.y = self.linear_y_position
-        odom_transform.transform.translation.z = 0.0
-        odom_transform.transform.rotation      = msg_quat
-
         # Publish odom transform only when localization node is not used.
         # When localization node is running, it publishes that transform.
+
+        # odom_transform                 = TransformStamped()
+        # odom_transform.header.frame_id = 'odom'
+        # odom_transform.child_frame_id  = 'base_link'
+        # odom_transform.header.stamp    = self.get_clock().now().to_msg()
+
+        # odom_transform.transform.translation.x = self.linear_x_position
+        # odom_transform.transform.translation.y = self.linear_y_position
+        # odom_transform.transform.translation.z = 0.0
+        # odom_transform.transform.rotation      = msg_quat
+
         # self.get_logger().debug('Sending transform')
         # self.odom_broadcaster.sendTransform(odom_transform)
 
