@@ -168,3 +168,4 @@ This repository gathers the Raspberry Pi files, a.k.a. the ROS car application (
 - ros2 run tf2_tools view_frames
 - xdg-open frames.pdf 
 
+- sudo service apport stop
