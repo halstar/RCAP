@@ -36,4 +36,9 @@ install(PROGRAMS
   DESTINATION lib/${PROJECT_NAME}
 )
 
+install(PROGRAMS
+  scripts/wall_follower.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 ament_package()
