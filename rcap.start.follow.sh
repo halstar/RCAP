@@ -17,6 +17,5 @@ source install/setup.bash
 cd ..
 source install/setup.bash 
 
-ros2 launch rcap      rcap.physical.launch.py &
-ros2 launch robot_car wall_follower.py
+ros2 launch rcap rcap.physical.follow.launch.py
 

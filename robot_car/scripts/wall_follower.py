@@ -26,9 +26,9 @@ Z_SPEED_FACTOR_ODOM = 0.0103
 class DriveController(Node):
 
     def __init__(self):
-        super().__init__('drive_controller')
+        super().__init__('wall_follower')
 
-        self.get_logger().info('Starting Drive Controller Node');
+        self.get_logger().info('Starting Wall Follower Node');
 
         self.saved_time_tx_in_ms = time.time() * 1000
         self.saved_time_rx_in_s  = time.time()
