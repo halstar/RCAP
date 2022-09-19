@@ -6,12 +6,10 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
-        - /RobotModel1
         - /RobotModel1/Description Topic1
-        - /RPLidarLaserScan1
         - /RPLidarLaserScan1/Topic1
       Splitter Ratio: 0.5317919254302979
-    Tree Height: 450
+    Tree Height: 694
   - Class: rviz_common/Selection
     Name: Selection
   - Class: rviz_common/Tool Properties
@@ -30,7 +28,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: RPLidarLaserScan
 Visualization Manager:
   Class: ""
   Displays:
@@ -70,6 +68,65 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
+        antenna_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        base_footprint:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        board_1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        board_2_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        imu_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        lidar_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        tower_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheel_back_left_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheel_back_right_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheel_front_left_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheel_front_right_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
       Name: RobotModel
       TF Prefix: ""
       Update Interval: 0
@@ -127,7 +184,7 @@ Visualization Manager:
       Class: rviz_default_plugins/Map
       Color Scheme: map
       Draw Behind: false
-      Enabled: false
+      Enabled: true
       Name: Map
       Topic:
         Depth: 5
@@ -143,7 +200,7 @@ Visualization Manager:
         Reliability Policy: Reliable
         Value: /map_updates
       Use Timestamp: false
-      Value: false
+      Value: true
     - Alpha: 0.699999988079071
       Class: rviz_default_plugins/Map
       Color Scheme: map
@@ -216,7 +273,7 @@ Visualization Manager:
       Buffer Length: 1
       Class: rviz_default_plugins/Path
       Color: 25; 255; 0
-      Enabled: false
+      Enabled: true
       Head Diameter: 0.30000001192092896
       Head Length: 0.20000000298023224
       Length: 0.30000001192092896
@@ -239,11 +296,11 @@ Visualization Manager:
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /plan
-      Value: false
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: base_footprint
+    Fixed Frame: map
     Frame Rate: 30
   Name: root
   Tools:
@@ -286,33 +343,33 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 4.535837650299072
+      Distance: 3.2539563179016113
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.6208781003952026
-        Y: 0.048248037695884705
-        Z: -0.18848957121372223
+        X: 0.05120299011468887
+        Y: -0.01771651953458786
+        Z: -0.046132273972034454
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.7059034705162048
+      Pitch: 1.149796485900879
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.1386260986328125
+      Yaw: 3.1442759037017822
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 688
+  Height: 932
   Hide Left Dock: false
   Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd00000001000000000000016a00000251fc0200000005fb000000100044006900730070006c006100790073010000004100000251000000dd00fffffffb0000001200530065006c0065006300740069006f006e0000000254000000640000006400fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007300000003390000008d0000006400fffffffb0000000a00560069006500770073000000030b000000c6000000b000fffffffb0000000800540069006d006500000003c5000000540000003b00ffffff000002490000025100000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000100000000000001ae00000345fc0200000005fb000000100044006900730070006c006100790073010000004100000345000000dd00fffffffb0000001200530065006c0065006300740069006f006e0000000254000000640000006400fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007300000003390000008d0000006400fffffffb0000000a00560069006500770073000000030b000000c6000000b000fffffffb0000000800540069006d006500000003c5000000540000003b00ffffff000005cc0000034500000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
@@ -321,6 +378,6 @@ Window Geometry:
     collapsed: false
   Views:
     collapsed: false
-  Width: 953
-  X: 25
+  Width: 1920
+  X: 0
   Y: 28
