@@ -47,10 +47,10 @@ class DriveController(Node):
         self.serial_port.timeout  = 60
         self.serial_port.open()
 
-        self.subscription = self.create_subscription(Twist, 'cmd_vel', self.handle_message, 1)
-        self.subscription  # Prevent unused variable warning
+        self.cmd_vel_subscriber = self.create_subscription(Twist, 'cmd_vel', self.apply_velocity, 1)
+        self.cmd_vel_subscriber  # Prevent unused variable warning
 
-        self.publisher = self.create_publisher(JointState, 'joint_states', 1)
+        self.joints_publisher = self.create_publisher(JointState, 'joint_states', 1)
 
         self.odom_publisher   = self.create_publisher(Odometry, 'odom', 50)
         self.odom_broadcaster = TransformBroadcaster(self)
@@ -69,13 +69,13 @@ class DriveController(Node):
 
         return
 
-    def handle_message(self, msg):
+    def apply_velocity(self, msg):
 
         msg.linear.x  *= X_SPEED_FACTOR_CMD_VEL
         msg.linear.y  *= Y_SPEED_FACTOR_CMD_VEL
         msg.angular.z *= Z_SPEED_FACTOR_CMD_VEL
 
-        self.get_logger().debug('Handling message @ ' + str(time.time()))
+        self.get_logger().debug('Applying velocity command @ ' + str(time.time()))
 
 #        if self.start_time == 0.0:
 
@@ -126,7 +126,7 @@ class DriveController(Node):
                                      self.get_rotation_in_rad(self.wheel_rear_left_rotation  ),
                                      self.get_rotation_in_rad(self.wheel_rear_right_rotation )]
 
-        self.publisher.publish(joint_states)
+        joints_publisher.publish(joint_states)
 
         return
 

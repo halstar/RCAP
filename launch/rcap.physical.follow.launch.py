@@ -31,6 +31,10 @@ def generate_launch_description():
         parameters = [os.path.join(slam_toolbox_pkg_share, 'config', 'mapper_params_online_async.yaml'), {'use_sim_time': LaunchConfiguration('use_sim_time')}
         ],
     )
+    drive_controller_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([os.path.join(
+           get_package_share_directory('robot_car'), 'launch'), '/drive_controller_launch.py'])
+    )
     wall_follower_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(
            get_package_share_directory('robot_car'), 'launch'), '/wall_follower_launch.py'])
@@ -51,6 +55,7 @@ def generate_launch_description():
         robot_state_publisher_node,
         robot_localization_node,
         slam_toolbox_node,
+        drive_controller_launch,
         wall_follower_launch,
         mpu9250_launch,
         rplidar_launch

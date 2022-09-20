@@ -19,8 +19,8 @@ This repository gathers the Raspberry Pi files, a.k.a. the ROS car application (
 ## Setup a local network between the robot car and local Windows PC
 
 - sudo ufw disable
-- sudo ifconfig enp0s8 192.168.0.45
-- sudo route add default gw 192.168.0.254 enp0s8
+- sudo ifconfig enp0s8 192.168.1.45
+- sudo route add default gw 192.168.1.254 enp0s8
 - sudo /etc/init.d/networking restart
 
 ## Setup SSH

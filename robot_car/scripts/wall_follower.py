@@ -1,254 +1,180 @@
 #!/usr/bin/env python3
 
 import rclpy
-import threading
-import serial
 import time
-import math
-import tf_transformations
 
 from rclpy.node        import Node
-from sensor_msgs.msg   import JointState
-from geometry_msgs.msg import Twist, TransformStamped, Quaternion
-from nav_msgs.msg      import Odometry
-from tf2_ros           import TransformBroadcaster
+from sensor_msgs.msg   import LaserScan
+from geometry_msgs.msg import Twist
 
-SPEED_TO_ANGLE_RATIO = 15.50
+PROCESS_PERIOD = 0.010
+LINEAR_SPEED   = 0.200
+TURN_SPEED     = 1.000
 
-X_SPEED_FACTOR_CMD_VEL = 57.00
-Y_SPEED_FACTOR_CMD_VEL = 60.00
-Z_SPEED_FACTOR_CMD_VEL = 10.50
 
-X_SPEED_FACTOR_ODOM = 0.0019
-Y_SPEED_FACTOR_ODOM = 0.0018
-Z_SPEED_FACTOR_ODOM = 0.0103
-
-class DriveController(Node):
+class WallFollower(Node):
 
     def __init__(self):
         super().__init__('wall_follower')
 
         self.get_logger().info('Starting Wall Follower Node');
 
-        self.saved_time_tx_in_ms = time.time() * 1000
-        self.saved_time_rx_in_s  = time.time()
+        self.cycle = 0
+        self.timer = self.create_timer(PROCESS_PERIOD, self.main_callback)
 
-        self.start_time = 0.0
+        self.qos_policy = rclpy.qos.QoSProfile(reliability=rclpy.qos.ReliabilityPolicy.BEST_EFFORT,
+                                               history=rclpy.qos.HistoryPolicy.KEEP_LAST,
+                                               depth=10)
 
-        self.last_command_bytes           = 0
-        self.last_wheel_front_left_speed  = 0
-        self.last_wheel_front_right_speed = 0
-        self.last_wheel_rear_left_speed   = 0
-        self.last_wheel_rear_right_speed  = 0
+        self.laser_scan_subscriber = self.create_subscription(LaserScan, 'scan', self.process_scan, qos_profile=self.qos_policy)
+        self.laser_scan_subscriber  # Prevent unused variable warning
 
-        self.serial_port          = serial.Serial()
-        self.serial_port.port     = '/dev/serial0'
-        self.serial_port.baudrate = 115200
-        self.serial_port.timeout  = 60
-        self.serial_port.open()
-
-        self.subscription = self.create_subscription(Twist, 'cmd_vel', self.handle_message, 1)
-        self.subscription  # Prevent unused variable warning
-
-        self.publisher = self.create_publisher(JointState, 'joint_states', 1)
-
-        self.odom_publisher   = self.create_publisher(Odometry, 'odom', 50)
-        self.odom_broadcaster = TransformBroadcaster(self)
-
-        self.wheel_front_left_rotation  = 0.0
-        self.wheel_front_right_rotation = 0.0
-        self.wheel_rear_left_rotation   = 0.0
-        self.wheel_rear_right_rotation  = 0.0
-        
-        self.linear_x_position  = 0.0
-        self.linear_y_position  = 0.0
-        self.angular_z_position = 0.0
-
-        self.read_thread = threading.Thread(target = self.read_thread_function, args = ())
-        self.read_thread.start()
+        self.cmd_vel_publisher = self.create_publisher(Twist, 'cmd_vel', 10)
 
         return
 
-    def handle_message(self, msg):
+    def main_callback(self):
 
-        msg.linear.x  *= X_SPEED_FACTOR_CMD_VEL
-        msg.linear.y  *= Y_SPEED_FACTOR_CMD_VEL
-        msg.angular.z *= Z_SPEED_FACTOR_CMD_VEL
+        # self.get_logger().info('Entering main');
 
-        self.get_logger().debug('Handling message @ ' + str(time.time()))
+        # if self.cycle == 0:
 
-#        if self.start_time == 0.0:
+        #     self.stop()
 
-#            self.start_time = time.time()
+        # elif self.cycle == 100:
 
-        wheel_front_left  = msg.linear.x - msg.linear.y - msg.angular.z
-        wheel_front_right = msg.linear.x + msg.linear.y + msg.angular.z
-        wheel_rear_left   = msg.linear.x + msg.linear.y - msg.angular.z
-        wheel_rear_right  = msg.linear.x - msg.linear.y + msg.angular.z
+        #     self.go_forward()
 
-        command_string = 'C{:.0f} {:.0f} {:.0f} {:.0f}\r'.format(wheel_front_right, wheel_front_left, wheel_rear_right, wheel_rear_left)
-        command_bytes  = bytes(command_string, encoding = 'ascii')
+        # elif self.cycle == 300:
 
-        if command_bytes != self.last_command_bytes:
-            self.get_logger().debug('Sending : ' + str(command_bytes))
-            self.serial_port.write   (command_bytes)
-            self.last_command_bytes = command_bytes
+        #     self.turn_left()
 
-#        elif time.time() - self.start_time > 3.0:
+        # elif self.cycle == 500:
 
-#            command_string = 'C0 0 0 0\r'
-#            command_bytes  = bytes(command_string, encoding = 'ascii')
-#            self.serial_port.write(command_bytes)
-#            self.get_logger().info('Sending : ' + str(command_bytes))
+        #     self.go_forward()
 
-        return
+        # elif self.cycle == 700:
 
-    def get_rotation_in_rad(self, wheel_rotation):
+        #     self.go_backward()
 
-        return wheel_rotation % (2 * math.pi) - math.pi
+        # elif self.cycle == 900:
 
-    def publish_wheels_state(self, wheel_front_left_speed, wheel_front_right_speed, wheel_rear_left_speed, wheel_rear_right_speed):
+        #     self.turn_right()
 
-        self.wheel_front_left_rotation  += wheel_front_left_speed  / SPEED_TO_ANGLE_RATIO
-        self.wheel_front_right_rotation += wheel_front_right_speed / SPEED_TO_ANGLE_RATIO
-        self.wheel_rear_left_rotation   += wheel_rear_left_speed   / SPEED_TO_ANGLE_RATIO
-        self.wheel_rear_right_rotation  += wheel_rear_right_speed  / SPEED_TO_ANGLE_RATIO
+        # elif self.cycle == 1100:
 
-        joint_states = JointState()
-        
-        joint_states.header.stamp = self.get_clock().now().to_msg()
-        joint_states.name         = ['wheel_front_left_joint' ,
-                                     'wheel_front_right_joint',
-                                     'wheel_back_left_joint'  ,
-                                     'wheel_back_right_joint']
-        joint_states.position     = [self.get_rotation_in_rad(self.wheel_front_left_rotation ),
-                                     self.get_rotation_in_rad(self.wheel_front_right_rotation),
-                                     self.get_rotation_in_rad(self.wheel_rear_left_rotation  ),
-                                     self.get_rotation_in_rad(self.wheel_rear_right_rotation )]
+        #     self.stop()
 
-        self.publisher.publish(joint_states)
+        # else:
+
+        #     pass
+
+        self.cycle += 1
 
         return
 
-    def publish_odom(self, wheel_front_left_speed, wheel_front_right_speed, wheel_rear_left_speed, wheel_rear_right_speed):
+    def process_scan(self, msg):
 
-        linear_x_velocity  = wheel_front_left_speed + wheel_front_right_speed + wheel_rear_left_speed + wheel_rear_right_speed
-        linear_y_velocity  = -wheel_front_left_speed + wheel_front_right_speed + wheel_rear_left_speed - wheel_rear_right_speed
-        angular_z_velocity = -wheel_front_left_speed + wheel_front_right_speed - wheel_rear_left_speed + wheel_rear_right_speed
-
-        linear_x_velocity  *= X_SPEED_FACTOR_ODOM
-        linear_y_velocity  *= Y_SPEED_FACTOR_ODOM
-        angular_z_velocity *= Z_SPEED_FACTOR_ODOM
-
-        if (wheel_front_left_speed  != self.last_wheel_front_left_speed
-         or wheel_front_right_speed != self.last_wheel_front_right_speed
-         or wheel_rear_left_speed   != self.last_wheel_rear_left_speed
-         or wheel_rear_right_speed  != self.last_wheel_rear_right_speed):
-
-            self.get_logger().debug('Received: {} {} {} {}'.format(int(wheel_front_left_speed ),
-                                                                   int(wheel_front_right_speed),
-                                                                   int(wheel_rear_left_speed  ),
-                                                                   int(wheel_rear_right_speed )))
-
-            self.get_logger().debug('X: :{:.2f} / Y: {:.2f} / Z: {:.2f}'.format(linear_x_velocity, linear_y_velocity, angular_z_velocity))
-
-            self.last_wheel_front_left_speed  = wheel_front_left_speed
-            self.last_wheel_front_right_speed = wheel_front_right_speed
-            self.last_wheel_rear_left_speed   = wheel_rear_left_speed
-            self.last_wheel_rear_right_speed  = wheel_rear_right_speed
-
-        current_time_rx_in_s    = time.time()
-        delta_time_in_s         = current_time_rx_in_s - self.saved_time_rx_in_s
-        self.saved_time_rx_in_s = current_time_rx_in_s
-
-        delta_x = delta_time_in_s * (linear_x_velocity * math.cos(self.angular_z_position) - linear_y_velocity * math.sin(self.angular_z_position))
-        delta_y = delta_time_in_s * (linear_x_velocity * math.sin(self.angular_z_position) + linear_y_velocity * math.cos(self.angular_z_position))
-        delta_z = delta_time_in_s *  angular_z_velocity
-
-        self.linear_x_position  += delta_x
-        self.linear_y_position  += delta_y
-        self.angular_z_position += delta_z
-
-        tf_quat  = tf_transformations.quaternion_from_euler(0, 0, self.angular_z_position)
-        msg_quat = Quaternion(x=tf_quat[0], y=tf_quat[1], z=tf_quat[2], w=tf_quat[3])
-
-        # Publish odom transform only when localization node is not used.
-        # When localization node is running, it publishes that transform.
-
-        # odom_transform                 = TransformStamped()
-        # odom_transform.header.frame_id = 'odom'
-        # odom_transform.child_frame_id  = 'base_link'
-        # odom_transform.header.stamp    = self.get_clock().now().to_msg()
-
-        # odom_transform.transform.translation.x = self.linear_x_position
-        # odom_transform.transform.translation.y = self.linear_y_position
-        # odom_transform.transform.translation.z = 0.0
-        # odom_transform.transform.rotation      = msg_quat
-
-        # self.get_logger().debug('Sending transform')
-        # self.odom_broadcaster.sendTransform(odom_transform)
-
-        odometry                 = Odometry()
-        odometry.header.frame_id = "odom"
-        odometry.child_frame_id  = "base_link"
-        odometry.header.stamp    = self.get_clock().now().to_msg()
-
-        odometry.pose.pose.position.x  = self.linear_x_position
-        odometry.pose.pose.position.y  = self.linear_y_position
-        odometry.pose.pose.position.z  = 0.0
-        odometry.pose.pose.orientation = msg_quat
-
-        odometry.twist.twist.linear.x  = linear_x_velocity
-        odometry.twist.twist.linear.y  = linear_y_velocity
-        odometry.twist.twist.angular.z = angular_z_velocity
-
-        self.get_logger().debug('Publishing odometry')
-
-        self.odom_publisher.publish(odometry)
-
-    def read_thread_function(self):
-
-        self.get_logger().info('Starting reading thread');
-
-        char = None
-        msg  = ''
-
-        while True:
-
-            char = self.serial_port.read(1)
-
-            if char == b'\r':
-                split_msg = msg[1:].split()
-                if msg[0] == 'S' and len(split_msg) == 4:
-                    self.publish_wheels_state(int(split_msg[1]), int(split_msg[0]), int(split_msg[3]), int(split_msg[2]))
-                    self.publish_odom        (int(split_msg[1]), int(split_msg[0]), int(split_msg[3]), int(split_msg[2]))
-                    pass
-                else:
-                    self.get_logger().info('Discarding malformed message')
-                msg = ''
-            elif char == b'\n':
-                pass
-            else:
-
-                msg += char.decode('utf-8', 'ignore')
+        self.get_logger().info('Got a new scan: ' + str(msg))
 
         return
+
+    def go_forward(self):
+
+        twist = Twist()
+
+        twist.linear.x = LINEAR_SPEED
+        twist.linear.y = 0.0
+        twist.linear.z = 0.0
+
+        twist.angular.x = 0.0
+        twist.angular.y = 0.0
+        twist.angular.z = 0.0
+
+        self.cmd_vel_publisher.publish(twist)
+
+        self.get_logger().info('Going forward')
+
+    def stop(self):
+
+        twist = Twist()
+
+        twist.linear.x = 0.0
+        twist.linear.y = 0.0
+        twist.linear.z = 0.0
+
+        twist.angular.x = 0.0
+        twist.angular.y = 0.0
+        twist.angular.z = 0.0
+
+        self.cmd_vel_publisher.publish(twist)
+
+        self.get_logger().info('Stopping')
+
+    def go_backward(self):
+
+        twist = Twist()
+
+        twist.linear.x = -LINEAR_SPEED
+        twist.linear.y = 0.0
+        twist.linear.z = 0.0
+
+        twist.angular.x = 0.0
+        twist.angular.y = 0.0
+        twist.angular.z = 0.0
+
+        self.cmd_vel_publisher.publish(twist)
+
+        self.get_logger().info('Going backward')
+
+    def turn_left(self):
+
+        twist = Twist()
+
+        twist.linear.x = 0.0
+        twist.linear.y = 0.0
+        twist.linear.z = 0.0
+
+        twist.angular.x = 0.0
+        twist.angular.y = 0.0
+        twist.angular.z = TURN_SPEED
+
+        self.cmd_vel_publisher.publish(twist)
+
+        self.get_logger().info('Turning left')
+
+    def turn_right(self):
+
+        twist = Twist()
+
+        twist.linear.x = 0.0
+        twist.linear.y = 0.0
+        twist.linear.z = 0.0
+
+        twist.angular.x = 0.0
+        twist.angular.y = 0.0
+        twist.angular.z = -TURN_SPEED
+
+        self.cmd_vel_publisher.publish(twist)
+
+        self.get_logger().info('Turning right')
+
 
 def main(args=None):
 
     rclpy.init(args=args)
 
-    drive_controller = DriveController()
+    wall_follower = WallFollower()
 
     try:
-         rclpy.spin(drive_controller)
+         rclpy.spin(wall_follower)
     except KeyboardInterrupt:
          print('Stopped by keyboard interrupt')
     except BaseException:
          print('Stopped by exception')
          raise
     finally:
-         drive_controller.destroy_node()
+         wall_follower.destroy_node()
          rclpy.shutdown() 
 
 if __name__ == '__main__':
