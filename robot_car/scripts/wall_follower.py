@@ -8,10 +8,10 @@ from sensor_msgs.msg   import LaserScan
 from geometry_msgs.msg import Twist
 
 PROCESS_PERIOD    = 0.01
-LINEAR_SPEED      = 0.20
-TURN_SPEED        = 1.00
+LINEAR_SPEED      = 0.15
+TURN_SPEED        = 0.40
 LOW_SPEED_FACTOR  = 1.00
-HIGH_SPEED_FACTOR = 2.00
+HIGH_SPEED_FACTOR = 1.40
 
 STATE_FIND_A_WALL = 0
 STATE_FOLLOW_WALL = 1
@@ -24,10 +24,10 @@ ACTION_TURN_RIGHT       = 4
 ACTION_GO_FORWARD_LEFT  = 5
 ACTION_GO_FORWARD_RIGHT = 6
 
-SIDE_FOLLOW_DISTANCE    = 0.20
-SIDE_FOLLOW_TOLERANCE   = 0.02
-GET_AROUND_DISTANCE     = 0.40
-FRONT_OBSTACLE_DISTANCE = 0.40
+SIDE_FOLLOW_DISTANCE  = 0.20
+SIDE_FOLLOW_TOLERANCE = 0.02
+GET_AROUND_DISTANCE   = 0.40
+FRONT_WALL_DISTANCE   = 0.40
 
 
 class WallFollower(Node):
@@ -56,6 +56,7 @@ class WallFollower(Node):
         self.obstacles           = {}
         self.obstacle_is_on_left = False
         self.speed_factor        = LOW_SPEED_FACTOR
+        self.debug_string        = ''
 
         return
 
@@ -91,10 +92,6 @@ class WallFollower(Node):
 
                 self.go_forward_right()
 
-            elif self.current_action == ACTION_GO_BACKWARD:
-
-                self.go_backward()
-
             else:
 
                 self.stop()
@@ -109,9 +106,11 @@ class WallFollower(Node):
 
     def process_scan(self, msg):
 
+        debug_string = ''
+
         # self.get_logger().info('Got a new scan: ' + str(msg))
 
-        self.obstacle_distance = \
+        self.wall_distance = \
         {
             'front'      : min(msg.ranges[337:359] + msg.ranges[0:21]),
             'front_left' : min(msg.ranges[ 22: 66]),
@@ -123,38 +122,31 @@ class WallFollower(Node):
             'front_right': min(msg.ranges[292:336]),
         }
 
-        self.get_logger().info(str(self.obstacle_distance ))
-
-        
-
+        #self.get_logger().info(str(self.wall_distance ))
+    
         if self.current_state == STATE_FIND_A_WALL:
 
             if self.current_state != self.previous_state:
 
                 self.get_logger().info('>>> Entering STATE_FIND_A_WALL')
 
+                self.current_action = ACTION_GO_FORWARD_RIGHT
                 self.speed_factor   = HIGH_SPEED_FACTOR
                 self.previous_state = self.current_state
 
-            if self.obstacle_distance['left'] < SIDE_FOLLOW_DISTANCE + SIDE_FOLLOW_TOLERANCE:
+            if self.wall_distance['left'] < SIDE_FOLLOW_DISTANCE + SIDE_FOLLOW_TOLERANCE:
 
                 self.obstacle_is_on_left = True
-
-                self.current_state = STATE_FOLLOW_WALL
+                self.current_state       = STATE_FOLLOW_WALL
 
                 self.get_logger().info('>>> Found a wall on the left')
 
-            elif self.obstacle_distance['right'] < SIDE_FOLLOW_DISTANCE + SIDE_FOLLOW_TOLERANCE:
+            elif self.wall_distance['right'] < SIDE_FOLLOW_DISTANCE + SIDE_FOLLOW_TOLERANCE:
 
                 self.obstacle_is_on_right = True
-
-                self.current_state = STATE_FOLLOW_WALL
+                self.current_state        = STATE_FOLLOW_WALL
 
                 self.get_logger().info('>>> Found a wall on the right')
-
-            else:
-
-                self.current_action = ACTION_GO_FORWARD_RIGHT
 
         elif self.current_state == STATE_FOLLOW_WALL:
 
@@ -165,53 +157,69 @@ class WallFollower(Node):
                 self.speed_factor   = LOW_SPEED_FACTOR
                 self.previous_state = self.current_state
 
-            if self.obstacle_distance['front'] < FRONT_OBSTACLE_DISTANCE / 2:
+            if self.wall_distance['front'] < FRONT_WALL_DISTANCE / 2:
 
                 self.current_action = ACTION_GO_BACKWARD
+                debug_string        = '>>> Wall getting too close in front!'
 
             elif self.obstacle_is_on_left == True:
 
-                if (self.obstacle_distance['front'] < FRONT_OBSTACLE_DISTANCE) or (self.obstacle_distance['front_left'] < FRONT_OBSTACLE_DISTANCE):
+                if (self.wall_distance['front'] < FRONT_WALL_DISTANCE) or (self.wall_distance['front_left'] < FRONT_WALL_DISTANCE):
 
                     self.current_action = ACTION_GO_FORWARD_RIGHT
+                    debug_string        = '>>> New wall detected ahead'
 
-                elif self.obstacle_distance['front_left'] > GET_AROUND_DISTANCE:
+                elif self.wall_distance['front_left'] > GET_AROUND_DISTANCE:
 
                     self.current_action = ACTION_GO_FORWARD_LEFT
+                    debug_string        = '>>> Loosing contact with the wall - Try getting around'
 
-                elif self.obstacle_distance['left'] < SIDE_FOLLOW_DISTANCE - SIDE_FOLLOW_TOLERANCE:
+                elif self.wall_distance['left'] < SIDE_FOLLOW_DISTANCE - SIDE_FOLLOW_TOLERANCE:
 
                     self.current_action = ACTION_GO_FORWARD_RIGHT
+                    debug_string        = '>>> Getting too close to the wall'
 
-                elif self.obstacle_distance['left'] > SIDE_FOLLOW_DISTANCE + SIDE_FOLLOW_TOLERANCE:
+                elif self.wall_distance['left'] > SIDE_FOLLOW_DISTANCE + SIDE_FOLLOW_TOLERANCE:
 
                     self.current_action = ACTION_GO_FORWARD_LEFT
+                    debug_string        = '>>> Getting too far from the wall'
 
                 else:
 
                     self.current_action = ACTION_GO_FORWARD
+                    debug_string        = '>>> Right on track...'
 
             else:
 
-                if (self.obstacle_distance['front'] < FRONT_OBSTACLE_DISTANCE) or (self.obstacle_distance['front_right'] < FRONT_OBSTACLE_DISTANCE):
+                if (self.wall_distance['front'] < FRONT_WALL_DISTANCE) or (self.wall_distance['front_right'] < FRONT_WALL_DISTANCE):
 
                     self.current_action = ACTION_GO_FORWARD_LEFT
+                    debug_string        = '>>> New wall detected ahead'
 
-                elif self.obstacle_distance['front_right'] > GET_AROUND_DISTANCE:
+                elif self.wall_distance['front_right'] > GET_AROUND_DISTANCE:
 
                     self.current_action = ACTION_GO_FORWARD_RIGHT
+                    debug_string        = '>>> Loosing contact with wall - Try getting around'
 
-                elif self.obstacle_distance['right'] < SIDE_FOLLOW_DISTANCE - SIDE_FOLLOW_TOLERANCE:
+                elif self.wall_distance['right'] < SIDE_FOLLOW_DISTANCE - SIDE_FOLLOW_TOLERANCE:
 
                     self.current_action = ACTION_GO_FORWARD_LEFT
+                    debug_string        = '>>> Getting too close to the wall'
 
-                elif self.obstacle_distance['left'] > SIDE_FOLLOW_DISTANCE + SIDE_FOLLOW_TOLERANCE:
+                elif self.wall_distance['left'] > SIDE_FOLLOW_DISTANCE + SIDE_FOLLOW_TOLERANCE:
 
                     self.current_action = ACTION_GO_FORWARD_RIGHT
+                    debug_string        = '>>> Getting too far from the wall'
 
                 else:
 
                     self.current_action = ACTION_GO_FORWARD
+                    debug_string        = '>>> Right on track...'
+
+                if self.debug_string != debug_string
+
+                    self.get_logger().info(debug_string)
+                    self.debug_string = debug_string
 
         else:
 
