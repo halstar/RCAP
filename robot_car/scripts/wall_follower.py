@@ -7,9 +7,27 @@ from rclpy.node        import Node
 from sensor_msgs.msg   import LaserScan
 from geometry_msgs.msg import Twist
 
-PROCESS_PERIOD = 0.010
-LINEAR_SPEED   = 0.200
-TURN_SPEED     = 1.000
+PROCESS_PERIOD    = 0.01
+LINEAR_SPEED      = 0.20
+TURN_SPEED        = 1.00
+LOW_SPEED_FACTOR  = 1.00
+HIGH_SPEED_FACTOR = 2.00
+
+STATE_FIND_A_WALL = 0
+STATE_FOLLOW_WALL = 1
+
+ACTION_STOP             = 0
+ACTION_GO_FORWARD       = 1
+ACTION_GO_BACKWARD      = 2
+ACTION_TURN_LEFT        = 3
+ACTION_TURN_RIGHT       = 4
+ACTION_GO_FORWARD_LEFT  = 5
+ACTION_GO_FORWARD_RIGHT = 6
+
+SIDE_FOLLOW_DISTANCE    = 0.20
+SIDE_FOLLOW_TOLERANCE   = 0.02
+GET_AROUND_DISTANCE     = 0.40
+FRONT_OBSTACLE_DISTANCE = 0.40
 
 
 class WallFollower(Node):
@@ -17,7 +35,7 @@ class WallFollower(Node):
     def __init__(self):
         super().__init__('wall_follower')
 
-        self.get_logger().info('Starting Wall Follower Node');
+        self.get_logger().info('>>> Starting Wall Follower Node');
 
         self.cycle = 0
         self.timer = self.create_timer(PROCESS_PERIOD, self.main_callback)
@@ -31,43 +49,59 @@ class WallFollower(Node):
 
         self.cmd_vel_publisher = self.create_publisher(Twist, 'cmd_vel', 10)
 
+        self.previous_state      = -1
+        self.current_state       = STATE_FIND_A_WALL
+        self.previous_action     = -1
+        self.current_action      = ACTION_STOP
+        self.obstacles           = {}
+        self.obstacle_is_on_left = False
+        self.speed_factor        = LOW_SPEED_FACTOR
+
         return
 
     def main_callback(self):
 
-        # self.get_logger().info('Entering main');
+        if self.current_action != self.previous_action:
 
-        # if self.cycle == 0:
+            if self.current_action == ACTION_STOP:
 
-        #     self.stop()
+                self.stop()
 
-        # elif self.cycle == 100:
+            elif self.current_action == ACTION_GO_FORWARD:
 
-        #     self.go_forward()
+                self.go_forward()
 
-        # elif self.cycle == 300:
+            elif self.current_action == ACTION_GO_BACKWARD:
 
-        #     self.turn_left()
+                self.go_backward()
 
-        # elif self.cycle == 500:
+            elif self.current_action == ACTION_TURN_LEFT:
 
-        #     self.go_forward()
+                self.turn_left()
 
-        # elif self.cycle == 700:
+            elif self.current_action == ACTION_TURN_RIGHT:
 
-        #     self.go_backward()
+                self.turn_right()
 
-        # elif self.cycle == 900:
+            elif self.current_action == ACTION_GO_FORWARD_LEFT:
 
-        #     self.turn_right()
+                self.go_forward_left()
 
-        # elif self.cycle == 1100:
+            elif self.current_action == ACTION_GO_FORWARD_RIGHT:
 
-        #     self.stop()
+                self.go_forward_right()
 
-        # else:
+            elif self.current_action == ACTION_GO_BACKWARD:
 
-        #     pass
+                self.go_backward()
+
+            else:
+
+                self.stop()
+                self.get_logger().error('Got an unreachable action');
+
+            self.previous_action = self.current_action
+
 
         self.cycle += 1
 
@@ -75,25 +109,116 @@ class WallFollower(Node):
 
     def process_scan(self, msg):
 
-        self.get_logger().info('Got a new scan: ' + str(msg))
+        # self.get_logger().info('Got a new scan: ' + str(msg))
+
+        self.obstacle_distance = \
+        {
+            'front'      : min(msg.ranges[337:359] + msg.ranges[0:21]),
+            'front_left' : min(msg.ranges[ 22: 66]),
+            'left'       : min(msg.ranges[ 67:111]),
+            'back_left'  : min(msg.ranges[112:156]),
+            'back'       : min(msg.ranges[157:201]),
+            'back_right' : min(msg.ranges[202:246]),
+            'right'      : min(msg.ranges[247:291]),
+            'front_right': min(msg.ranges[292:336]),
+        }
+
+        self.get_logger().info(str(self.obstacle_distance ))
+
+        
+
+        if self.current_state == STATE_FIND_A_WALL:
+
+            if self.current_state != self.previous_state:
+
+                self.get_logger().info('>>> Entering STATE_FIND_A_WALL')
+
+                self.speed_factor   = HIGH_SPEED_FACTOR
+                self.previous_state = self.current_state
+
+            if self.obstacle_distance['left'] < SIDE_FOLLOW_DISTANCE + SIDE_FOLLOW_TOLERANCE:
+
+                self.obstacle_is_on_left = True
+
+                self.current_state = STATE_FOLLOW_WALL
+
+                self.get_logger().info('>>> Found a wall on the left')
+
+            elif self.obstacle_distance['right'] < SIDE_FOLLOW_DISTANCE + SIDE_FOLLOW_TOLERANCE:
+
+                self.obstacle_is_on_right = True
+
+                self.current_state = STATE_FOLLOW_WALL
+
+                self.get_logger().info('>>> Found a wall on the right')
+
+            else:
+
+                self.current_action = ACTION_GO_FORWARD_RIGHT
+
+        elif self.current_state == STATE_FOLLOW_WALL:
+
+            if self.current_state != self.previous_state:
+
+                self.get_logger().info('>>> Entering STATE_FOLLOW_WALL')
+
+                self.speed_factor   = LOW_SPEED_FACTOR
+                self.previous_state = self.current_state
+
+            if self.obstacle_distance['front'] < FRONT_OBSTACLE_DISTANCE / 2:
+
+                self.current_action = ACTION_GO_BACKWARD
+
+            elif self.obstacle_is_on_left == True:
+
+                if (self.obstacle_distance['front'] < FRONT_OBSTACLE_DISTANCE) or (self.obstacle_distance['front_left'] < FRONT_OBSTACLE_DISTANCE):
+
+                    self.current_action = ACTION_GO_FORWARD_RIGHT
+
+                elif self.obstacle_distance['front_left'] > GET_AROUND_DISTANCE:
+
+                    self.current_action = ACTION_GO_FORWARD_LEFT
+
+                elif self.obstacle_distance['left'] < SIDE_FOLLOW_DISTANCE - SIDE_FOLLOW_TOLERANCE:
+
+                    self.current_action = ACTION_GO_FORWARD_RIGHT
+
+                elif self.obstacle_distance['left'] > SIDE_FOLLOW_DISTANCE + SIDE_FOLLOW_TOLERANCE:
+
+                    self.current_action = ACTION_GO_FORWARD_LEFT
+
+                else:
+
+                    self.current_action = ACTION_GO_FORWARD
+
+            else:
+
+                if (self.obstacle_distance['front'] < FRONT_OBSTACLE_DISTANCE) or (self.obstacle_distance['front_right'] < FRONT_OBSTACLE_DISTANCE):
+
+                    self.current_action = ACTION_GO_FORWARD_LEFT
+
+                elif self.obstacle_distance['front_right'] > GET_AROUND_DISTANCE:
+
+                    self.current_action = ACTION_GO_FORWARD_RIGHT
+
+                elif self.obstacle_distance['right'] < SIDE_FOLLOW_DISTANCE - SIDE_FOLLOW_TOLERANCE:
+
+                    self.current_action = ACTION_GO_FORWARD_LEFT
+
+                elif self.obstacle_distance['left'] > SIDE_FOLLOW_DISTANCE + SIDE_FOLLOW_TOLERANCE:
+
+                    self.current_action = ACTION_GO_FORWARD_RIGHT
+
+                else:
+
+                    self.current_action = ACTION_GO_FORWARD
+
+        else:
+
+            self.current_action = ACTION_STOP
+            self.get_logger().error('Reached an unreachable state');
 
         return
-
-    def go_forward(self):
-
-        twist = Twist()
-
-        twist.linear.x = LINEAR_SPEED
-        twist.linear.y = 0.0
-        twist.linear.z = 0.0
-
-        twist.angular.x = 0.0
-        twist.angular.y = 0.0
-        twist.angular.z = 0.0
-
-        self.cmd_vel_publisher.publish(twist)
-
-        self.get_logger().info('Going forward')
 
     def stop(self):
 
@@ -111,11 +236,60 @@ class WallFollower(Node):
 
         self.get_logger().info('Stopping')
 
+    def go_forward(self):
+
+        twist = Twist()
+
+        twist.linear.x = LINEAR_SPEED * self.speed_factor
+        twist.linear.y = 0.0
+        twist.linear.z = 0.0
+
+        twist.angular.x = 0.0
+        twist.angular.y = 0.0
+        twist.angular.z = 0.0
+
+        self.cmd_vel_publisher.publish(twist)
+
+        self.get_logger().info('Going forward')
+
+
+    def go_forward_left(self):
+
+        twist = Twist()
+
+        twist.linear.x = LINEAR_SPEED * self.speed_factor
+        twist.linear.y = 0.0
+        twist.linear.z = 0.0
+
+        twist.angular.x = 0.0
+        twist.angular.y = 0.0
+        twist.angular.z = TURN_SPEED * self.speed_factor
+
+        self.cmd_vel_publisher.publish(twist)
+
+        self.get_logger().info('Going forward left')
+
+    def go_forward_right(self):
+
+        twist = Twist()
+
+        twist.linear.x = LINEAR_SPEED * self.speed_factor
+        twist.linear.y = 0.0
+        twist.linear.z = 0.0
+
+        twist.angular.x = 0.0
+        twist.angular.y = 0.0
+        twist.angular.z = -TURN_SPEED * self.speed_factor
+
+        self.cmd_vel_publisher.publish(twist)
+
+        self.get_logger().info('Going forward right')
+
     def go_backward(self):
 
         twist = Twist()
 
-        twist.linear.x = -LINEAR_SPEED
+        twist.linear.x = -LINEAR_SPEED * self.speed_factor
         twist.linear.y = 0.0
         twist.linear.z = 0.0
 
@@ -137,7 +311,7 @@ class WallFollower(Node):
 
         twist.angular.x = 0.0
         twist.angular.y = 0.0
-        twist.angular.z = TURN_SPEED
+        twist.angular.z = TURN_SPEED * self.speed_factor
 
         self.cmd_vel_publisher.publish(twist)
 
@@ -153,12 +327,16 @@ class WallFollower(Node):
 
         twist.angular.x = 0.0
         twist.angular.y = 0.0
-        twist.angular.z = -TURN_SPEED
+        twist.angular.z = -TURN_SPEED * self.speed_factor
 
         self.cmd_vel_publisher.publish(twist)
 
         self.get_logger().info('Turning right')
 
+
+    def find_a_wall(self):
+
+        pass
 
 def main(args=None):
 
