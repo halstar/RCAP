@@ -9,9 +9,9 @@ from geometry_msgs.msg import Twist
 
 PROCESS_PERIOD    = 0.01
 LINEAR_SPEED      = 0.15
-TURN_SPEED        = 0.40
+TURN_SPEED        = 0.45
 LOW_SPEED_FACTOR  = 1.00
-HIGH_SPEED_FACTOR = 1.40
+HIGH_SPEED_FACTOR = 1.20
 
 STATE_FIND_A_WALL = 0
 STATE_FOLLOW_WALL = 1
@@ -106,8 +106,6 @@ class WallFollower(Node):
 
     def process_scan(self, msg):
 
-        debug_string = ''
-
         # self.get_logger().info('Got a new scan: ' + str(msg))
 
         self.wall_distance = \
@@ -157,6 +155,8 @@ class WallFollower(Node):
                 self.speed_factor   = LOW_SPEED_FACTOR
                 self.previous_state = self.current_state
 
+            debug_string = ''
+
             if self.wall_distance['front'] < FRONT_WALL_DISTANCE / 2:
 
                 self.current_action = ACTION_GO_BACKWARD
@@ -164,15 +164,10 @@ class WallFollower(Node):
 
             elif self.obstacle_is_on_left == True:
 
-                if (self.wall_distance['front'] < FRONT_WALL_DISTANCE) or (self.wall_distance['front_left'] < FRONT_WALL_DISTANCE):
+                if (self.wall_distance['front'] < FRONT_WALL_DISTANCE) or (self.wall_distance['front_left'] < FRONT_WALL_DISTANCE / 2):
 
                     self.current_action = ACTION_GO_FORWARD_RIGHT
                     debug_string        = '>>> New wall detected ahead'
-
-                elif self.wall_distance['front_left'] > GET_AROUND_DISTANCE:
-
-                    self.current_action = ACTION_GO_FORWARD_LEFT
-                    debug_string        = '>>> Loosing contact with the wall - Try getting around'
 
                 elif self.wall_distance['left'] < SIDE_FOLLOW_DISTANCE - SIDE_FOLLOW_TOLERANCE:
 
@@ -184,6 +179,11 @@ class WallFollower(Node):
                     self.current_action = ACTION_GO_FORWARD_LEFT
                     debug_string        = '>>> Getting too far from the wall'
 
+                elif self.wall_distance['front_left'] > GET_AROUND_DISTANCE:
+
+                    self.current_action = ACTION_GO_FORWARD_LEFT
+                    debug_string        = '>>> Loosing contact with the wall - Try getting around'
+
                 else:
 
                     self.current_action = ACTION_GO_FORWARD
@@ -191,15 +191,10 @@ class WallFollower(Node):
 
             else:
 
-                if (self.wall_distance['front'] < FRONT_WALL_DISTANCE) or (self.wall_distance['front_right'] < FRONT_WALL_DISTANCE):
+                if (self.wall_distance['front'] < FRONT_WALL_DISTANCE) or (self.wall_distance['front_right'] < FRONT_WALL_DISTANCE / 2):
 
                     self.current_action = ACTION_GO_FORWARD_LEFT
                     debug_string        = '>>> New wall detected ahead'
-
-                elif self.wall_distance['front_right'] > GET_AROUND_DISTANCE:
-
-                    self.current_action = ACTION_GO_FORWARD_RIGHT
-                    debug_string        = '>>> Loosing contact with wall - Try getting around'
 
                 elif self.wall_distance['right'] < SIDE_FOLLOW_DISTANCE - SIDE_FOLLOW_TOLERANCE:
 
@@ -211,15 +206,20 @@ class WallFollower(Node):
                     self.current_action = ACTION_GO_FORWARD_RIGHT
                     debug_string        = '>>> Getting too far from the wall'
 
+                elif self.wall_distance['front_right'] > GET_AROUND_DISTANCE:
+
+                    self.current_action = ACTION_GO_FORWARD_RIGHT
+                    debug_string        = '>>> Loosing contact with wall - Try getting around'
+
                 else:
 
                     self.current_action = ACTION_GO_FORWARD
                     debug_string        = '>>> Right on track...'
 
-                if self.debug_string != debug_string
+            if self.debug_string != debug_string:
 
-                    self.get_logger().info(debug_string)
-                    self.debug_string = debug_string
+                self.get_logger().info(debug_string)
+                self.debug_string = debug_string
 
         else:
 
@@ -342,10 +342,6 @@ class WallFollower(Node):
         self.get_logger().info('Turning right')
 
 
-    def find_a_wall(self):
-
-        pass
-
 def main(args=None):
 
     rclpy.init(args=args)
@@ -360,6 +356,7 @@ def main(args=None):
          print('Stopped by exception')
          raise
     finally:
+         wall_follower.stop        ()
          wall_follower.destroy_node()
          rclpy.shutdown() 
 
