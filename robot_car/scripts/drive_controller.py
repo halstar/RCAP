@@ -126,7 +126,7 @@ class DriveController(Node):
                                      self.get_rotation_in_rad(self.wheel_rear_left_rotation  ),
                                      self.get_rotation_in_rad(self.wheel_rear_right_rotation )]
 
-        joints_publisher.publish(joint_states)
+        self.joints_publisher.publish(joint_states)
 
         return
 

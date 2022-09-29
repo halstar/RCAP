@@ -17,5 +17,6 @@ source install/setup.bash
 cd ..
 source install/setup.bash 
 
+python3          tools/cameraStream.py &
 ros2 launch rcap rcap.physical.follow.launch.py
 
