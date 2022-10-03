@@ -8,8 +8,8 @@ from sensor_msgs.msg   import LaserScan
 from geometry_msgs.msg import Twist
 
 PROCESS_PERIOD    = 0.01
-LINEAR_SPEED      = 0.15
-TURN_SPEED        = 0.45
+LINEAR_SPEED      = 0.16
+TURN_SPEED        = 0.44
 LOW_SPEED_FACTOR  = 1.00
 HIGH_SPEED_FACTOR = 1.20
 
@@ -24,10 +24,11 @@ ACTION_TURN_RIGHT       = 4
 ACTION_GO_FORWARD_LEFT  = 5
 ACTION_GO_FORWARD_RIGHT = 6
 
-SIDE_FOLLOW_DISTANCE  = 0.20
-SIDE_FOLLOW_TOLERANCE = 0.02
-GET_AROUND_DISTANCE   = 0.40
-FRONT_WALL_DISTANCE   = 0.40
+SIDE_FOLLOW_DISTANCE     = 0.20
+SIDE_FOLLOW_TOLERANCE    = 0.02
+GET_AROUND_DISTANCE      = 0.40
+FRONT_WALL_DISTANCE      = 0.40
+FRONT_SIDE_WALL_DISTANCE = (SIDE_FOLLOW_DISTANCE / 0.7)
 
 
 class WallFollower(Node):
@@ -164,7 +165,7 @@ class WallFollower(Node):
 
             elif self.obstacle_is_on_left == True:
 
-                if (self.wall_distance['front'] < FRONT_WALL_DISTANCE) or (self.wall_distance['front_left'] < FRONT_WALL_DISTANCE / 2):
+                if (self.wall_distance['front'] < FRONT_WALL_DISTANCE) or (self.wall_distance['front_left'] < FRONT_SIDE_WALL_DISTANCE):
 
                     self.current_action = ACTION_GO_FORWARD_RIGHT
                     debug_string        = '>>> New wall detected ahead'
@@ -191,7 +192,7 @@ class WallFollower(Node):
 
             else:
 
-                if (self.wall_distance['front'] < FRONT_WALL_DISTANCE) or (self.wall_distance['front_right'] < FRONT_WALL_DISTANCE / 2):
+                if (self.wall_distance['front'] < FRONT_WALL_DISTANCE) or (self.wall_distance['front_right'] < FRONT_SIDE_WALL_DISTANCE):
 
                     self.current_action = ACTION_GO_FORWARD_LEFT
                     debug_string        = '>>> New wall detected ahead'
@@ -201,7 +202,7 @@ class WallFollower(Node):
                     self.current_action = ACTION_GO_FORWARD_LEFT
                     debug_string        = '>>> Getting too close to the wall'
 
-                elif self.wall_distance['left'] > SIDE_FOLLOW_DISTANCE + SIDE_FOLLOW_TOLERANCE:
+                elif self.wall_distance['right'] > SIDE_FOLLOW_DISTANCE + SIDE_FOLLOW_TOLERANCE:
 
                     self.current_action = ACTION_GO_FORWARD_RIGHT
                     debug_string        = '>>> Getting too far from the wall'
