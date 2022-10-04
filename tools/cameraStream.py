@@ -14,7 +14,7 @@ PAGE="""\
 <head>
 </head>
 <body>
-<center><img src="stream.jpg" width="640" height="480"></center>
+<center><img src="stream.jpg" width="480" height="320"></center>
 </body>
 </html>
 """
@@ -68,8 +68,8 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
 camera = cv2.VideoCapture('/dev/video0', cv2.CAP_V4L)
 
 # set dimensions
-camera.set(cv2.CAP_PROP_FRAME_WIDTH , 640)
-camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+camera.set(cv2.CAP_PROP_FRAME_WIDTH , 480)
+camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 320)
 
 output = StreamingOutput()
 
